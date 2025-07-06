@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<account-history>
+   <search>
+      <account>111222333444555666</account>
+      <date since="2025-04-04" to="2025-07-03"/>
+      <filtering>Wszystkie</filtering>
+   </search>
+   <operations>
+      <operation>
+         <order-date>2025-07-01</order-date>
+         <exec-date>2025-07-13</exec-date>
+         <type>Płatność kartą</type>
+         <description>21321 1111222233334444 Lokalizacja : Adres : TRATTORIA RIALTO Miasto : KRAKOW Kraj : POLSKA Data wykonania operacji : 2025-07-01 02:00 Oryginalna kwota operacji : 41,00 PLN Numer karty : 32142******1234</description>
+         <amount curr="PLN">-41.00</amount>
+         <ending-balance curr="PLN">+2999.97</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-07-02</order-date>
+         <exec-date>2025-07-02</exec-date>
+         <type>Wpłata gotówki</type>
+         <description>Wpłata gotówki w placówce banku Miasto : KRAKOW Kraj : POLSKA Data wykonania operacji : 2025-07-02 10:30</description>
+         <amount curr="PLN">+500.00</amount>
+         <ending-balance curr="PLN">+3499.97</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-30</order-date>
+         <exec-date>2025-07-01</exec-date>
+         <type>Przelew wychodzący</type>
+         <description>Przelew na konto 987654321012345678 Miasto : WARSZAWA Kraj : POLSKA Data wykonania operacji : 2025-06-30 15:00</description>
+         <amount curr="PLN">-150.00</amount>
+         <ending-balance curr="PLN">+2849.97</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-29</order-date>
+         <exec-date>2025-06-29</exec-date>
+         <type>Płatność kartą</type>
+         <description>Zakup w sklepie XYZ Miasto : WROCLAW Kraj : POLSKA Data wykonania operacji : 2025-06-29 18:45 Numer karty : 32142******5678</description>
+         <amount curr="PLN">-120.50</amount>
+         <ending-balance curr="PLN">+2970.47</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-28</order-date>
+         <exec-date>2025-06-28</exec-date>
+         <type>Wpłata gotówki</type>
+         <description>Wpłata gotówki w placówce banku Miasto : GDANSK Kraj : POLSKA Data wykonania operacji : 2025-06-28 09:15</description>
+         <amount curr="PLN">+200.00</amount>
+         <ending-balance curr="PLN">+3170.47</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-27</order-date>
+         <exec-date>2025-06-27</exec-date>
+         <type>Przelew przychodzący</type>
+         <description>Przelew od firmy ABC Miasto : POZNAN Kraj : POLSKA Data wykonania operacji : 2025-06-27 14:00</description>
+         <amount curr="PLN">+1000.00</amount>
+         <ending-balance curr="PLN">+4170.47</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-26</order-date>
+         <exec-date>2025-06-26</exec-date>
+         <type>Płatność kartą</type>
+         <description>Zakup biletu autobusowego Miasto : LODZ Kraj : POLSKA Data wykonania operacji : 2025-06-26 08:30 Numer karty : 32142******9876</description>
+         <amount curr="PLN">-15.00</amount>
+         <ending-balance curr="PLN">+4155.47</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-25</order-date>
+         <exec-date>2025-06-25</exec-date>
+         <type>Przelew wychodzący</type>
+         <description>Przelew na konto 123456789012345678 Miasto : KATOWICE Kraj : POLSKA Data wykonania operacji : 2025-06-25 12:00</description>
+         <amount curr="PLN">-500.00</amount>
+         <ending-balance curr="PLN">+3655.47</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-24</order-date>
+         <exec-date>2025-06-24</exec-date>
+         <type>Wpłata gotówki</type>
+         <description>Wpłata gotówki w placówce banku Miasto : LUBLIN Kraj : POLSKA Data wykonania operacji : 2025-06-24 11:00</description>
+         <amount curr="PLN">+300.00</amount>
+         <ending-balance curr="PLN">+3955.47</ending-balance>
+      </operation>
+      <operation>
+         <order-date>2025-06-23</order-date>
+         <exec-date>2025-06-23</exec-date>
+         <type>Płatność kartą</type>
+         <description>Zakup w sklepie ABC Miasto : WARSZAWA Kraj : POLSKA Data wykonania operacji : 2025-06-23 19:00 Numer karty : 32142******3456</description>
+         <amount curr="PLN">-60.00</amount>
+         <ending-balance curr="PLN">+3895.47</ending-balance>
+      </operation>
+   </operations>
+</account-history>
