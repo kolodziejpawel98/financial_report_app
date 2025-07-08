@@ -4,8 +4,9 @@
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
-namespace Ui {
-class MainWindow;
+namespace Ui
+{
+    class MainWindow;
 }
 QT_END_NAMESPACE
 
@@ -18,10 +19,13 @@ public:
     ~MainWindow();
 
 private slots:
-    void onButtonClicked();
+    void modeChangeButtonClicked();
+    void backToXmlLoadButtonClicked();
+    void exportPdfButtonClicked();
+    void nextDateButtonClicked();
+    void previousDateButtonClicked();
 
 private:
     Ui::MainWindow *ui;
-    bool isGreen = false;
 };
 #endif // MAINWINDOW_H

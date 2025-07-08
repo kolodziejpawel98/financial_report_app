@@ -6,19 +6,32 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>200</width>
-    <height>200</height>
+    <width>844</width>
+    <height>488</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
-   <widget class="QPushButton" name="colorChangingButton">
+   <widget class="QPushButton" name="modeChangeButton">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>60</y>
+      <x>290</x>
+      <y>50</y>
+      <width>241</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="nextDateButton">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>40</y>
       <width>80</width>
       <height>23</height>
      </rect>
@@ -27,16 +40,134 @@
      <string>PushButton</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="previousDateButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>40</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="backToXmlLoadButton">
+    <property name="geometry">
+     <rect>
+      <x>30</x>
+      <y>380</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="exportPdfButton">
+    <property name="geometry">
+     <rect>
+      <x>670</x>
+      <y>380</y>
+      <width>80</width>
+      <height>23</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>PushButton</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="totalLabel">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>120</y>
+      <width>141</width>
+      <height>16</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>total:</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="expensesTable">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>140</y>
+      <width>531</width>
+      <height>192</height>
+     </rect>
+    </property>
+    <property name="rowCount">
+     <number>30</number>
+    </property>
+    <property name="columnCount">
+     <number>4</number>
+    </property>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <row/>
+    <column/>
+    <column/>
+    <column/>
+    <column/>
+   </widget>
+   <widget class="QCalendarWidget" name="calendarWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>100</y>
+      <width>272</width>
+      <height>149</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>200</width>
+     <width>844</width>
      <height>20</height>
     </rect>
    </property>
+   <widget class="QMenu" name="menufinancial_report_app">
+    <property name="title">
+     <string>financial_report_app</string>
+    </property>
+   </widget>
+   <addaction name="menufinancial_report_app"/>
   </widget>
   <widget class="QStatusBar" name="statusbar"/>
  </widget>
