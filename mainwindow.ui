@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>844</width>
-    <height>488</height>
+    <width>1500</width>
+    <height>1000</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,8 +17,8 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>9</x>
-      <y>19</y>
+      <x>90</x>
+      <y>30</y>
       <width>821</width>
       <height>441</height>
      </rect>
@@ -126,14 +126,22 @@
      <widget class="QPushButton" name="nextDateButton">
       <property name="geometry">
        <rect>
-        <x>680</x>
-        <y>0</y>
-        <width>80</width>
-        <height>23</height>
+        <x>580</x>
+        <y>42</y>
+        <width>179</width>
+        <height>36</height>
        </rect>
       </property>
+      <property name="font">
+       <font>
+        <family>Noto Serif Tangut</family>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>PUSH</string>
       </property>
      </widget>
      <widget class="QPushButton" name="modeChangeButton">
@@ -167,14 +175,37 @@
      <widget class="QPushButton" name="modeChangeButton_2">
       <property name="geometry">
        <rect>
-        <x>230</x>
-        <y>30</y>
-        <width>241</width>
-        <height>23</height>
+        <x>350</x>
+        <y>70</y>
+        <width>116</width>
+        <height>32</height>
        </rect>
       </property>
+      <property name="styleSheet">
+       <string notr="true">QPushButton {
+border-radius: 12px;
+background: #6750A4;
+display: flex;
+padding: 6px 12px;
+justify-content: center;
+align-items: center;
+gap: 4px;
+
+
+
+color: #FFF;
+
+/* M3/label/large */
+font-family: var(--Static-Label-Large-Font, Roboto);
+font-size: var(--Static-Label-Large-Size, 14px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
+letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
+}</string>
+      </property>
       <property name="text">
-       <string>PushButton</string>
+       <string>GENERUJ PDF</string>
       </property>
      </widget>
      <widget class="QWidget" name="chartWidget" native="true">
@@ -186,6 +217,56 @@
         <height>171</height>
        </rect>
       </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>60</x>
+        <y>30</y>
+        <width>271</width>
+        <height>43</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+  border-radius: 4px;
+  background: #FFF;
+  box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.14);
+  padding-right: 35px; 
+}
+
+QComboBox::drop-down {
+  width: 30px;
+  height: 30px;
+  subcontrol-origin: padding;
+  subcontrol-position: top right;
+  border-radius: 5px;
+  background: #EAEAEA;
+margin-right:20px;
+
+  margin-top: calc(( ( ( (30px) - (height całego comboboxa) ) / 2 ))); /* niestety nie ma calc() w QSS, więc daj ręcznie */
+  /* zamiast tego ustaw margin-top na wartość, która wyśrodkuje */
+  margin-top: 4px; /* np. ręcznie dopasuj */
+}
+
+QComboBox::down-arrow {
+  image: url(path/do/twojej-strzalki.svg);
+  width: 14px;
+  height: 14px;
+  margin: 8px; /* wyśrodkowanie strzałki w drop-down */
+}
+</string>
+      </property>
+      <item>
+       <property name="text">
+        <string>xd</string>
+       </property>
+      </item>
+      <item>
+       <property name="text">
+        <string>dxdd</string>
+       </property>
+      </item>
      </widget>
     </widget>
    </widget>
