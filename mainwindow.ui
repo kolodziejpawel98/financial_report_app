@@ -6,22 +6,31 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1500</width>
-    <height>1000</height>
+    <width>1300</width>
+    <height>700</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="styleSheet">
+    <string notr="true">background:#FFF;</string>
+   </property>
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>90</x>
-      <y>30</y>
-      <width>821</width>
-      <height>441</height>
+      <x>0</x>
+      <y>0</y>
+      <width>1300</width>
+      <height>700</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background: #DDDDDD</string>
+    </property>
+    <property name="currentIndex">
+     <number>1</number>
     </property>
     <widget class="QWidget" name="page">
      <widget class="QPushButton" name="previousDateButton">
@@ -172,17 +181,75 @@
      </widget>
     </widget>
     <widget class="QWidget" name="page_2">
-     <widget class="QPushButton" name="modeChangeButton_2">
+     <widget class="QWidget" name="widget" native="true">
       <property name="geometry">
        <rect>
-        <x>350</x>
-        <y>70</y>
+        <x>0</x>
+        <y>0</y>
+        <width>231</width>
+        <height>700</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #141414;</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="widget_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1300</width>
+        <height>67</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #141414;
+box-shadow: 0px 7px 11px 0px rgba(0, 0, 0, 0.25);</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>230</y>
+        <width>296</width>
+        <height>186</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 15px;
+background: rgba(187, 134, 252, 0.15);
+padding-bottom: 50px;</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>icons/icon_upload-removebg-preview.png</normaloff>icons/icon_upload-removebg-preview.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>90</width>
+        <height>90</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>750</x>
+        <y>360</y>
         <width>116</width>
         <height>32</height>
        </rect>
       </property>
+      <property name="cursor">
+       <cursorShape>OpenHandCursor</cursorShape>
+      </property>
       <property name="styleSheet">
-       <string notr="true">QPushButton {
+       <string notr="true">
 border-radius: 12px;
 background: #6750A4;
 display: flex;
@@ -202,71 +269,11 @@ font-style: normal;
 font-weight: 500;
 line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
 letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
-}</string>
+</string>
       </property>
       <property name="text">
        <string>GENERUJ PDF</string>
       </property>
-     </widget>
-     <widget class="QWidget" name="chartWidget" native="true">
-      <property name="geometry">
-       <rect>
-        <x>180</x>
-        <y>140</y>
-        <width>321</width>
-        <height>171</height>
-       </rect>
-      </property>
-     </widget>
-     <widget class="QComboBox" name="comboBox">
-      <property name="geometry">
-       <rect>
-        <x>60</x>
-        <y>30</y>
-        <width>271</width>
-        <height>43</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">QComboBox {
-  border-radius: 4px;
-  background: #FFF;
-  box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, 0.14);
-  padding-right: 35px; 
-}
-
-QComboBox::drop-down {
-  width: 30px;
-  height: 30px;
-  subcontrol-origin: padding;
-  subcontrol-position: top right;
-  border-radius: 5px;
-  background: #EAEAEA;
-margin-right:20px;
-
-  margin-top: calc(( ( ( (30px) - (height całego comboboxa) ) / 2 ))); /* niestety nie ma calc() w QSS, więc daj ręcznie */
-  /* zamiast tego ustaw margin-top na wartość, która wyśrodkuje */
-  margin-top: 4px; /* np. ręcznie dopasuj */
-}
-
-QComboBox::down-arrow {
-  image: url(path/do/twojej-strzalki.svg);
-  width: 14px;
-  height: 14px;
-  margin: 8px; /* wyśrodkowanie strzałki w drop-down */
-}
-</string>
-      </property>
-      <item>
-       <property name="text">
-        <string>xd</string>
-       </property>
-      </item>
-      <item>
-       <property name="text">
-        <string>dxdd</string>
-       </property>
-      </item>
      </widget>
     </widget>
    </widget>

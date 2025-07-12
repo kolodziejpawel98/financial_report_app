@@ -15,7 +15,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->modeChangeButton, &QPushButton::clicked, this, &MainWindow::modeChangeButtonClicked);
-    connect(ui->modeChangeButton_2, &QPushButton::clicked, this, &MainWindow::modeChangeButtonClicked); // todo: change variable name
+    // connect(ui->modeChangeButton_2, &QPushButton::clicked, this, &MainWindow::modeChangeButtonClicked); // todo: change variable name
     connect(ui->backToXmlLoadButton, &QPushButton::clicked, this, &MainWindow::backToXmlLoadButtonClicked);
     connect(ui->exportPdfButton, &QPushButton::clicked, this, &MainWindow::exportPdfButtonClicked);
     connect(ui->nextDateButton, &QPushButton::clicked, this, &MainWindow::nextDateButtonClicked);
