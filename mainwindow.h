@@ -19,11 +19,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void modeChangeButtonClicked();
-    void backToXmlLoadButtonClicked();
-    void exportPdfButtonClicked();
-    void nextDateButtonClicked();
-    void previousDateButtonClicked();
+    void loadXmlButtonClicked();
 
 private:
     Ui::MainWindow *ui;
