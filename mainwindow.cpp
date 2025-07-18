@@ -8,6 +8,7 @@
 #include <QVBoxLayout>
 #include <QPainter>
 #include <QFileDialog>
+#include <QGraphicsDropShadowEffect>
 
 QT_CHARTS_USE_NAMESPACE
 
@@ -16,34 +17,11 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
-    // // connect(ui->modeChangeButton_2, &QPushButton::clicked, this, &MainWindow::modeChangeButtonClicked); // todo: change variable name
-    // connect(ui->backToXmlLoadButton, &QPushButton::clicked, this, &MainWindow::backToXmlLoadButtonClicked);
-    // connect(ui->exportPdfButton, &QPushButton::clicked, this, &MainWindow::exportPdfButtonClicked);
-    // connect(ui->nextDateButton, &QPushButton::clicked, this, &MainWindow::nextDateButtonClicked);
-    // connect(ui->previousDateButton, &QPushButton::clicked, this, &MainWindow::previousDateButtonClicked);
-    // QDate selectedDate = ui->calendarWidget->selectedDate();
-    // qDebug() << "Selected date:" << selectedDate.toString();
-    // QTextCharFormat highlightFormat;
-    // highlightFormat.setBackground(Qt::yellow);
-    // QDate dateToHighlight(2025, 7, 12);
-    // ui->calendarWidget->setDateTextFormat(dateToHighlight, highlightFormat);
 
-    // QWidget *placeholder = ui->page_2->findChild<QWidget *>("chartWidget");
+    ui->priceLabelDescription->setVisible(false);
+    ui->priceLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
 
-    // QLineSeries *series = new QLineSeries();
-    // series->append(0, 6);
-    // series->append(2, 4);
-    // series->append(3, 8);
-
-    // QChart *chart = new QChart();
-    // chart->addSeries(series);
-    // chart->createDefaultAxes();
-
-    // QChartView *chartView = new QChartView(chart);
-    // chartView->setRenderHint(QPainter::Antialiasing);
-
-    // QVBoxLayout *layout = new QVBoxLayout(placeholder);
-    // layout->addWidget(chartView);
+    ui->priceLabel->installEventFilter(this);
 }
 
 void MainWindow::loadXmlButtonClicked()
@@ -55,6 +33,36 @@ void MainWindow::loadXmlButtonClicked()
         int nextIndex = (ui->stackedWidget->currentIndex() + 1) % ui->stackedWidget->count();
         ui->stackedWidget->setCurrentIndex(nextIndex);
     }
+}
+
+bool MainWindow::eventFilter(QObject *watched, QEvent *event)
+{
+    QLabel *label = qobject_cast<QLabel *>(watched);
+    if (label)
+    {
+        if (event->type() == QEvent::Enter)
+        {
+            qDebug() << "XDDDDDDDDDDDDD\n";
+            label->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 12px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
+            QPoint pos = label->mapToGlobal(QPoint(0, 0));
+            pos = this->mapFromGlobal(pos);
+            ui->priceLabelDescription->move(pos.x(), pos.y() - ui->priceLabelDescription->height() - 5);
+            ui->priceLabelDescription->setText("01/04/2025 spozywka Lidl -12.99PLN<b>1400.99PLN</b>");
+            ui->priceLabelDescription->setVisible(true);
+            ui->priceLabelDescription->setStyleSheet("background: #DDDDDD; border-radius: 4px;");
+            auto *shadow = new QGraphicsDropShadowEffect(this);
+            shadow->setBlurRadius(10);
+            shadow->setOffset(0, 3);
+            shadow->setColor(QColor(0, 0, 0, 36));
+            ui->priceLabelDescription->setGraphicsEffect(shadow);
+        }
+        else if (event->type() == QEvent::Leave)
+        {
+            label->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
+            ui->priceLabelDescription->setVisible(false);
+        }
+    }
+    return QMainWindow::eventFilter(watched, event);
 }
 
 // ###################################

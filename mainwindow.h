@@ -21,6 +21,9 @@ public:
 private slots:
     void loadXmlButtonClicked();
 
+protected:
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     Ui::MainWindow *ui;
 };

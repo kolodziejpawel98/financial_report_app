@@ -45,40 +45,6 @@
       <property name="styleSheet">
        <string notr="true">background: #141414;</string>
       </property>
-      <widget class="QLabel" name="loadNewXmlFileButton_7">
-       <property name="geometry">
-        <rect>
-         <x>40</x>
-         <y>630</y>
-         <width>177</width>
-         <height>32</height>
-        </rect>
-       </property>
-       <property name="cursor">
-        <cursorShape>PointingHandCursor</cursorShape>
-       </property>
-       <property name="styleSheet">
-        <string notr="true">border-radius: 12px;
-border: 2px solid, #4F378B;
-padding: 1px 12px;
-
-
-
-color: #4F378B;
-
-/* M3/label/large */
-font-family: var(--Static-Label-Large-Font, Roboto);
-font-size: var(--Static-Label-Large-Size, 14px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
-letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
-</string>
-       </property>
-       <property name="text">
-        <string>+ WCZYTAJ NOWY XML</string>
-       </property>
-      </widget>
       <widget class="QPushButton" name="loadXmlButton_2">
        <property name="geometry">
         <rect>
@@ -230,6 +196,62 @@ border-left: 4px solid #6750A4;
         </size>
        </property>
       </widget>
+      <widget class="QPushButton" name="loadXmlButton_5">
+       <property name="geometry">
+        <rect>
+         <x>40</x>
+         <y>620</y>
+         <width>177</width>
+         <height>32</height>
+        </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Roboto</family>
+         <pointsize>-1</pointsize>
+         <italic>false</italic>
+         <bold>false</bold>
+        </font>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    border-radius: 12px;
+    border: 2px solid #4F378B;
+    background: transparent;
+    padding: 1px 12px;
+    color: #4F378B;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+}
+
+QPushButton:hover {
+    background-color: #2A1F3D;
+    color: #CBB6FF;
+}
+
+QPushButton:pressed {
+    background-color: #3A2B57;
+    border: 3px solid #4F378B;
+    padding-top: 2px;
+    padding-bottom: 0px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string>+ WCZYTAJ NOWY XML</string>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>90</width>
+         <height>90</height>
+        </size>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="pageTopbar" native="true">
       <property name="geometry">
@@ -290,43 +312,101 @@ letter-spacing: 0.1px;</string>
        <string>123</string>
       </property>
      </widget>
-     <widget class="QLabel" name="generatePdfButton">
+     <widget class="QPushButton" name="loadXmlButton_6">
       <property name="geometry">
        <rect>
-        <x>1080</x>
-        <y>640</y>
+        <x>1120</x>
+        <y>620</y>
         <width>116</width>
         <height>32</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Roboto</family>
+        <pointsize>-1</pointsize>
+        <italic>false</italic>
+        <bold>false</bold>
+       </font>
       </property>
       <property name="cursor">
        <cursorShape>PointingHandCursor</cursorShape>
       </property>
       <property name="styleSheet">
-       <string notr="true">
-border-radius: 12px;
-background: #6750A4;
-display: flex;
-padding: 6px 12px;
-justify-content: center;
-align-items: center;
-gap: 4px;
+       <string notr="true">QPushButton {
+    border-radius: 12px;
+    background: #6750A4;
+    padding: 6px 12px;
+    color: #FFF;
+    font-family: Roboto;
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    border: none;
+}
 
+QPushButton:hover {
+    background-color: #7C5BC7; 
+}
 
-
-color: #FFF;
-
-/* M3/label/large */
-font-family: var(--Static-Label-Large-Font, Roboto);
-font-size: var(--Static-Label-Large-Size, 14px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
-letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
+QPushButton:pressed {
+    background-color: #5E459A; 
+    padding-top: 7px;
+    padding-bottom: 5px;
+}
 </string>
       </property>
       <property name="text">
        <string>GENERUJ PDF</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>90</width>
+        <height>90</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="priceLabel">
+      <property name="geometry">
+       <rect>
+        <x>470</x>
+        <y>300</y>
+        <width>87</width>
+        <height>21</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;</string>
+      </property>
+      <property name="text">
+       <string>99.99PLN</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QLabel" name="priceLabelDescription">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>260</y>
+        <width>465</width>
+        <height>43</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>ds</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>
