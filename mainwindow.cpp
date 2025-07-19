@@ -1,27 +1,80 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
-#include <QDebug>
-#include <QTextCharFormat>
-#include <QtCharts/QChartView>
-#include <QtCharts/QLineSeries>
-#include <QtCharts/QChart>
-#include <QVBoxLayout>
-#include <QPainter>
-#include <QFileDialog>
-#include <QGraphicsDropShadowEffect>
 
 QT_CHARTS_USE_NAMESPACE
+
+// MainWindow::MainWindow(QWidget *parent)
+//     : QMainWindow(parent), ui(new Ui::MainWindow)
+// {
+//     ui->setupUi(this);
+//     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
+
+//     ui->priceLabelDescription->setVisible(false);
+//     ui->priceLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
+
+//     ui->priceLabel->installEventFilter(this);
+
+//     for (int i = 0; i < 20; ++i)
+//     {
+//         QLabel *label = new QLabel(QString("Transakcja %1: %2 PLN").arg(i + 1).arg((i + 1) * 10.25), this);
+//         label->setStyleSheet("color: black; padding: 5px; font-size: 14px;");
+//         label->installEventFilter(this);
+//         priceLabels.push_back(label);
+//         // ui->pricesContainer->layout()->addWidget(label);
+//         label->show();
+//     }
+// }
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
 
-    ui->priceLabelDescription->setVisible(false);
-    ui->priceLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
+    // ui->priceLabelDescription->setParent(this);
+    // ui->priceLabelDescription->resize(150, 30);
+    // ui->priceLabelDescription->setVisible(false);
+    // ui->priceLabelDescription->setTextFormat(Qt::RichText);
+    // ui->priceLabelDescription->setStyleSheet("background: #DDDDDD; border-radius: 4px;");
 
-    ui->priceLabel->installEventFilter(this);
+    // ui->priceLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
+    // // ui->priceLabel->installEventFilter(this);
+
+    for (int i = 0; i < 20; ++i)
+    {
+        QLabel *label = new QLabel(QString("Transakcja %1: %2 PLN").arg(i + 1).arg((i + 1) * 10.25), this);
+        label->setStyleSheet("color: black; padding: 5px; font-size: 14px;");
+        label->installEventFilter(this);
+        priceLabels.push_back(label);
+
+        int row = i / 4;
+        int col = i % 4;
+
+        ui->gridLayout->addWidget(label, row, col);
+    }
+
+    // int columns = 4;
+    // int row = 0;
+    // int col = 0;
+
+    // for (int i = 0; i < 20; ++i)
+    // {
+    //     QLabel *label = new QLabel(QString("Transakcja %1: %2 PLN").arg(i + 1).arg((i + 1) * 10.25));
+    //     label->setStyleSheet("color: black; padding: 5px; font-size: 14px;");
+    //     label->installEventFilter(this);
+
+    //     priceLabels.push_back(label);
+
+    //     ui->gridLayout->layout()->addWidget(label, row, col);
+
+    //     col++;
+    //     if (col >= columns)
+    //     {
+    //         col = 0;
+    //         row++;
+    //     }
+    // }
 }
 
 void MainWindow::loadXmlButtonClicked()
@@ -38,7 +91,7 @@ void MainWindow::loadXmlButtonClicked()
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
     QLabel *label = qobject_cast<QLabel *>(watched);
-    if (label)
+    if (label && priceLabels.contains(label))
     {
         if (event->type() == QEvent::Enter)
         {

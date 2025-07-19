@@ -409,6 +409,17 @@ QPushButton:pressed {
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
+     <widget class="QWidget" name="gridLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>367</x>
+        <y>362</y>
+        <width>871</width>
+        <height>221</height>
+       </rect>
+      </property>
+      <layout class="QGridLayout" name="gridLayout"/>
+     </widget>
     </widget>
     <widget class="QWidget" name="pageLoadXmlFile">
      <widget class="QWidget" name="sidebar" native="true">

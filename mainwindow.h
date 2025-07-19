@@ -2,6 +2,16 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QDebug>
+#include <QTextCharFormat>
+#include <QtCharts/QChartView>
+#include <QtCharts/QLineSeries>
+#include <QtCharts/QChart>
+#include <QVBoxLayout>
+#include <QPainter>
+#include <QFileDialog>
+#include <QGraphicsDropShadowEffect>
+#include <QLabel>
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -26,5 +36,7 @@ protected:
 
 private:
     Ui::MainWindow *ui;
+    QVector<QLabel *> priceLabels;
+    QGridLayout *griLayout;
 };
 #endif // MAINWINDOW_H
