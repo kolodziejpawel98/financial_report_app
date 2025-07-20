@@ -3,78 +3,55 @@
 
 QT_CHARTS_USE_NAMESPACE
 
-// MainWindow::MainWindow(QWidget *parent)
-//     : QMainWindow(parent), ui(new Ui::MainWindow)
-// {
-//     ui->setupUi(this);
-//     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
-
-//     ui->priceLabelDescription->setVisible(false);
-//     ui->priceLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
-
-//     ui->priceLabel->installEventFilter(this);
-
-//     for (int i = 0; i < 20; ++i)
-//     {
-//         QLabel *label = new QLabel(QString("Transakcja %1: %2 PLN").arg(i + 1).arg((i + 1) * 10.25), this);
-//         label->setStyleSheet("color: black; padding: 5px; font-size: 14px;");
-//         label->installEventFilter(this);
-//         priceLabels.push_back(label);
-//         // ui->pricesContainer->layout()->addWidget(label);
-//         label->show();
-//     }
-// }
-
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
 
-    // ui->priceLabelDescription->setParent(this);
-    // ui->priceLabelDescription->resize(150, 30);
-    // ui->priceLabelDescription->setVisible(false);
-    // ui->priceLabelDescription->setTextFormat(Qt::RichText);
-    // ui->priceLabelDescription->setStyleSheet("background: #DDDDDD; border-radius: 4px;");
+    int x = 0;
+    int y = 0;
+    int spacing = 5;
+    int maxWidth = ui->groceriesLabelsContainer->width();
+    int numOfExpenses = 65;
 
-    // ui->priceLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
-    // // ui->priceLabel->installEventFilter(this);
-
-    for (int i = 0; i < 20; ++i)
+    for (int i = 0; i < numOfExpenses; ++i)
     {
-        QLabel *label = new QLabel(QString("Transakcja %1: %2 PLN").arg(i + 1).arg((i + 1) * 10.25), this);
-        label->setStyleSheet("color: black; padding: 5px; font-size: 14px;");
+        QLabel *label = new QLabel(QString("%1 PLN").arg((i + 1) * 10.32), ui->groceriesLabelsContainer);
+        label->setStyleSheet("color: black; font-size: 12px;");
+        label->adjustSize();
+        label->setCursor(Qt::PointingHandCursor);
         label->installEventFilter(this);
         priceLabels.push_back(label);
 
-        int row = i / 4;
-        int col = i % 4;
+        int predictedWidth = x + label->width();
+        if (i < numOfExpenses - 1)
+            predictedWidth += spacing + 10;
 
-        ui->gridLayout->addWidget(label, row, col);
+        if (predictedWidth > maxWidth)
+        {
+            x = 0;
+            y += label->height() + spacing;
+        }
+
+        label->move(x, y);
+        label->show();
+
+        x += label->width();
+
+        if (i < numOfExpenses - 1)
+        {
+            QLabel *plusLabel = new QLabel("+", ui->groceriesLabelsContainer);
+            plusLabel->setStyleSheet("color: gray; font-size: 12px;");
+            plusLabel->adjustSize();
+            plusLabel->move(x + spacing - 2, y);
+            plusLabel->show();
+
+            x += plusLabel->width() + spacing;
+        }
     }
 
-    // int columns = 4;
-    // int row = 0;
-    // int col = 0;
-
-    // for (int i = 0; i < 20; ++i)
-    // {
-    //     QLabel *label = new QLabel(QString("Transakcja %1: %2 PLN").arg(i + 1).arg((i + 1) * 10.25));
-    //     label->setStyleSheet("color: black; padding: 5px; font-size: 14px;");
-    //     label->installEventFilter(this);
-
-    //     priceLabels.push_back(label);
-
-    //     ui->gridLayout->layout()->addWidget(label, row, col);
-
-    //     col++;
-    //     if (col >= columns)
-    //     {
-    //         col = 0;
-    //         row++;
-    //     }
-    // }
+    ui->groceriesLabelsContainer->setMinimumHeight(y + 50);
 }
 
 void MainWindow::loadXmlButtonClicked()
@@ -95,13 +72,13 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
     {
         if (event->type() == QEvent::Enter)
         {
-            qDebug() << "XDDDDDDDDDDDDD\n";
             label->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 12px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
             QPoint pos = label->mapToGlobal(QPoint(0, 0));
             pos = this->mapFromGlobal(pos);
             ui->priceLabelDescription->move(pos.x(), pos.y() - ui->priceLabelDescription->height() - 5);
             ui->priceLabelDescription->setText("01/04/2025 spozywka Lidl -12.99PLN<b>1400.99PLN</b>");
             ui->priceLabelDescription->setVisible(true);
+            ui->priceLabelDescription->raise();
             ui->priceLabelDescription->setStyleSheet("background: #DDDDDD; border-radius: 4px;");
             auto *shadow = new QGraphicsDropShadowEffect(this);
             shadow->setBlurRadius(10);
@@ -117,8 +94,6 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
     }
     return QMainWindow::eventFilter(watched, event);
 }
-
-// ###################################
 
 MainWindow::~MainWindow()
 {
