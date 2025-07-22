@@ -4,6 +4,7 @@
 #include <iostream>
 #include "external/tinyxml2-master/tinyxml2.h"
 #include <sstream>
+#include <vector>
 #include <memory>
 
 using namespace tinyxml2;
@@ -30,68 +31,30 @@ struct Date
     Date() : day(0), month(0), year(0) {}
     Date(int day, int month, int year) : day(day), month(month), year(year) {}
 };
-struct Description
-{
-    std::string shopAddress;
-    // std::string shopCity;
-
-    Description(const std::string &shopAddress /*, const std::string &shopCity*/)
-        : shopAddress(shopAddress) /*, shopCity(shopCity)*/ {}
-};
 
 class Operation
 {
 public:
     Date date;
-    Description description;
-    std::string type;
+    std::string category;
+    std::string description;
     double amount;
-    double endingBalance;
+    double totalBalanceAfterOperation;
 
-    Operation(Date date, Description description, std::string type, double amount, double endingBalance)
-        : date(date), description(description), type(type),
-          amount(amount), endingBalance(endingBalance) {}
+    Operation(Date date, std::string category, std::string description, double amount, double totalBalanceAfterOperation)
+        : date(date), category(category), description(description),
+          amount(amount), totalBalanceAfterOperation(totalBalanceAfterOperation) {}
 
     void print() const
     {
         std::cout << "Operation details:\n";
         std::cout << "  Date: " << date.day << "-" << date.month << "-" << date.year << "\n";
-        std::cout << "  Type: " << type << "\n";
-        std::cout << "  Shop address: " << description.shopAddress << "\n";
-        // std::cout << "  Shop city: " << description.shopCity << "\n";
+        std::cout << "  Category: " << category << "\n";
+        std::cout << "  Description: " << description << "\n";
         std::cout << "  Amount: " << amount << "\n";
-        std::cout << "  Ending balance: " << endingBalance << "\n";
+        std::cout << "  Total balanceAfterOperation: " << totalBalanceAfterOperation << "\n";
     }
 };
-
-XMLElement *loadOperation(XMLDocument &doc, int index = 0)
-{
-    XMLError result = doc.LoadFile("../example.xml");
-    if (result != XML_SUCCESS)
-    {
-        std::cout << "Failed to load file\n";
-        return nullptr;
-    }
-
-    XMLElement *accountHistory = doc.FirstChildElement("account-history");
-    if (!accountHistory)
-        return nullptr;
-
-    XMLElement *operations = accountHistory->FirstChildElement("operations");
-    if (!operations)
-        return nullptr;
-
-    XMLElement *operation = operations->FirstChildElement("operation");
-    int currentIndex = 0;
-
-    while (operation && currentIndex < index)
-    {
-        operation = operation->NextSiblingElement("operation");
-        ++currentIndex;
-    }
-
-    return operation;
-}
 
 Date parseDate(const std::string &str)
 {
@@ -154,22 +117,89 @@ std::string extractAddress(const std::string &descriptionFull)
     return address + ", " + city;
 }
 
-std::unique_ptr<Operation> getOperation(int index = 0)
+XMLElement *getFirstOperationTag(XMLDocument &xmlDocument)
 {
-    XMLDocument doc;
-    XMLElement *operationTag = loadOperation(doc, index);
+    XMLElement *accountHistory = xmlDocument.FirstChildElement("account-history");
+    if (!accountHistory)
+        return nullptr;
 
-    if (!operationTag)
-        throw std::runtime_error("Operation not found");
+    XMLElement *operations = accountHistory->FirstChildElement("operations");
+    if (!operations)
+        return nullptr;
 
-    std::string execDate = operationTag->FirstChildElement("exec-date")->GetText();
-    std::string type = operationTag->FirstChildElement("type")->GetText();
-    std::string description = operationTag->FirstChildElement("description")->GetText();
-    std::string amount = operationTag->FirstChildElement("amount")->GetText();
-    std::string endingBalance = operationTag->FirstChildElement("ending-balance")->GetText();
+    XMLElement *operation = operations->FirstChildElement("operation");
+    return operation;
+}
 
-    Date date = parseDate(execDate);
-    std::string address = extractAddress(description);
+// std::unique_ptr<Operation> getOperationObject(const char *path, int index = 0)
+// {
+//     XMLDocument xmlDocument;
+//     XMLError fileLoadResult = xmlDocument.LoadFile(path);
 
-    return std::make_unique<Operation>(date, Description(address), type, std::stod(amount), std::stod(endingBalance));
+//     if (fileLoadResult != XML_SUCCESS)
+//     {
+//         throw std::runtime_error("Failed to load file");
+//     }
+
+//     int currentIndex = 0;
+
+//     XMLElement *operationTag = getFirstOperationTag(xmlDocument);
+//     while (operationTag && currentIndex < index)
+//     {
+//         operationTag = operationTag->NextSiblingElement("operation");
+//         ++currentIndex;
+//     };
+
+//     if (!operationTag)
+//         throw std::runtime_error("Operation not found");
+
+//     std::string execDate = operationTag->FirstChildElement("exec-date")->GetText();
+//     std::string type = "placeholder"; /*operationTag->FirstChildElement("type")->GetText();*/
+//     std::string description = operationTag->FirstChildElement("description")->GetText();
+//     std::string amount = operationTag->FirstChildElement("amount")->GetText();
+//     std::string endingBalance = operationTag->FirstChildElement("ending-balance")->GetText();
+
+//     Date date = parseDate(execDate);
+//     std::string address = extractAddress(description);
+
+//     return std::make_unique<Operation>(date, type, address, std::stod(amount), std::stod(endingBalance));
+// }
+
+std::string getOperationChild(XMLElement *operationTag, const char *childName)
+{
+    XMLElement *child = operationTag->FirstChildElement(childName);
+    if (!child || !child->GetText())
+        throw std::runtime_error(std::string("Missing <") + childName + "> tag");
+    return std::string(child->GetText());
+}
+
+std::vector<Operation> getAllOperations(const char *path)
+{
+    std::vector<Operation> operations;
+    XMLDocument xmlDocument;
+    XMLError fileLoadResult = xmlDocument.LoadFile(path);
+
+    if (fileLoadResult != XML_SUCCESS)
+    {
+        throw std::runtime_error("Failed to load file");
+    }
+
+    XMLElement *operationTag = getFirstOperationTag(xmlDocument);
+
+    while (operationTag != nullptr)
+    {
+        std::string execDate = getOperationChild(operationTag, "exec-date");
+        std::string type = "placeholder";
+        std::string description = getOperationChild(operationTag, "description");
+        std::string amount = getOperationChild(operationTag, "amount");
+        std::string endingBalance = getOperationChild(operationTag, "ending-balance");
+
+        Date date = parseDate(execDate);
+        std::string address = extractAddress(description);
+
+        operations.emplace_back(date, type, address, std::stod(amount), std::stod(endingBalance));
+        operationTag = operationTag->NextSiblingElement("operation");
+    }
+
+    return std::move(operations);
 }
