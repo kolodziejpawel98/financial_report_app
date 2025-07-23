@@ -6,6 +6,7 @@
 #include <sstream>
 #include <vector>
 #include <memory>
+#include <unordered_map>
 
 using namespace tinyxml2;
 namespace tinyxml2
@@ -13,14 +14,107 @@ namespace tinyxml2
     class XMLDocument;
     class XMLElement;
 }
-// <operation>
-//      <order-date>2025-07-01</order-date>
-//      <exec-date>2025-07-03</exec-date>
-//      <type>Płatność kartą</type>
-//      <description>21321 1111222233334444 Lokalizacja : Adres : TRATTORIA RIALTO Miasto : KRAKOW Kraj : POLSKA Data wykonania operacji : 2025-07-01 02:00 Oryginalna kwota operacji : 41,00 PLN Numer karty : 32142******1234</description>
-//      <amount curr="PLN">-41.00</amount>
-//      <ending-balance curr="PLN">+2999.97</ending-balance>
-// </operation>
+
+std::unordered_map<std::string, int> cardTransactionCategories = { // <tag> płatnośc kartą
+    {"TRATTORIA", 1},
+    {"llegro", 2},
+    {"Good Lood", 1},
+    {"RYNECZEK", 1},
+    {"CARREFOUR", 3},
+    {"ZABKA", 3},
+    {"McDonalds", 1},
+    {"jakdojade", 4},
+    {"ALLEGRO", 2},
+    {"ROSSMANN", 2},
+    {"VINTED", 2},
+    {"LIDL", 3},
+    {"ALIEXPRESS", 2},
+    {"LEWIATAN", 3},
+    {"FLORA", 2},
+    {"MCDONALDS", 1},
+    {"EMPIK", 2},
+    {"PADDLE", 5},
+    {"SPORT EVOLUTION", 6},
+    {"BUCZEK", 3},
+    {"BIEDRONKA", 3},
+    {"LOWICZ", 6},
+    {"SPOTIFY", 5},
+    {"KOLEO", 4},
+    {"BACOWKA", 3},
+    {"APPLE", 5},
+    {"P4", 5},
+    {"AIRBNB", 7},
+    {"SPAR", 3},
+    {"UBER", 4},
+    {"Tauron", 5},
+    {"LEROY", 2},
+    {"Tkaniny", 7},
+    {"RESTAURACJA", 1},
+    {"KAUFLAND", 3},
+    {"FOOD CARGO KULESZA", 1},
+    {"NOTOPSTRYK", 7},
+    {"KOLODZIEJCZYK", 3},
+    {"NETFLIX", 5},
+    {"Kwiaty", 2},
+    {"ZIKO APTEKA", 2},
+    {"FLORGARD", 2},
+    {"PLUS KONRAD", 3},
+    {"STOKROTKA", 3},
+    {"KINGSMAN", 1},
+    {"kfcdostawa", 1},
+    {"Pharm", 2},
+    {"PEPCO", 2},
+    {"RESERVED", 2},
+    {"HM", 2},
+    {"ZARA", 2},
+    {"Pyszne.pl", 1},
+    {"AUTOMAT", 1},
+    {"JYSK", 2},
+    {"PASIBUS", 1},
+    {"KFC", 1},
+    {"MPK", 2},
+    {"MYJNIA", 2},
+    {"Hindus", 1},
+    {"Tadeusz Skwarek", 1},
+    {"APTEKA", 2},
+    {"MERIDA", 2},
+    {"SZAL DLA PLASTYKOW", 2},
+    {"BISTRO JCI", 1},
+    {"Action", 2},
+    {"HALAMAKI", 1},
+    {"REKOCZYNY CAFE", 1},
+    {"BEEF", 1},
+    {"użytkowanie karty", 5}};
+
+// <tag> inne: Płatność web - kod mobilny, Przelew na telefon przychodz. zew., Przelew z karty, Przelew z rachunku
+std::unordered_map<std::string, int> otherTransactionCategories = {
+    {"allegro", 2},
+    {"PRZEMO WEBCON", 6},
+    {"Revolut", 7},
+    {"intercity", 4},
+    {"maratonwarsza", 6},
+    {"kartotekaonline", 5},
+    {"DYNAMIKA", 5},
+    {"cyfrowe", 7},
+    {"infoto", 7},
+    {"restaumatic", 1},
+    {"dluta", 6},
+    {"pomykalastudio", 6},
+    {"TOTU", 5},
+    {"RossmannRun", 6}};
+
+// 1 - jedzenie na miescie
+// 2 - zakupy niespozywcze
+// 3 - zakupy spozywcze
+// 4 - transport
+// 5 - opłaty stałe
+// 6 - inne
+// 7 - fotografia
+// 8 - do dodania przez uzytkownika
+// -1 - error, nie znaleziono
+// todo: dodac kategorie do wpływów
+//  ignorować opłate za karte:   Category: Opłata za użytkowanie karty
+// dynamiczne dodawanie kategorii - trzeba zapisywac to wsyztsko do jsona!
 
 struct Date
 {
@@ -36,20 +130,46 @@ class Operation
 {
 public:
     Date date;
-    std::string category;
+    std::string type;
     std::string description;
     double amount;
     double totalBalanceAfterOperation;
+    int categoryTag;
 
-    Operation(Date date, std::string category, std::string description, double amount, double totalBalanceAfterOperation)
-        : date(date), category(category), description(description),
+    Operation(Date date, std::string type, std::string description, double amount, double totalBalanceAfterOperation)
+        : date(date), type(type), description(description),
           amount(amount), totalBalanceAfterOperation(totalBalanceAfterOperation) {}
+
+    int setCategoryTag()
+    {
+        if (amount > 0)
+        {
+            return 999;
+        }
+
+        for (const auto &pair : cardTransactionCategories)
+        {
+            if (description.find(pair.first) != std::string::npos)
+            {
+                return pair.second;
+            }
+        }
+
+        for (const auto &pair : otherTransactionCategories)
+        {
+            if (description.find(pair.first) != std::string::npos)
+            {
+                return pair.second;
+            }
+        }
+        return -1;
+    }
 
     void print() const
     {
         std::cout << "Operation details:\n";
         std::cout << "  Date: " << date.day << "-" << date.month << "-" << date.year << "\n";
-        std::cout << "  Category: " << category << "\n";
+        std::cout << "  Type: " << type << "\n";
         std::cout << "  \033[31mDescription: " << description << "\033[0m\n";
         // std::cout << "  Description: " << description << "\n";
         // std::cout << "  Amount: " << amount << "\n";
