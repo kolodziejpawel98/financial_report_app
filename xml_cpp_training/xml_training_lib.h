@@ -50,9 +50,11 @@ public:
         std::cout << "Operation details:\n";
         std::cout << "  Date: " << date.day << "-" << date.month << "-" << date.year << "\n";
         std::cout << "  Category: " << category << "\n";
-        std::cout << "  Description: " << description << "\n";
-        std::cout << "  Amount: " << amount << "\n";
-        std::cout << "  Total balanceAfterOperation: " << totalBalanceAfterOperation << "\n";
+        std::cout << "  \033[31mDescription: " << description << "\033[0m\n";
+        // std::cout << "  Description: " << description << "\n";
+        // std::cout << "  Amount: " << amount << "\n";
+        printf("  Amount: %.2f\n", amount);
+        std::cout << "  Total balanceAfterOperation: " << totalBalanceAfterOperation << "\n\n";
     }
 };
 
@@ -117,6 +119,88 @@ std::string extractAddress(const std::string &descriptionFull)
     return address + ", " + city;
 }
 
+std::string getSubstring(const std::string &descriptionFull, std::string startToken, std::string endToken)
+{
+    size_t startPos = descriptionFull.find(startToken);
+    if (startPos == std::string::npos)
+        return "";
+    startPos += startToken.length();
+
+    size_t endPos = descriptionFull.find(endToken, startPos);
+    if (endPos == std::string::npos)
+        return "";
+
+    std::string result = descriptionFull.substr(startPos, endPos - startPos);
+
+    size_t first = result.find_first_not_of(" ");
+    size_t last = result.find_last_not_of(" ");
+    if (first == std::string::npos)
+        return "";
+    return result.substr(first, last - first + 1);
+}
+
+std::string extractCrucialData(const std::string &descriptionFull, const std::string &type)
+{
+    if (type == "Płatność kartą")
+    {
+        return getSubstring(descriptionFull, "Adres :", "Kraj");
+    }
+    else if (type == "Wypłata z bankomatu")
+    {
+        return getSubstring(descriptionFull, "Adres :", "Kraj");
+    }
+    else if (type == "Przelew na telefon przychodz. zew.")
+    {
+        if (descriptionFull.find("nadawcy") != std::string::npos)
+        {
+            return getSubstring(descriptionFull, "Nazwa nadawcy :", "Tytuł :");
+        }
+        else if (descriptionFull.find("OD") != std::string::npos)
+        {
+            return getSubstring(descriptionFull, "Nazwa odbiorcy :", "OD:");
+        }
+        else
+        {
+            return getSubstring(descriptionFull, "Nazwa odbiorcy :", "Tytuł :");
+        }
+    }
+    else if (type == "Przelew na telefon przychodz. wew.")
+    {
+        if (descriptionFull.find("odbiorcy :") != std::string::npos)
+        {
+            return getSubstring(descriptionFull, "Nazwa odbiorcy :", "Tytuł :");
+        }
+        else
+        {
+            return getSubstring(descriptionFull, "Nazwa nadawcy :", "Adres");
+        }
+    }
+    else if (type == "Przelew na konto")
+    {
+        return getSubstring(descriptionFull, "Nazwa nadawcy :", "Adres nadawcy :");
+    }
+    else if (type == "Przelew z karty")
+    {
+        return getSubstring(descriptionFull, "Adres :", "Miasto :");
+    }
+    else if (type == "Opłata za użytkowanie karty")
+    {
+        return type;
+    }
+    else if (type == "Płatność web - kod mobilny")
+    {
+        return getSubstring(descriptionFull, "Adres :", "Operacja");
+    }
+    else if (type == "Przelew z rachunku")
+    {
+        return getSubstring(descriptionFull, "Nazwa odbiorcy :", "Tytuł :");
+    }
+    else
+    {
+        throw std::runtime_error(std::string("Wrong description for " + descriptionFull));
+    }
+}
+
 XMLElement *getFirstOperationTag(XMLDocument &xmlDocument)
 {
     XMLElement *accountHistory = xmlDocument.FirstChildElement("account-history");
@@ -130,40 +214,6 @@ XMLElement *getFirstOperationTag(XMLDocument &xmlDocument)
     XMLElement *operation = operations->FirstChildElement("operation");
     return operation;
 }
-
-// std::unique_ptr<Operation> getOperationObject(const char *path, int index = 0)
-// {
-//     XMLDocument xmlDocument;
-//     XMLError fileLoadResult = xmlDocument.LoadFile(path);
-
-//     if (fileLoadResult != XML_SUCCESS)
-//     {
-//         throw std::runtime_error("Failed to load file");
-//     }
-
-//     int currentIndex = 0;
-
-//     XMLElement *operationTag = getFirstOperationTag(xmlDocument);
-//     while (operationTag && currentIndex < index)
-//     {
-//         operationTag = operationTag->NextSiblingElement("operation");
-//         ++currentIndex;
-//     };
-
-//     if (!operationTag)
-//         throw std::runtime_error("Operation not found");
-
-//     std::string execDate = operationTag->FirstChildElement("exec-date")->GetText();
-//     std::string type = "placeholder"; /*operationTag->FirstChildElement("type")->GetText();*/
-//     std::string description = operationTag->FirstChildElement("description")->GetText();
-//     std::string amount = operationTag->FirstChildElement("amount")->GetText();
-//     std::string endingBalance = operationTag->FirstChildElement("ending-balance")->GetText();
-
-//     Date date = parseDate(execDate);
-//     std::string address = extractAddress(description);
-
-//     return std::make_unique<Operation>(date, type, address, std::stod(amount), std::stod(endingBalance));
-// }
 
 std::string getOperationChild(XMLElement *operationTag, const char *childName)
 {
@@ -189,15 +239,15 @@ std::vector<Operation> getAllOperations(const char *path)
     while (operationTag != nullptr)
     {
         std::string execDate = getOperationChild(operationTag, "exec-date");
-        std::string type = "placeholder";
+        std::string type = getOperationChild(operationTag, "type");
         std::string description = getOperationChild(operationTag, "description");
         std::string amount = getOperationChild(operationTag, "amount");
         std::string endingBalance = getOperationChild(operationTag, "ending-balance");
 
         Date date = parseDate(execDate);
-        std::string address = extractAddress(description);
+        std::string descriptionCrucialData = extractCrucialData(description, type);
 
-        operations.emplace_back(date, type, address, std::stod(amount), std::stod(endingBalance));
+        operations.emplace_back(date, type, descriptionCrucialData, std::stod(amount), std::stod(endingBalance));
         operationTag = operationTag->NextSiblingElement("operation");
     }
 
