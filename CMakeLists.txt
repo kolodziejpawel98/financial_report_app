@@ -17,6 +17,8 @@ set(PROJECT_SOURCES
         mainwindow.cpp
         mainwindow.h
         mainwindow.ui
+        xml_cpp_training/external/tinyxml2-master/tinyxml2.cpp
+
 )
 
 if(${QT_VERSION_MAJOR} GREATER_EQUAL 6)
@@ -74,3 +76,7 @@ find_package(Qt${QT_VERSION_MAJOR} REQUIRED COMPONENTS Widgets Charts)
 
 target_link_libraries(financial_report_app PRIVATE Qt${QT_VERSION_MAJOR}::Widgets Qt${QT_VERSION_MAJOR}::Charts)
 
+include_directories(xml_cpp_training/external/tinyxml2-master)
+target_include_directories(financial_report_app PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/json-develop/include
+)

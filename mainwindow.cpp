@@ -1,5 +1,6 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
+#include "xml/xmlParser.hpp"
 
 QT_CHARTS_USE_NAMESPACE
 std::ostream &operator<<(std::ostream &os, const QPoint &point)
@@ -11,6 +12,13 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    allExpensesLabelsHeadings = {ui->groceriesHeading,
+                                 ui->nonGroceriesHeading,
+                                 ui->citySpendingsHeading,
+                                 ui->transportationHeading,
+                                 ui->regularPaymentsHeading,
+                                 ui->photographyHeading,
+                                 ui->otherSpendingsHeading};
     allExpensesLabelsContainers = {ui->groceriesLabelsContainer,
                                    ui->nonGroceriesLabelsContainer,
                                    ui->citySpendingsLabelsContainer,
@@ -19,13 +27,6 @@ MainWindow::MainWindow(QWidget *parent)
                                    ui->photographyLabelsContainer,
                                    ui->otherSpendingsLabelsContainer};
 
-    allExpensesLabelsHeadings = {ui->groceriesHeading,
-                                 ui->nonGroceriesHeading,
-                                 ui->citySpendingsHeading,
-                                 ui->transportationHeading,
-                                 ui->regularPaymentsHeading,
-                                 ui->photographyHeading,
-                                 ui->otherSpendingsHeading};
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
     // for (auto &expenseContainer : allExpensesLabelsContainers)
     // {
@@ -39,6 +40,10 @@ MainWindow::MainWindow(QWidget *parent)
         {"12.00 PLN"},
         {"8.00 PLN", "11.99 PLN", "14.50 PLN", "18.20 PLN"},
         {"299.99 PLN", "199.00 PLN", "150.00 PLN"}};
+
+    std::vector<Operation> operations;
+    const char *path = "/home/pablo/Desktop/financial_report_app/operations.xml";
+    operations = getAllOperations(path);
 
     QPoint p0{290, 110};
     QPoint p1 = drawExpensesLabels(ui->groceriesLabelsContainer, ui->groceriesHeading, 16, expenseContainers[0], p0);
@@ -62,7 +67,8 @@ QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsCo
 
     for (int i = 0; i < prices.size(); ++i)
     {
-        QLabel *label = new QLabel(QString::fromStdString(prices[i]), labelsContainer);
+        // QLabel *label = new QLabel(QString::fromStdString(prices[i]), labelsContainer);
+        QLabel *label = new QLabel("xd", labelsContainer);
         label->setStyleSheet("color: black; font-size: 12px;");
         label->adjustSize();
         label->setCursor(Qt::PointingHandCursor);

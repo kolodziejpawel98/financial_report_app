@@ -440,7 +440,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>400</y>
+        <y>410</y>
         <width>871</width>
         <height>21</height>
        </rect>
@@ -450,7 +450,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>400</y>
+        <y>410</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -473,7 +473,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>460</y>
+        <y>490</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -496,7 +496,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>480</y>
+        <y>510</y>
         <width>721</width>
         <height>61</height>
        </rect>
@@ -506,7 +506,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>430</y>
+        <y>450</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -529,7 +529,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>430</y>
+        <y>450</y>
         <width>871</width>
         <height>21</height>
        </rect>
@@ -572,7 +572,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>560</y>
+        <y>580</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -595,7 +595,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>580</y>
+        <y>610</y>
         <width>191</width>
         <height>61</height>
        </rect>

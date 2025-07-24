@@ -2,11 +2,12 @@
 #include <string>
 #include <stdexcept>
 #include <iostream>
-#include "external/tinyxml2-master/tinyxml2.h"
 #include <sstream>
 #include <vector>
 #include <memory>
 #include <unordered_map>
+#include "tinyxml2.h"
+#include <nlohmann/json.hpp>
 
 using namespace tinyxml2;
 namespace tinyxml2
@@ -99,19 +100,19 @@ std::unordered_map<std::string, int> cardTransactionCategories = {
     {"TOTU", 5},
     {"RossmannRun", 6}};
 
-// 1 - jedzenie na miescie
-// 2 - zakupy niespozywcze
-// 3 - zakupy spozywcze
-// 4 - transport
-// 5 - opłaty stałe
-// 6 - inne
-// 7 - fotografia
-// 8 - do dodania przez uzytkownika
-// -1 - error, nie znaleziono
-// 999 - wpływ na konto
-// todo: dodac kategorie do wpływów
-//  ignorować opłate za karte:   Category: Opłata za użytkowanie karty
-// dynamiczne dodawanie kategorii - trzeba zapisywac to wsyztsko do jsona!
+// // 1 - jedzenie na miescie
+// // 2 - zakupy niespozywcze
+// // 3 - zakupy spozywcze
+// // 4 - transport
+// // 5 - opłaty stałe
+// // 6 - inne
+// // 7 - fotografia
+// // 8 - do dodania przez uzytkownika
+// // -1 - error, nie znaleziono
+// // 999 - wpływ na konto
+// // todo: dodac kategorie do wpływów
+// //  ignorować opłate za karte:   Category: Opłata za użytkowanie karty
+// // dynamiczne dodawanie kategorii - trzeba zapisywac to wsyztsko do jsona!
 
 struct Date
 {
