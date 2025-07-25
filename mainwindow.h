@@ -13,6 +13,7 @@
 #include <QGraphicsDropShadowEffect>
 #include <QLabel>
 #include <iostream>
+#include "xml/xmlParser.hpp"
 
 QT_BEGIN_NAMESPACE
 namespace Ui
@@ -31,7 +32,8 @@ public:
 
 private slots:
     void loadXmlButtonClicked();
-    QPoint drawExpensesLabels(QWidget *, QLabel *, int, const std::vector<std::string> &, QPoint);
+    QPoint drawExpensesLabels(QWidget *, QLabel *, int, const std::vector<Operation> &, QPoint);
+    void loadXmlData();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -42,5 +44,6 @@ private:
     QGridLayout *griLayout;
     std::vector<QWidget *> allExpensesLabelsContainers;
     std::vector<QLabel *> allExpensesLabelsHeadings;
+    QString xmlFilePath = "";
 };
 #endif // MAINWINDOW_H

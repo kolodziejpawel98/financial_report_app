@@ -30,7 +30,7 @@
      <string notr="true">background: #DDDDDD</string>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="pageExpenses">
      <widget class="QWidget" name="sidebar_2" native="true">
