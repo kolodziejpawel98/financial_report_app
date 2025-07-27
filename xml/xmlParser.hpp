@@ -7,6 +7,19 @@
 
 using namespace tinyxml2;
 
+#pragma once
+
+const int EATING_OUT = 1;
+const int NON_GROCERY_SHOPPING = 2;
+const int GROCERY_SHOPPING = 3;
+const int TRANSPORT = 4;
+const int REGULAR_EXPENSES = 5;
+const int OTHERS = 6;
+const int PHOTOGRAPHY = 7;
+const int SER_DEFINED = 8;
+const int ERROR = -1;
+const int INCOMING_MONEY = 999;
+
 struct Date
 {
     int day;
@@ -35,6 +48,7 @@ public:
 extern std::unordered_map<std::string, int> cardTransactionCategories;
 
 Date parseDate(const std::string &str);
+double stringToDouble(const std::string &str);
 std::string extractAddress(const std::string &descriptionFull);
 std::string getSubstring(const std::string &descriptionFull, std::string startToken, std::string endToken);
 std::string extractCrucialData(const std::string &descriptionFull, const std::string &type);

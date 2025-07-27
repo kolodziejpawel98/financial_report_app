@@ -210,19 +210,24 @@ std::vector<Operation> getAllOperations(const char *path)
     if (doc.LoadFile(path) != XML_SUCCESS)
         throw std::runtime_error("Failed to load file");
 
-    for (XMLElement *op = getFirstOperationTag(doc); op; op = op->NextSiblingElement("operation"))
+    XMLElement *op = getFirstOperationTag(doc);
+    while (op != nullptr)
     {
         std::string dateStr = getOperationChild(op, "exec-date");
         std::string type = getOperationChild(op, "type");
         std::string desc = getOperationChild(op, "description");
         std::string amountStr = getOperationChild(op, "amount");
+        std::cout << "amountStr = " << amountStr << std::endl;
         std::string balanceStr = getOperationChild(op, "ending-balance");
 
         Date date = parseDate(dateStr);
         std::string cleanDesc = extractCrucialData(desc, type);
 
         result.emplace_back(date, type, cleanDesc, std::stod(amountStr), std::stod(balanceStr));
+        std::cout << "std::stod(amountStr) = " << std::stod(amountStr) << std::endl;
+        op = op->NextSiblingElement("operation");
     }
+    std::cout << "result[1]. = " << result[1].amount << std::endl;
 
     return result;
 }

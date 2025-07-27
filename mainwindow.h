@@ -32,7 +32,7 @@ public:
 
 private slots:
     void loadXmlButtonClicked();
-    QPoint drawExpensesLabels(QWidget *, QLabel *, int, const std::vector<Operation> &, QPoint);
+    QPoint drawExpensesLabels(QWidget *, QLabel *, const std::vector<Operation> &, int, QPoint);
     void loadXmlData();
 
 protected:

@@ -14,8 +14,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
 }
 
-// QPoint p1 = drawExpensesLabels(ui->groceriesLabelsContainer, ui->groceriesHeading, 16, expenseContainers[0], p0);
-QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsContainerHeader, int numOfExpenses, const std::vector<Operation> &operations, QPoint movingPoints)
+QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsContainerHeader, const std::vector<Operation> &operations, int categoryTagToPrint, QPoint movingPoints)
 {
     labelsContainerHeader->move(movingPoints.x(), movingPoints.y() + 20);
     labelsContainer->move(movingPoints.x(), movingPoints.y() + 40);
@@ -24,9 +23,9 @@ QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsCo
     int spacingBetweenLabels = 5;
     int maxWidthOfLabelsContainer = labelsContainer->width();
     int i = 0;
-    for (auto &operation : operations) //{"12.99 PLN", "25.50 PLN", "33.00 PLN"},
+    for (auto &operation : operations)
     {
-        if (operation.categoryTag == 3)
+        if (operation.categoryTag == categoryTagToPrint)
         {
             QLabel *label = new QLabel(QString::number(operation.amount, 'f', 2), labelsContainer);
             label->setStyleSheet("color: black; font-size: 10px;");
@@ -36,8 +35,6 @@ QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsCo
             expenseLabels.push_back(label);
 
             int predictedWidthOfLabel = xCoordinateOfLabelInContainer + label->width();
-            if (i < numOfExpenses - 1)
-                predictedWidthOfLabel += spacingBetweenLabels + 10;
 
             if (predictedWidthOfLabel > maxWidthOfLabelsContainer)
             {
@@ -88,18 +85,6 @@ void MainWindow::loadXmlData()
                                    ui->otherSpendingsLabelsContainer};
 
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
-    // for (auto &expenseContainer : allExpensesLabelsContainers)
-    // {
-    //     drawExpensesLabels(expenseContainer);
-    // }
-    // std::vector<std::vector<std::string>> expenseContainers = {
-    //     {"12.99 PLN", "25.50 PLN", "33.00 PLN"},
-    //     {"199.99 PLN", "20.00 PLN"},
-    //     {"5.50 PLN", "9.99 PLN", "49.90 PLN", "15.00 PLN"},
-    //     {"100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN", "100.00 PLN", "200.00 PLN", "300.00 PLN", "150.50 PLN", "50.25 PLN"},
-    //     {"12.00 PLN"},
-    //     {"8.00 PLN", "11.99 PLN", "14.50 PLN", "18.20 PLN"},
-    //     {"299.99 PLN", "199.00 PLN", "150.00 PLN"}};
 
     std::vector<Operation> operations;
     std::string pathStr = xmlFilePath.toStdString();
@@ -107,13 +92,13 @@ void MainWindow::loadXmlData()
     operations = getAllOperations(path);
 
     QPoint p0{290, 110};
-    QPoint p1 = drawExpensesLabels(ui->groceriesLabelsContainer, ui->groceriesHeading, 6, operations, p0);
-    // QPoint p2 = drawExpensesLabels(ui->nonGroceriesLabelsContainer, ui->nonGroceriesHeading, 32, expenseContainers[1], p1);
-    // QPoint p3 = drawExpensesLabels(ui->citySpendingsLabelsContainer, ui->citySpendingsHeading, 10, expenseContainers[2], p2);
-    // QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, 4, expenseContainers[3], p3);
-    // QPoint p5 = drawExpensesLabels(ui->regularPaymentsLabelsContainer, ui->regularPaymentsHeading, 12, expenseContainers[4], p4);
-    // QPoint p6 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, 9, expenseContainers[5], p5);
-    // QPoint p7 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, 33, expenseContainers[6], p6);
+    QPoint p1 = drawExpensesLabels(ui->groceriesLabelsContainer, ui->groceriesHeading, operations, EATING_OUT, p0);
+    QPoint p2 = drawExpensesLabels(ui->nonGroceriesLabelsContainer, ui->nonGroceriesHeading, operations, NON_GROCERY_SHOPPING, p1);
+    QPoint p3 = drawExpensesLabels(ui->citySpendingsLabelsContainer, ui->citySpendingsHeading, operations, GROCERY_SHOPPING, p2);
+    QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operations, TRANSPORT, p3);
+    QPoint p5 = drawExpensesLabels(ui->regularPaymentsLabelsContainer, ui->regularPaymentsHeading, operations, REGULAR_EXPENSES, p4);
+    QPoint p6 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operations, OTHERS, p5);
+    QPoint p7 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operations, PHOTOGRAPHY, p6);
 }
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
