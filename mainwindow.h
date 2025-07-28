@@ -46,4 +46,15 @@ private:
     std::vector<QLabel *> allExpensesLabelsHeadings;
     QString xmlFilePath = "";
 };
+
+class OperationLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    Operation operation;
+
+    OperationLabel(const Operation &op, QWidget *parent = nullptr)
+        : QLabel(parent), operation(op) {}
+};
+
 #endif // MAINWINDOW_H

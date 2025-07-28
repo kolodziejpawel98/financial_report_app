@@ -28,6 +28,11 @@ struct Date
 
     Date();
     Date(int day, int month, int year);
+    std::string getDate()
+    {
+        std::string date = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
+        return date;
+    }
 };
 
 class Operation
@@ -48,7 +53,6 @@ public:
 extern std::unordered_map<std::string, int> cardTransactionCategories;
 
 Date parseDate(const std::string &str);
-double stringToDouble(const std::string &str);
 std::string extractAddress(const std::string &descriptionFull);
 std::string getSubstring(const std::string &descriptionFull, std::string startToken, std::string endToken);
 std::string extractCrucialData(const std::string &descriptionFull, const std::string &type);

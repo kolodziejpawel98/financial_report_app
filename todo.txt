@@ -3,3 +3,5 @@ TODO list:
 - z jakiegoś powodu do klasy zapisywana jest cena w formacie XX.00
 - pobieranie sciezki automatycznie na czas developmentu 
 - zamienić numerki w liscie kategorii wydatków na ENUM,
+- rozdzielenie na miesiące,
+- pomieszane labelki w kategoriach (poprawić),

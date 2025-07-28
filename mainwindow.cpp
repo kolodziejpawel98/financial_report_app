@@ -27,8 +27,9 @@ QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsCo
     {
         if (operation.categoryTag == categoryTagToPrint)
         {
-            QLabel *label = new QLabel(QString::number(operation.amount, 'f', 2), labelsContainer);
-            label->setStyleSheet("color: black; font-size: 10px;");
+            OperationLabel *label = new OperationLabel(operation, labelsContainer);
+            label->setText(QString::number(operation.amount, 'f', 2));
+            label->setStyleSheet("color: black; font-size: 10px; font-family: Roboto; font-size: 10px; font-style: normal;");
             label->adjustSize();
             label->setCursor(Qt::PointingHandCursor);
             label->installEventFilter(this);
@@ -103,17 +104,20 @@ void MainWindow::loadXmlData()
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 {
-    QLabel *label = qobject_cast<QLabel *>(watched);
-    if (label && expenseLabels.contains(label))
+    OperationLabel *operationLabel = qobject_cast<OperationLabel *>(watched);
+    if (operationLabel && expenseLabels.contains(operationLabel))
     {
         if (event->type() == QEvent::Enter)
         {
-            label->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 10px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
-            QPoint posOfLabel = label->mapToGlobal(QPoint(0, 0));
+            const Operation &op = operationLabel->operation;
+            operationLabel->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 10px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
+            QPoint posOfLabel = operationLabel->mapToGlobal(QPoint(0, 0));
             posOfLabel = this->mapFromGlobal(posOfLabel);
             ui->expenseDescriptionBanner->setFixedSize(465, 43);
             ui->expenseDescriptionBanner->move(posOfLabel.x(), posOfLabel.y() - ui->expenseDescriptionBanner->height() - 5);
-            ui->expenseDescriptionBanner->setText("01/04/2025   spozywka   Lidl   -12.99PLN    <b>1400.99PLN</b>");
+            std::string descriptionBannerText = op.description + "     " + std::to_string(op.amount) + "     " + std::to_string(op.totalBalanceAfterOperation);
+            ui->expenseDescriptionBanner->setText(QString::fromStdString(descriptionBannerText));
+            // ui->expenseDescriptionBanner->setText("01/04/2025   spozywka   Lidl   -12.99PLN    <b>1400.99PLN</b>");
             ui->expenseDescriptionBanner->setVisible(true);
             ui->expenseDescriptionBanner->raise();
             ui->expenseDescriptionBanner->setStyleSheet("background: #DDDDDD; border-radius: 4px;");
@@ -125,7 +129,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         }
         else if (event->type() == QEvent::Leave)
         {
-            label->setStyleSheet("color: #000000; font-family: Roboto; font-size: 10px; font-style: normal;");
+            operationLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 10px; font-style: normal;");
             ui->expenseDescriptionBanner->setVisible(false);
         }
     }
