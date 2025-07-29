@@ -267,7 +267,7 @@ QPushButton:pressed {
 box-shadow: 0px 7px 11px 0px rgba(0, 0, 0, 0.25);</string>
       </property>
      </widget>
-     <widget class="QLabel" name="groceriesHeading">
+     <widget class="QLabel" name="groceryShoppingHeading">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -360,7 +360,7 @@ QPushButton:pressed {
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QWidget" name="groceriesLabelsContainer" native="true">
+     <widget class="QWidget" name="groceryShoppingLabelsContainer" native="true">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -370,7 +370,7 @@ QPushButton:pressed {
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="nonGroceriesHeading">
+     <widget class="QLabel" name="nonGroceryShoppingHeading">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -393,7 +393,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <string>Zakupy (inne)</string>
       </property>
      </widget>
-     <widget class="QWidget" name="nonGroceriesLabelsContainer" native="true">
+     <widget class="QWidget" name="nonGroceryShoppingLabelsContainer" native="true">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -403,7 +403,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="citySpendingsHeading">
+     <widget class="QLabel" name="eatingOutHeading">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -426,7 +426,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <string>Rzeczy na mieście</string>
       </property>
      </widget>
-     <widget class="QWidget" name="citySpendingsLabelsContainer" native="true">
+     <widget class="QWidget" name="eatingOutLabelsContainer" native="true">
       <property name="geometry">
        <rect>
         <x>290</x>
@@ -436,7 +436,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        </rect>
       </property>
      </widget>
-     <widget class="QWidget" name="regularPaymentsLabelsContainer" native="true">
+     <widget class="QWidget" name="regularExpensesLabelsContainer" native="true">
       <property name="geometry">
        <rect>
         <x>400</x>
@@ -446,7 +446,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        </rect>
       </property>
      </widget>
-     <widget class="QLabel" name="regularPaymentsHeading">
+     <widget class="QLabel" name="regularExpensesHeading">
       <property name="geometry">
        <rect>
         <x>290</x>

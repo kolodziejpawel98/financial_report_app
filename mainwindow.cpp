@@ -70,18 +70,19 @@ void MainWindow::loadXmlButtonClicked()
 
 void MainWindow::loadXmlData()
 {
-    allExpensesLabelsHeadings = {ui->groceriesHeading,
-                                 ui->nonGroceriesHeading,
-                                 ui->citySpendingsHeading,
+
+    allExpensesLabelsHeadings = {ui->eatingOutHeading,
+                                 ui->nonGroceryShoppingHeading,
+                                 ui->groceryShoppingHeading,
                                  ui->transportationHeading,
-                                 ui->regularPaymentsHeading,
+                                 ui->regularExpensesHeading,
                                  ui->photographyHeading,
                                  ui->otherSpendingsHeading};
-    allExpensesLabelsContainers = {ui->groceriesLabelsContainer,
-                                   ui->nonGroceriesLabelsContainer,
-                                   ui->citySpendingsLabelsContainer,
+    allExpensesLabelsContainers = {ui->eatingOutLabelsContainer,
+                                   ui->nonGroceryShoppingLabelsContainer,
+                                   ui->groceryShoppingLabelsContainer,
                                    ui->transportationLabelsContainer,
-                                   ui->regularPaymentsLabelsContainer,
+                                   ui->regularExpensesLabelsContainer,
                                    ui->photographyLabelsContainer,
                                    ui->otherSpendingsLabelsContainer};
 
@@ -92,14 +93,53 @@ void MainWindow::loadXmlData()
     const char *path = pathStr.c_str();
     operations = getAllOperations(path);
 
+    std::vector<Operation> operationsEatingOut;
+    std::vector<Operation> operationsNonGroceryShopping;
+    std::vector<Operation> operationsGroceryShopping;
+    std::vector<Operation> operationsTransport;
+    std::vector<Operation> operationsRegularExpenses;
+    std::vector<Operation> operationsPhotography;
+    std::vector<Operation> operationsOthers;
+    for (auto &operation : operations)
+    {
+        if (operation.categoryTag == EATING_OUT)
+        {
+            operationsEatingOut.emplace_back(operation);
+        }
+        else if (operation.categoryTag == NON_GROCERY_SHOPPING)
+        {
+            operationsNonGroceryShopping.emplace_back(operation);
+        }
+        else if (operation.categoryTag == GROCERY_SHOPPING)
+        {
+            operationsGroceryShopping.emplace_back(operation);
+        }
+        else if (operation.categoryTag == TRANSPORT)
+        {
+            operationsTransport.emplace_back(operation);
+        }
+        else if (operation.categoryTag == REGULAR_EXPENSES)
+        {
+            operationsRegularExpenses.emplace_back(operation);
+        }
+        else if (operation.categoryTag == PHOTOGRAPHY)
+        {
+            operationsPhotography.emplace_back(operation);
+        }
+        else if (operation.categoryTag == OTHERS)
+        {
+            operationsOthers.emplace_back(operation);
+        }
+    }
+
     QPoint p0{290, 110};
-    QPoint p1 = drawExpensesLabels(ui->groceriesLabelsContainer, ui->groceriesHeading, operations, EATING_OUT, p0);
-    QPoint p2 = drawExpensesLabels(ui->nonGroceriesLabelsContainer, ui->nonGroceriesHeading, operations, NON_GROCERY_SHOPPING, p1);
-    QPoint p3 = drawExpensesLabels(ui->citySpendingsLabelsContainer, ui->citySpendingsHeading, operations, GROCERY_SHOPPING, p2);
-    QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operations, TRANSPORT, p3);
-    QPoint p5 = drawExpensesLabels(ui->regularPaymentsLabelsContainer, ui->regularPaymentsHeading, operations, REGULAR_EXPENSES, p4);
-    QPoint p6 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operations, OTHERS, p5);
-    QPoint p7 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operations, PHOTOGRAPHY, p6);
+    QPoint p1 = drawExpensesLabels(ui->eatingOutLabelsContainer, ui->eatingOutHeading, operationsEatingOut, EATING_OUT, p0);
+    QPoint p2 = drawExpensesLabels(ui->nonGroceryShoppingLabelsContainer, ui->nonGroceryShoppingHeading, operationsNonGroceryShopping, NON_GROCERY_SHOPPING, p1);
+    QPoint p3 = drawExpensesLabels(ui->groceryShoppingLabelsContainer, ui->groceryShoppingHeading, operationsGroceryShopping, GROCERY_SHOPPING, p2);
+    QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operationsTransport, TRANSPORT, p3);
+    QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
+    QPoint p6 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsOthers, OTHERS, p5);
+    QPoint p7 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsPhotography, PHOTOGRAPHY, p6);
 }
 
 bool MainWindow::eventFilter(QObject *watched, QEvent *event)
