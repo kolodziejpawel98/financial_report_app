@@ -5,3 +5,4 @@ TODO list:
 - zamienić numerki w liscie kategorii wydatków na ENUM,
 - rozdzielenie na miesiące,
 - pomieszane labelki w kategoriach (poprawić),
+- w printowaniu daty dodać zeby nie bylo 1/7/2025 tylko 01/07/2025

@@ -28,7 +28,7 @@ struct Date
 
     Date();
     Date(int day, int month, int year);
-    std::string getDate()
+    std::string getDate() const
     {
         std::string date = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
         return date;

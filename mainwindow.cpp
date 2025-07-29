@@ -151,11 +151,32 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         {
             const Operation &op = operationLabel->operation;
             operationLabel->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 10px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
-            QPoint posOfLabel = operationLabel->mapToGlobal(QPoint(0, 0));
-            posOfLabel = this->mapFromGlobal(posOfLabel);
-            ui->expenseDescriptionBanner->setFixedSize(465, 43);
-            ui->expenseDescriptionBanner->move(posOfLabel.x(), posOfLabel.y() - ui->expenseDescriptionBanner->height() - 5);
-            std::string descriptionBannerText = op.description + "     " + std::to_string(op.amount) + "     " + std::to_string(op.totalBalanceAfterOperation);
+            // QPoint posOfLabel = operationLabel->mapToGlobal(QPoint(0, 0));
+            // posOfLabel = this->mapFromGlobal(posOfLabel);
+            ui->expenseDescriptionBanner->setFixedSize(665, 43);
+            // ui->expenseDescriptionBanner->move(posOfLabel.x(), posOfLabel.y() - ui->expenseDescriptionBanner->height() - 5);
+
+            QPoint labelGlobalPos = operationLabel->mapToGlobal(QPoint(0, 0));
+            QPoint labelPos = this->mapFromGlobal(labelGlobalPos);
+
+            int bannerWidth = ui->expenseDescriptionBanner->width();
+            int bannerHeight = ui->expenseDescriptionBanner->height();
+            int screenMiddleX = (290 + this->width()) / 2;
+
+            if (labelPos.x() > screenMiddleX)
+            {
+                int x = labelPos.x() - bannerWidth + operationLabel->width();
+                int y = labelPos.y() - bannerHeight - 5;
+                ui->expenseDescriptionBanner->move(x, y);
+            }
+            else
+            {
+                int x = labelPos.x();
+                int y = labelPos.y() - bannerHeight - 5;
+                ui->expenseDescriptionBanner->move(x, y);
+            }
+
+            std::string descriptionBannerText = op.date.getDate() + "     " + op.description + "     " + std::to_string(op.amount) + "     " + std::to_string(op.totalBalanceAfterOperation);
             ui->expenseDescriptionBanner->setText(QString::fromStdString(descriptionBannerText));
             // ui->expenseDescriptionBanner->setText("01/04/2025   spozywka   Lidl   -12.99PLN    <b>1400.99PLN</b>");
             ui->expenseDescriptionBanner->setVisible(true);
