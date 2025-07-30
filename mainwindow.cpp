@@ -29,7 +29,7 @@ QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsCo
         {
             OperationLabel *label = new OperationLabel(operation, labelsContainer);
             label->setText(QString::number(operation.amount, 'f', 2));
-            label->setStyleSheet("color: black; font-size: 10px; font-family: Roboto; font-size: 10px; font-style: normal;");
+            label->setStyleSheet("color: black; font-size: 12px; font-family: Roboto; font-size: 12px; font-style: normal;");
             label->adjustSize();
             label->setCursor(Qt::PointingHandCursor);
             label->installEventFilter(this);
@@ -150,10 +150,15 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         if (event->type() == QEvent::Enter)
         {
             const Operation &op = operationLabel->operation;
-            operationLabel->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 10px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
+            operationLabel->setStyleSheet("color: #6750A4; font-family: Roboto; font-size: 12px; font-style: normal; font-weight: bold; border-radius: 5px; background: rgba(187, 134, 252, 0.20);");
             // QPoint posOfLabel = operationLabel->mapToGlobal(QPoint(0, 0));
+            int operationLabelWidth = getStringWidth((operationLabel->text()).toStdString(), operationLabel->font());
+            operationLabel->setFixedWidth(operationLabelWidth);
+
+            // operationLabel->raise();
+
             // posOfLabel = this->mapFromGlobal(posOfLabel);
-            ui->expenseDescriptionBanner->setFixedSize(665, 43);
+            // ui->expenseDescriptionBanner->setFixedSize(665, 43);
             // ui->expenseDescriptionBanner->move(posOfLabel.x(), posOfLabel.y() - ui->expenseDescriptionBanner->height() - 5);
 
             QPoint labelGlobalPos = operationLabel->mapToGlobal(QPoint(0, 0));
@@ -165,7 +170,8 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
             if (labelPos.x() > screenMiddleX)
             {
-                int x = labelPos.x() - bannerWidth + operationLabel->width();
+                int x = labelPos.x() - 500;
+                std::cout << "x = " << x << std::endl;
                 int y = labelPos.y() - bannerHeight - 5;
                 ui->expenseDescriptionBanner->move(x, y);
             }
@@ -178,10 +184,12 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
             std::string descriptionBannerText = op.date.getDate() + "     " + op.description + "     " + std::to_string(op.amount) + "     " + std::to_string(op.totalBalanceAfterOperation);
             ui->expenseDescriptionBanner->setText(QString::fromStdString(descriptionBannerText));
+            ui->expenseDescriptionBanner->setFixedSize(getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) + 30, 43);
+
             // ui->expenseDescriptionBanner->setText("01/04/2025   spozywka   Lidl   -12.99PLN    <b>1400.99PLN</b>");
             ui->expenseDescriptionBanner->setVisible(true);
             ui->expenseDescriptionBanner->raise();
-            ui->expenseDescriptionBanner->setStyleSheet("background: #DDDDDD; border-radius: 4px;");
+            ui->expenseDescriptionBanner->setStyleSheet("background: #DDDDDD; border-radius: 4px; padding-right: 15px; padding-left: 15px;");
             auto *shadow = new QGraphicsDropShadowEffect(this);
             shadow->setBlurRadius(10);
             shadow->setOffset(0, 3);
@@ -190,11 +198,20 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
         }
         else if (event->type() == QEvent::Leave)
         {
-            operationLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 10px; font-style: normal;");
+            operationLabel->setStyleSheet("color: #000000; font-family: Roboto; font-size: 12px; font-style: normal;");
+            // ui->expenseDescriptionBanner->lower();
             ui->expenseDescriptionBanner->setVisible(false);
+            // operationLabel->lower();
         }
     }
     return QMainWindow::eventFilter(watched, event);
+}
+
+int MainWindow::getStringWidth(const std::string &text, const QFont &font)
+{
+    QString qtext = QString::fromStdString(text);
+    QFontMetrics metrics(font);
+    return metrics.horizontalAdvance(qtext);
 }
 
 MainWindow::~MainWindow()

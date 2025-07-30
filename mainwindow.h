@@ -34,6 +34,7 @@ private slots:
     void loadXmlButtonClicked();
     QPoint drawExpensesLabels(QWidget *, QLabel *, const std::vector<Operation> &, int, QPoint);
     void loadXmlData();
+    int getStringWidth(const std::string &text, const QFont &font);
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
