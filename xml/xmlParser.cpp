@@ -217,17 +217,22 @@ std::vector<Operation> getAllOperations(const char *path)
         std::string type = getOperationChild(op, "type");
         std::string desc = getOperationChild(op, "description");
         std::string amountStr = getOperationChild(op, "amount");
-        // std::cout << "amountStr = " << amountStr << std::endl;
+        std::cout << "amountStr = " << amountStr << std::endl;
         std::string balanceStr = getOperationChild(op, "ending-balance");
 
         Date date = parseDate(dateStr);
         std::string cleanDesc = extractCrucialData(desc, type);
 
+        // result.emplace_back(date, type, cleanDesc, -23.23, std::stod(balanceStr));
         result.emplace_back(date, type, cleanDesc, std::stod(amountStr), std::stod(balanceStr));
-        // std::cout << "std::stod(amountStr) = " << std::stod(amountStr) << std::endl;
+
+        // double xd = std::stod("-44.44");
+        // std::cout << std::fixed << std::setprecision(2)
+        //           << "std::stod(amountStr) = " << xd << std::endl;
+
         op = op->NextSiblingElement("operation");
     }
-    // std::cout << "result[1]. = " << result[1].amount << std::endl;
+    std::cout << "result[1]. = " << result[1].amount << std::endl;
 
     return result;
 }

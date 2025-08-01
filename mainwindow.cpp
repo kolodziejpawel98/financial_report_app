@@ -29,6 +29,7 @@ QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsCo
         {
             OperationLabel *label = new OperationLabel(operation, labelsContainer);
             label->setText(QString::number(operation.amount, 'f', 2));
+
             label->setStyleSheet("color: black; font-size: 12px; font-family: Roboto; font-size: 12px; font-style: normal;");
             label->adjustSize();
             label->setCursor(Qt::PointingHandCursor);
@@ -161,6 +162,19 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             // ui->expenseDescriptionBanner->setFixedSize(665, 43);
             // ui->expenseDescriptionBanner->move(posOfLabel.x(), posOfLabel.y() - ui->expenseDescriptionBanner->height() - 5);
 
+            std::string descriptionBannerText;
+            std::string spaceBetweenInformations = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+            if (op.amount > 0)
+            {
+                descriptionBannerText = op.date.getDate() + spaceBetweenInformations + "<b>" + op.description + "</b>" + spaceBetweenInformations + "<span style='color:green;'>" + QString::number(op.amount, 'f', 2).toStdString() + "</span>" + spaceBetweenInformations + std::to_string(op.totalBalanceAfterOperation);
+            }
+            else
+            {
+                descriptionBannerText = op.date.getDate() + spaceBetweenInformations + "<b>" + op.description + "</b>" + spaceBetweenInformations + "<span style='color:red;'>" + QString::number(op.amount, 'f', 2).toStdString() + "</span>" + spaceBetweenInformations + std::to_string(op.totalBalanceAfterOperation);
+            }
+            ui->expenseDescriptionBanner->setText(QString::fromStdString(descriptionBannerText));
+            ui->expenseDescriptionBanner->setFixedSize(getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) - 700, 43);
+
             QPoint labelGlobalPos = operationLabel->mapToGlobal(QPoint(0, 0));
             QPoint labelPos = this->mapFromGlobal(labelGlobalPos);
 
@@ -170,23 +184,17 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
             if (labelPos.x() > screenMiddleX)
             {
-                int x = labelPos.x() - 500;
-                std::cout << "x = " << x << std::endl;
+                int x = labelPos.x() - getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) + 730;
                 int y = labelPos.y() - bannerHeight - 5;
                 ui->expenseDescriptionBanner->move(x, y);
             }
             else
             {
-                int x = labelPos.x();
+                int x = labelPos.x() - 30;
                 int y = labelPos.y() - bannerHeight - 5;
                 ui->expenseDescriptionBanner->move(x, y);
             }
 
-            std::string descriptionBannerText = op.date.getDate() + "     " + op.description + "     " + std::to_string(op.amount) + "     " + std::to_string(op.totalBalanceAfterOperation);
-            ui->expenseDescriptionBanner->setText(QString::fromStdString(descriptionBannerText));
-            ui->expenseDescriptionBanner->setFixedSize(getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) + 30, 43);
-
-            // ui->expenseDescriptionBanner->setText("01/04/2025   spozywka   Lidl   -12.99PLN    <b>1400.99PLN</b>");
             ui->expenseDescriptionBanner->setVisible(true);
             ui->expenseDescriptionBanner->raise();
             ui->expenseDescriptionBanner->setStyleSheet("background: #DDDDDD; border-radius: 4px; padding-right: 15px; padding-left: 15px;");

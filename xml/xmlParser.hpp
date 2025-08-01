@@ -30,7 +30,9 @@ struct Date
     Date(int day, int month, int year);
     std::string getDate() const
     {
-        std::string date = std::to_string(day) + "/" + std::to_string(month) + "/" + std::to_string(year);
+        std::string textFormatDay = (day < 10) ? "0" + std::to_string(day) : std::to_string(day);
+        std::string textFormatMonth = (month < 10) ? "0" + std::to_string(month) : std::to_string(month);
+        std::string date = textFormatDay + "/" + textFormatMonth + "/" + std::to_string(year);
         return date;
     }
 };
