@@ -12,6 +12,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
+    saveMapToJson(cardTransactionCategories, "../categoriesTags.json");
 }
 
 QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer, QLabel *labelsContainerHeader, const std::vector<Operation> &operations, int categoryTagToPrint, QPoint movingPoints)
@@ -166,14 +167,14 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
             std::string spaceBetweenInformations = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
             if (op.amount > 0)
             {
-                descriptionBannerText = op.date.getDate() + spaceBetweenInformations + "<b>" + op.description + "</b>" + spaceBetweenInformations + "<span style='color:green;'>" + QString::number(op.amount, 'f', 2).toStdString() + "</span>" + spaceBetweenInformations + std::to_string(op.totalBalanceAfterOperation);
+                descriptionBannerText = op.date.getDate() + spaceBetweenInformations + "<b>" + op.description + "</b>" + spaceBetweenInformations + "<span style='color:green;'>" + QString::number(op.amount, 'f', 2).toStdString() + "</span>" + spaceBetweenInformations + QString::number(op.totalBalanceAfterOperation, 'f', 2).toStdString() + " PLN";
             }
             else
             {
-                descriptionBannerText = op.date.getDate() + spaceBetweenInformations + "<b>" + op.description + "</b>" + spaceBetweenInformations + "<span style='color:red;'>" + QString::number(op.amount, 'f', 2).toStdString() + "</span>" + spaceBetweenInformations + std::to_string(op.totalBalanceAfterOperation);
+                descriptionBannerText = op.date.getDate() + spaceBetweenInformations + "<b>" + op.description + "</b>" + spaceBetweenInformations + "<span style='color:red;'>" + QString::number(op.amount, 'f', 2).toStdString() + "</span>" + spaceBetweenInformations + QString::number(op.totalBalanceAfterOperation, 'f', 2).toStdString() + " PLN";
             }
             ui->expenseDescriptionBanner->setText(QString::fromStdString(descriptionBannerText));
-            ui->expenseDescriptionBanner->setFixedSize(getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) - 700, 43);
+            ui->expenseDescriptionBanner->setFixedSize(getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) - 600, 43);
 
             QPoint labelGlobalPos = operationLabel->mapToGlobal(QPoint(0, 0));
             QPoint labelPos = this->mapFromGlobal(labelGlobalPos);
@@ -184,7 +185,7 @@ bool MainWindow::eventFilter(QObject *watched, QEvent *event)
 
             if (labelPos.x() > screenMiddleX)
             {
-                int x = labelPos.x() - getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) + 730;
+                int x = labelPos.x() - getStringWidth(descriptionBannerText, ui->expenseDescriptionBanner->font()) + 630;
                 int y = labelPos.y() - bannerHeight - 5;
                 ui->expenseDescriptionBanner->move(x, y);
             }

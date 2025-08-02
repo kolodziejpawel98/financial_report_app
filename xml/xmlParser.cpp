@@ -1,8 +1,4 @@
 #include "xmlParser.hpp"
-#include <iostream>
-#include <sstream>
-#include <stdexcept>
-#include <nlohmann/json.hpp>
 
 using namespace tinyxml2;
 
@@ -217,22 +213,75 @@ std::vector<Operation> getAllOperations(const char *path)
         std::string type = getOperationChild(op, "type");
         std::string desc = getOperationChild(op, "description");
         std::string amountStr = getOperationChild(op, "amount");
-        std::cout << "amountStr = " << amountStr << std::endl;
         std::string balanceStr = getOperationChild(op, "ending-balance");
 
         Date date = parseDate(dateStr);
         std::string cleanDesc = extractCrucialData(desc, type);
 
-        // result.emplace_back(date, type, cleanDesc, -23.23, std::stod(balanceStr));
-        result.emplace_back(date, type, cleanDesc, std::stod(amountStr), std::stod(balanceStr));
-
-        // double xd = std::stod("-44.44");
-        // std::cout << std::fixed << std::setprecision(2)
-        //           << "std::stod(amountStr) = " << xd << std::endl;
-
+        result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
         op = op->NextSiblingElement("operation");
     }
-    std::cout << "result[1]. = " << result[1].amount << std::endl;
 
     return result;
+}
+
+double myStringToDouble(const std::string &str)
+{
+    double result = 0.0;
+    bool negative = false;
+    size_t i = 0;
+
+    if (str[i] == '-')
+    {
+        negative = true;
+        ++i;
+    }
+
+    while (i < str.length() && isdigit(str[i]))
+    {
+        result = result * 10 + (str[i] - '0');
+        ++i;
+    }
+
+    if (i < str.length() && str[i] == '.')
+    {
+        ++i;
+        double fraction = 0.0;
+        double divider = 10.0;
+
+        while (i < str.length() && isdigit(str[i]))
+        {
+            fraction += (str[i] - '0') / divider;
+            divider *= 10.0;
+            ++i;
+        }
+
+        result += fraction;
+    }
+
+    return negative ? -result : result;
+}
+
+std::string cleanBalanceString(const std::string &input)
+{
+    if (!input.empty() && input[0] == '+')
+    {
+        return input.substr(1);
+    }
+    return input;
+}
+
+void saveMapToJson(const std::unordered_map<std::string, int> &map, const std::string &filename)
+{
+    nlohmann::json j(map);
+    std::ofstream out(filename);
+    out << j.dump(4);
+}
+
+std::unordered_map<std::string, int> loadMapFromJson(const std::string &filename)
+{
+    std::ifstream in(filename);
+    nlohmann::json j;
+    in >> j;
+    return j.get<std::unordered_map<std::string, int>>();
 }

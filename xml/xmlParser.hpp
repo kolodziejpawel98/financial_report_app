@@ -1,9 +1,14 @@
-#pragma once
+// #pragma once
 
 #include <string>
 #include <vector>
 #include <unordered_map>
 #include "tinyxml2.h"
+#include <iostream>
+#include <sstream>
+#include <stdexcept>
+#include <nlohmann/json.hpp>
+#include <fstream>
 
 using namespace tinyxml2;
 
@@ -62,3 +67,13 @@ std::string extractCrucialData(const std::string &descriptionFull, const std::st
 XMLElement *getFirstOperationTag(XMLDocument &xmlDocument);
 std::string getOperationChild(XMLElement *operationTag, const char *childName);
 std::vector<Operation> getAllOperations(const char *path);
+double myStringToDouble(const std::string &str);
+std::string cleanBalanceString(const std::string &input);
+
+void saveMapToJson(const std::unordered_map<std::string, int> &map, const std::string &filename);
+
+std::unordered_map<std::string, int> loadMapFromJson(const std::string &filename);
+
+// saveMapToJson(cardTransactionCategories, "categories.json");
+
+// auto loaded = loadMapFromJson("categories.json");
