@@ -25,6 +25,22 @@ const int SER_DEFINED = 8;
 const int ERROR = -1;
 const int INCOMING_MONEY = 999;
 
+enum class Month
+{
+    January = 1,
+    February,
+    March,
+    April,
+    May,
+    June,
+    July,
+    August,
+    September,
+    October,
+    November,
+    December
+};
+
 struct Date
 {
     int day;

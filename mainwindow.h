@@ -12,6 +12,8 @@
 #include <QFileDialog>
 #include <QGraphicsDropShadowEffect>
 #include <QLabel>
+#include <QDate>
+
 #include <iostream>
 #include "xml/xmlParser.hpp"
 
@@ -42,12 +44,15 @@ public:
 
 private slots:
     void loadXmlButtonClicked();
+    void nextMonthClicked();
+    void previousMonthClicked();
     QPoint drawExpensesLabels(QWidget *, QLabel *, const std::vector<Operation> &, int, QPoint);
     void loadXmlData();
     int getStringWidth(const std::string &text, const QFont &font);
     void enableHoverStyleSheet(OperationLabel *);
     void setPositionOfOperationDescriptionBanner(OperationLabel *, std::string &);
     void setStyleSheetOfOperationDescriptionBanner();
+    void manageSelectedMonth();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -59,6 +64,7 @@ private:
     std::vector<QWidget *> allExpensesLabelsContainers;
     std::vector<QLabel *> allExpensesLabelsHeadings;
     QString xmlFilePath = "";
+    Month selectedMonth = Month::September;
 };
 
 #endif // MAINWINDOW_H

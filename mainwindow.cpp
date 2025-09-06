@@ -13,7 +13,80 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
+    connect(ui->nextMonth, &QPushButton::clicked, this, &MainWindow::nextMonthClicked);
+    connect(ui->previousMonth, &QPushButton::clicked, this, &MainWindow::previousMonthClicked);
+
     saveMapToJson(cardTransactionCategories, "/home/pablo/Desktop/financial_report_app/xml/categoriesTags.json");
+    manageSelectedMonth();
+}
+
+void MainWindow::manageSelectedMonth()
+{
+    std::string selectedMonthAsString;
+
+    switch (selectedMonth)
+    {
+    case Month::January:
+        selectedMonthAsString = "January";
+        break;
+    case Month::February:
+        selectedMonthAsString = "February";
+        break;
+    case Month::March:
+        selectedMonthAsString = "March";
+        break;
+    case Month::April:
+        selectedMonthAsString = "April";
+        break;
+    case Month::May:
+        selectedMonthAsString = "May";
+        break;
+    case Month::June:
+        selectedMonthAsString = "June";
+        break;
+    case Month::July:
+        selectedMonthAsString = "July";
+        break;
+    case Month::August:
+        selectedMonthAsString = "August";
+        break;
+    case Month::September:
+        selectedMonthAsString = "September";
+        break;
+    case Month::October:
+        selectedMonthAsString = "October";
+        break;
+    case Month::November:
+        selectedMonthAsString = "November";
+        break;
+    case Month::December:
+        selectedMonthAsString = "December";
+        break;
+    }
+
+    ui->monthName->setText(QString::fromStdString(selectedMonthAsString));
+}
+
+void MainWindow::nextMonthClicked()
+{
+    int val = static_cast<int>(selectedMonth);
+    val++;
+    if (val > 12)
+        val = 1;
+    selectedMonth = static_cast<Month>(val);
+
+    manageSelectedMonth();
+}
+
+void MainWindow::previousMonthClicked()
+{
+    int val = static_cast<int>(selectedMonth);
+    val--;
+    if (val < 1)
+        val = 12;
+    selectedMonth = static_cast<Month>(val);
+
+    manageSelectedMonth();
 }
 
 void MainWindow::loadXmlButtonClicked()
