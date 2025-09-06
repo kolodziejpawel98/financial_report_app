@@ -105,6 +105,7 @@ namespace summary
     extern Operation operationsRegularExpenses;
     extern Operation operationsOthers;
     extern Operation operationsPhotography;
+    extern Operation operationsTotal;
 }
 
 void saveMapToJson(const std::unordered_map<std::string, int> &map, const std::string &filename);

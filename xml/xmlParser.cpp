@@ -95,6 +95,7 @@ namespace summary
     Operation operationsRegularExpenses{Date{}, "", "regular expenses", 0.0, 0.0, 5};
     Operation operationsOthers{Date{}, "", "others", 0.0, 0.0, 6};
     Operation operationsPhotography{Date{}, "", "photography", 0.0, 0.0, 7};
+    Operation operationsTotal{Date{}, "", "total", 0.0, 0.0, 8};
 }
 
 Date::Date() : day(0), month(0), year(0) {}

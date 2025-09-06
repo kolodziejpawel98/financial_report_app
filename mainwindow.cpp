@@ -74,6 +74,15 @@ void MainWindow::clearData()
         delete label;
     }
     expenseLabels.clear();
+
+    summary::operationsEatingOut.amount = 0.0;
+    summary::operationsNonGroceryShopping.amount = 0.0;
+    summary::operationsGroceryShopping.amount = 0.0;
+    summary::operationsTransport.amount = 0.0;
+    summary::operationsRegularExpenses.amount = 0.0;
+    summary::operationsOthers.amount = 0.0;
+    summary::operationsPhotography.amount = 0.0;
+    summary::operationsTotal.amount = 0.0;
 }
 
 void MainWindow::nextMonthClicked()
@@ -140,36 +149,43 @@ void MainWindow::loadXmlData()
         {
             operationsEatingOut.emplace_back(operation);
             summary::operationsEatingOut.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == NON_GROCERY_SHOPPING)
         {
             operationsNonGroceryShopping.emplace_back(operation);
             summary::operationsNonGroceryShopping.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == GROCERY_SHOPPING)
         {
             operationsGroceryShopping.emplace_back(operation);
             summary::operationsGroceryShopping.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == TRANSPORT)
         {
             operationsTransport.emplace_back(operation);
             summary::operationsTransport.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == REGULAR_EXPENSES)
         {
             operationsRegularExpenses.emplace_back(operation);
             summary::operationsRegularExpenses.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == PHOTOGRAPHY)
         {
             operationsPhotography.emplace_back(operation);
             summary::operationsPhotography.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == OTHERS)
         {
             operationsOthers.emplace_back(operation);
             summary::operationsOthers.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
         }
     }
 
@@ -179,7 +195,8 @@ void MainWindow::loadXmlData()
                          summary::operationsTransport,
                          summary::operationsRegularExpenses,
                          summary::operationsOthers,
-                         summary::operationsPhotography};
+                         summary::operationsPhotography,
+                         summary::operationsTotal};
     operations.clear();
 
     QPoint p0{290, 110};
