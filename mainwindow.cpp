@@ -67,6 +67,15 @@ void MainWindow::manageSelectedMonth()
     ui->monthName->setText(QString::fromStdString(selectedMonthAsString));
 }
 
+void MainWindow::clearData()
+{
+    for (auto label : expenseLabels)
+    {
+        delete label;
+    }
+    expenseLabels.clear();
+}
+
 void MainWindow::nextMonthClicked()
 {
     int val = static_cast<int>(selectedMonth);
@@ -76,6 +85,8 @@ void MainWindow::nextMonthClicked()
     selectedMonth = static_cast<Month>(val);
 
     manageSelectedMonth();
+    clearData();
+    loadXmlData();
 }
 
 void MainWindow::previousMonthClicked()
@@ -87,6 +98,8 @@ void MainWindow::previousMonthClicked()
     selectedMonth = static_cast<Month>(val);
 
     manageSelectedMonth();
+    clearData();
+    loadXmlData();
 }
 
 void MainWindow::loadXmlButtonClicked()
@@ -107,7 +120,6 @@ void MainWindow::loadXmlButtonClicked()
 
 void MainWindow::loadXmlData()
 {
-
     allExpensesLabelsHeadings = {ui->eatingOutHeading,
                                  ui->nonGroceryShoppingHeading,
                                  ui->groceryShoppingHeading,
@@ -128,7 +140,8 @@ void MainWindow::loadXmlData()
     std::vector<Operation> operations;
     std::string pathStr = xmlFilePath.toStdString();
     const char *path = pathStr.c_str();
-    operations = getAllOperations(path);
+    // operations = getAllOperations(path);
+    operations = getOperationsByDate(path, selectedMonth);
 
     std::vector<Operation> operationsEatingOut;
     std::vector<Operation> operationsNonGroceryShopping;
@@ -137,7 +150,6 @@ void MainWindow::loadXmlData()
     std::vector<Operation> operationsRegularExpenses;
     std::vector<Operation> operationsPhotography;
     std::vector<Operation> operationsOthers;
-    std::cout << "operations size = " << operations.size() << std::endl;
 
     for (auto &operation : operations)
     {

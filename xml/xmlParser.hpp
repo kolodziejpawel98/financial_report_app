@@ -49,12 +49,18 @@ struct Date
 
     Date();
     Date(int day, int month, int year);
+
     std::string getDate() const
     {
         std::string textFormatDay = (day < 10) ? "0" + std::to_string(day) : std::to_string(day);
         std::string textFormatMonth = (month < 10) ? "0" + std::to_string(month) : std::to_string(month);
         std::string date = textFormatDay + "/" + textFormatMonth + "/" + std::to_string(year);
         return date;
+    }
+
+    int getMonth() const
+    {
+        return month;
     }
 };
 
@@ -83,6 +89,7 @@ std::string extractCrucialData(const std::string &descriptionFull, const std::st
 XMLElement *getFirstOperationTag(XMLDocument &xmlDocument);
 std::string getOperationChild(XMLElement *operationTag, const char *childName);
 std::vector<Operation> getAllOperations(const char *path);
+std::vector<Operation> getOperationsByDate(const char *path, Month);
 double myStringToDouble(const std::string &str);
 std::string cleanBalanceString(const std::string &input);
 

@@ -225,6 +225,36 @@ std::vector<Operation> getAllOperations(const char *path)
     return result;
 }
 
+std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth)
+{
+    std::vector<Operation> result;
+    XMLDocument doc;
+    if (doc.LoadFile(path) != XML_SUCCESS)
+        throw std::runtime_error("Failed to load file");
+
+    XMLElement *op = getFirstOperationTag(doc);
+    while (op != nullptr)
+    {
+        std::string dateStr = getOperationChild(op, "exec-date");
+        Date date = parseDate(dateStr);
+
+        if (date.getMonth() == static_cast<int>(selectedMonth))
+        {
+            std::string type = getOperationChild(op, "type");
+            std::string desc = getOperationChild(op, "description");
+            std::string amountStr = getOperationChild(op, "amount");
+            std::string balanceStr = getOperationChild(op, "ending-balance");
+
+            std::string cleanDesc = extractCrucialData(desc, type);
+
+            result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
+        }
+        op = op->NextSiblingElement("operation");
+    }
+
+    return result;
+}
+
 double myStringToDouble(const std::string &str)
 {
     double result = 0.0;

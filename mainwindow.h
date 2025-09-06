@@ -53,6 +53,7 @@ private slots:
     void setPositionOfOperationDescriptionBanner(OperationLabel *, std::string &);
     void setStyleSheetOfOperationDescriptionBanner();
     void manageSelectedMonth();
+    void clearData();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -64,7 +65,7 @@ private:
     std::vector<QWidget *> allExpensesLabelsContainers;
     std::vector<QLabel *> allExpensesLabelsHeadings;
     QString xmlFilePath = "";
-    Month selectedMonth = Month::September;
+    Month selectedMonth = Month::April;
 };
 
 #endif // MAINWINDOW_H
