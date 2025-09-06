@@ -22,6 +22,16 @@ namespace Ui
 }
 QT_END_NAMESPACE
 
+class OperationLabel : public QLabel
+{
+    Q_OBJECT
+public:
+    Operation operation;
+
+    OperationLabel(const Operation &op, QWidget *parent = nullptr)
+        : QLabel(parent), operation(op) {}
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -35,6 +45,9 @@ private slots:
     QPoint drawExpensesLabels(QWidget *, QLabel *, const std::vector<Operation> &, int, QPoint);
     void loadXmlData();
     int getStringWidth(const std::string &text, const QFont &font);
+    void enableHoverStyleSheet(OperationLabel *);
+    void setPositionOfOperationDescriptionBanner(OperationLabel *, std::string &);
+    void setStyleSheetOfOperationDescriptionBanner();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;
@@ -46,16 +59,6 @@ private:
     std::vector<QWidget *> allExpensesLabelsContainers;
     std::vector<QLabel *> allExpensesLabelsHeadings;
     QString xmlFilePath = "";
-};
-
-class OperationLabel : public QLabel
-{
-    Q_OBJECT
-public:
-    Operation operation;
-
-    OperationLabel(const Operation &op, QWidget *parent = nullptr)
-        : QLabel(parent), operation(op) {}
 };
 
 #endif // MAINWINDOW_H
