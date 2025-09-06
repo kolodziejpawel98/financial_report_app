@@ -120,27 +120,9 @@ void MainWindow::loadXmlButtonClicked()
 
 void MainWindow::loadXmlData()
 {
-    allExpensesLabelsHeadings = {ui->eatingOutHeading,
-                                 ui->nonGroceryShoppingHeading,
-                                 ui->groceryShoppingHeading,
-                                 ui->transportationHeading,
-                                 ui->regularExpensesHeading,
-                                 ui->photographyHeading,
-                                 ui->otherSpendingsHeading};
-    allExpensesLabelsContainers = {ui->eatingOutLabelsContainer,
-                                   ui->nonGroceryShoppingLabelsContainer,
-                                   ui->groceryShoppingLabelsContainer,
-                                   ui->transportationLabelsContainer,
-                                   ui->regularExpensesLabelsContainer,
-                                   ui->photographyLabelsContainer,
-                                   ui->otherSpendingsLabelsContainer};
-
-    // connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
-
     std::vector<Operation> operations;
     std::string pathStr = xmlFilePath.toStdString();
     const char *path = pathStr.c_str();
-    // operations = getAllOperations(path);
     operations = getOperationsByDate(path, selectedMonth);
 
     std::vector<Operation> operationsEatingOut;
@@ -150,38 +132,54 @@ void MainWindow::loadXmlData()
     std::vector<Operation> operationsRegularExpenses;
     std::vector<Operation> operationsPhotography;
     std::vector<Operation> operationsOthers;
+    std::vector<Operation> operationsSummary;
 
     for (auto &operation : operations)
     {
         if (operation.categoryTag == EATING_OUT)
         {
             operationsEatingOut.emplace_back(operation);
+            summary::operationsEatingOut.amount += operation.amount;
         }
         else if (operation.categoryTag == NON_GROCERY_SHOPPING)
         {
             operationsNonGroceryShopping.emplace_back(operation);
+            summary::operationsNonGroceryShopping.amount += operation.amount;
         }
         else if (operation.categoryTag == GROCERY_SHOPPING)
         {
             operationsGroceryShopping.emplace_back(operation);
+            summary::operationsGroceryShopping.amount += operation.amount;
         }
         else if (operation.categoryTag == TRANSPORT)
         {
             operationsTransport.emplace_back(operation);
+            summary::operationsTransport.amount += operation.amount;
         }
         else if (operation.categoryTag == REGULAR_EXPENSES)
         {
             operationsRegularExpenses.emplace_back(operation);
+            summary::operationsRegularExpenses.amount += operation.amount;
         }
         else if (operation.categoryTag == PHOTOGRAPHY)
         {
             operationsPhotography.emplace_back(operation);
+            summary::operationsPhotography.amount += operation.amount;
         }
         else if (operation.categoryTag == OTHERS)
         {
             operationsOthers.emplace_back(operation);
+            summary::operationsOthers.amount += operation.amount;
         }
     }
+
+    operationsSummary = {summary::operationsEatingOut,
+                         summary::operationsNonGroceryShopping,
+                         summary::operationsGroceryShopping,
+                         summary::operationsTransport,
+                         summary::operationsRegularExpenses,
+                         summary::operationsOthers,
+                         summary::operationsPhotography};
     operations.clear();
 
     QPoint p0{290, 110};
@@ -192,6 +190,7 @@ void MainWindow::loadXmlData()
     QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
     QPoint p6 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsOthers, OTHERS, p5);
     QPoint p7 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsPhotography, PHOTOGRAPHY, p6);
+    QPoint p8 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p7);
 }
 
 QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer,

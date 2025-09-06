@@ -86,6 +86,17 @@ std::unordered_map<std::string, int> cardTransactionCategories = {
     {"TOTU", 5},
     {"RossmannRun", 6}};
 
+namespace summary
+{
+    Operation operationsEatingOut{Date{}, "", "eating out", 0.0, 0.0, 1};
+    Operation operationsNonGroceryShopping{Date{}, "", "non grocery shopping", 0.0, 0.0, 2};
+    Operation operationsGroceryShopping{Date{}, "", "grocery shopping", 0.0, 0.0, 3};
+    Operation operationsTransport{Date{}, "", "transport", 0.0, 0.0, 4};
+    Operation operationsRegularExpenses{Date{}, "", "regular expenses", 0.0, 0.0, 5};
+    Operation operationsOthers{Date{}, "", "others", 0.0, 0.0, 6};
+    Operation operationsPhotography{Date{}, "", "photography", 0.0, 0.0, 7};
+}
+
 Date::Date() : day(0), month(0), year(0) {}
 Date::Date(int day, int month, int year) : day(day), month(month), year(year) {}
 
@@ -95,6 +106,10 @@ Operation::Operation(Date date, std::string type, std::string description, doubl
 {
     categoryTag = setCategoryTag();
 }
+
+Operation::Operation(Date date, std::string type, std::string description, double amount, double totalBalanceAfterOperation, int categoryTag)
+    : date(date), type(type), description(description),
+      amount(amount), totalBalanceAfterOperation(totalBalanceAfterOperation), categoryTag(categoryTag) {}
 
 int Operation::setCategoryTag()
 {
@@ -199,31 +214,31 @@ std::string getOperationChild(XMLElement *tag, const char *child)
     return el->GetText();
 }
 
-std::vector<Operation> getAllOperations(const char *path)
-{
-    std::vector<Operation> result;
-    XMLDocument doc;
-    if (doc.LoadFile(path) != XML_SUCCESS)
-        throw std::runtime_error("Failed to load file");
+// std::vector<Operation> getAllOperations(const char *path)
+// {
+//     std::vector<Operation> result;
+//     XMLDocument doc;
+//     if (doc.LoadFile(path) != XML_SUCCESS)
+//         throw std::runtime_error("Failed to load file");
 
-    XMLElement *op = getFirstOperationTag(doc);
-    while (op != nullptr)
-    {
-        std::string dateStr = getOperationChild(op, "exec-date");
-        std::string type = getOperationChild(op, "type");
-        std::string desc = getOperationChild(op, "description");
-        std::string amountStr = getOperationChild(op, "amount");
-        std::string balanceStr = getOperationChild(op, "ending-balance");
+//     XMLElement *op = getFirstOperationTag(doc);
+//     while (op != nullptr)
+//     {
+//         std::string dateStr = getOperationChild(op, "exec-date");
+//         std::string type = getOperationChild(op, "type");
+//         std::string desc = getOperationChild(op, "description");
+//         std::string amountStr = getOperationChild(op, "amount");
+//         std::string balanceStr = getOperationChild(op, "ending-balance");
 
-        Date date = parseDate(dateStr);
-        std::string cleanDesc = extractCrucialData(desc, type);
+//         Date date = parseDate(dateStr);
+//         std::string cleanDesc = extractCrucialData(desc, type);
 
-        result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
-        op = op->NextSiblingElement("operation");
-    }
+//         result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
+//         op = op->NextSiblingElement("operation");
+//     }
 
-    return result;
-}
+//     return result;
+// }
 
 std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth)
 {
@@ -251,6 +266,8 @@ std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth
         }
         op = op->NextSiblingElement("operation");
     }
+
+    std::reverse(result.begin(), result.end());
 
     return result;
 }

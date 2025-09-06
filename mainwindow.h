@@ -64,6 +64,8 @@ private:
     QGridLayout *griLayout;
     std::vector<QWidget *> allExpensesLabelsContainers;
     std::vector<QLabel *> allExpensesLabelsHeadings;
+    QWidget *totalSpendingsContainer;
+    QLabel *totalSpendingsHeading;
     QString xmlFilePath = "";
     Month selectedMonth = Month::April;
 };

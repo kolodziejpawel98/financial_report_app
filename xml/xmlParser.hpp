@@ -1,6 +1,7 @@
 // #pragma once
 
 #include <string>
+#include <algorithm>
 #include <vector>
 #include <unordered_map>
 #include "tinyxml2.h"
@@ -21,7 +22,7 @@ const int TRANSPORT = 4;
 const int REGULAR_EXPENSES = 5;
 const int OTHERS = 6;
 const int PHOTOGRAPHY = 7;
-const int SER_DEFINED = 8;
+const int SELF_DEFINED = 8;
 const int ERROR = -1;
 const int INCOMING_MONEY = 999;
 
@@ -75,6 +76,8 @@ public:
     int categoryTag;
 
     Operation(Date date, std::string type, std::string description, double amount, double totalBalanceAfterOperation);
+    Operation(Date date, std::string type, std::string description, double amount, double totalBalanceAfterOperation, int categoryTag);
+
     int setCategoryTag();
     void print() const;
 };
@@ -92,6 +95,17 @@ std::vector<Operation> getAllOperations(const char *path);
 std::vector<Operation> getOperationsByDate(const char *path, Month);
 double myStringToDouble(const std::string &str);
 std::string cleanBalanceString(const std::string &input);
+
+namespace summary
+{
+    extern Operation operationsEatingOut;
+    extern Operation operationsNonGroceryShopping;
+    extern Operation operationsGroceryShopping;
+    extern Operation operationsTransport;
+    extern Operation operationsRegularExpenses;
+    extern Operation operationsOthers;
+    extern Operation operationsPhotography;
+}
 
 void saveMapToJson(const std::unordered_map<std::string, int> &map, const std::string &filename);
 
