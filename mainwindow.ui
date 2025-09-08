@@ -32,6 +32,246 @@
     <property name="currentIndex">
      <number>1</number>
     </property>
+    <widget class="QWidget" name="pageLoadXmlFile">
+     <widget class="QWidget" name="sidebar" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>270</width>
+        <height>700</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #141414;</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="pageTopbar_2" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1300</width>
+        <height>67</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #141414;
+box-shadow: 0px 7px 11px 0px rgba(0, 0, 0, 0.25);</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="loadXmlButton">
+      <property name="geometry">
+       <rect>
+        <x>580</x>
+        <y>260</y>
+        <width>296</width>
+        <height>186</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 15px;
+background: rgba(187, 134, 252, 0.15);
+padding-bottom: 50px;</string>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>icons/icon_upload-removebg-preview.png</normaloff>icons/icon_upload-removebg-preview.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>90</width>
+        <height>90</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QLabel" name="loadXmlButtonLabel">
+      <property name="geometry">
+       <rect>
+        <x>670</x>
+        <y>390</y>
+        <width>116</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+border-radius: 12px;
+background: #6750A4;
+display: flex;
+padding: 6px 12px;
+justify-content: center;
+align-items: center;
+gap: 4px;
+
+
+
+color: #FFF;
+
+/* M3/label/large */
+font-family: var(--Static-Label-Large-Font, Roboto);
+font-size: var(--Static-Label-Large-Size, 14px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
+letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
+</string>
+      </property>
+      <property name="text">
+       <string>GENERUJ PDF</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="pageSetTagToUnknownOperations">
+     <widget class="QPushButton" name="nextPageButton">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>430</y>
+        <width>241</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;</string>
+      </property>
+      <property name="text">
+       <string>next</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="sidebar_3" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>270</width>
+        <height>700</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #141414;</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="loadXmlButtonLabel_2">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>116</width>
+        <height>32</height>
+       </rect>
+      </property>
+      <property name="cursor">
+       <cursorShape>PointingHandCursor</cursorShape>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">
+border-radius: 12px;
+background: #6750A4;
+display: flex;
+padding: 6px 12px;
+justify-content: center;
+align-items: center;
+gap: 4px;
+
+
+
+color: #FFF;
+
+/* M3/label/large */
+font-family: var(--Static-Label-Large-Font, Roboto);
+font-size: var(--Static-Label-Large-Size, 14px);
+font-style: normal;
+font-weight: 500;
+line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
+letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
+</string>
+      </property>
+      <property name="text">
+       <string>GENERUJ PDF</string>
+      </property>
+     </widget>
+     <widget class="QWidget" name="pageTopbar_3" native="true">
+      <property name="geometry">
+       <rect>
+        <x>0</x>
+        <y>0</y>
+        <width>1300</width>
+        <height>67</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">background: #141414;
+box-shadow: 0px 7px 11px 0px rgba(0, 0, 0, 0.25);</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>320</y>
+        <width>191</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;</string>
+      </property>
+      <property name="text">
+       <string>TextLabel</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="whiteBackground">
+      <property name="geometry">
+       <rect>
+        <x>450</x>
+        <y>230</y>
+        <width>671</width>
+        <height>191</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">border-radius: 15px;
+background: white;
+padding-bottom: 50px;</string>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>90</width>
+        <height>90</height>
+       </size>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="comboBox">
+      <property name="geometry">
+       <rect>
+        <x>800</x>
+        <y>310</y>
+        <width>181</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;</string>
+      </property>
+     </widget>
+     <zorder>nextPageButton</zorder>
+     <zorder>sidebar_3</zorder>
+     <zorder>loadXmlButtonLabel_2</zorder>
+     <zorder>pageTopbar_3</zorder>
+     <zorder>whiteBackground</zorder>
+     <zorder>label</zorder>
+     <zorder>comboBox</zorder>
+    </widget>
     <widget class="QWidget" name="pageExpenses">
      <widget class="QWidget" name="sidebar_2" native="true">
       <property name="geometry">
@@ -365,7 +605,7 @@ QPushButton:pressed {
        <rect>
         <x>290</x>
         <y>110</y>
-        <width>981</width>
+        <width>800</width>
         <height>61</height>
        </rect>
       </property>
@@ -398,7 +638,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <rect>
         <x>290</x>
         <y>200</y>
-        <width>981</width>
+        <width>800</width>
         <height>61</height>
        </rect>
       </property>
@@ -431,7 +671,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <rect>
         <x>290</x>
         <y>290</y>
-        <width>981</width>
+        <width>800</width>
         <height>61</height>
        </rect>
       </property>
@@ -441,7 +681,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <rect>
         <x>400</x>
         <y>410</y>
-        <width>871</width>
+        <width>690</width>
         <height>21</height>
        </rect>
       </property>
@@ -473,7 +713,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>490</y>
+        <y>440</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -495,10 +735,10 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
      <widget class="QWidget" name="otherSpendingsLabelsContainer" native="true">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>510</y>
-        <width>721</width>
-        <height>61</height>
+        <x>400</x>
+        <y>440</y>
+        <width>690</width>
+        <height>31</height>
        </rect>
       </property>
      </widget>
@@ -506,7 +746,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>450</y>
+        <y>480</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -529,9 +769,9 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>400</x>
-        <y>450</y>
-        <width>871</width>
-        <height>21</height>
+        <y>480</y>
+        <width>690</width>
+        <height>31</height>
        </rect>
       </property>
      </widget>
@@ -563,7 +803,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <rect>
         <x>400</x>
         <y>370</y>
-        <width>871</width>
+        <width>690</width>
         <height>21</height>
        </rect>
       </property>
@@ -572,7 +812,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <property name="geometry">
        <rect>
         <x>290</x>
-        <y>580</y>
+        <y>540</y>
         <width>91</width>
         <height>16</height>
        </rect>
@@ -594,9 +834,9 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
      <widget class="QWidget" name="totalSpendingsLabelsContainer" native="true">
       <property name="geometry">
        <rect>
-        <x>290</x>
-        <y>610</y>
-        <width>191</width>
+        <x>400</x>
+        <y>540</y>
+        <width>690</width>
         <height>61</height>
        </rect>
       </property>
@@ -604,9 +844,9 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
      <widget class="QWidget" name="monthChangeContainer" native="true">
       <property name="geometry">
        <rect>
-        <x>970</x>
+        <x>1010</x>
         <y>70</y>
-        <width>301</width>
+        <width>261</width>
         <height>31</height>
        </rect>
       </property>
@@ -619,6 +859,9 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
          <height>23</height>
         </rect>
        </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
+       </property>
        <property name="styleSheet">
         <string notr="true">color:#000000;</string>
        </property>
@@ -629,11 +872,14 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <widget class="QPushButton" name="nextMonth">
        <property name="geometry">
         <rect>
-         <x>240</x>
+         <x>200</x>
          <y>5</y>
          <width>51</width>
          <height>23</height>
         </rect>
+       </property>
+       <property name="cursor">
+        <cursorShape>PointingHandCursor</cursorShape>
        </property>
        <property name="styleSheet">
         <string notr="true">color:#000000;</string>
@@ -645,10 +891,10 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
       <widget class="QLabel" name="monthName">
        <property name="geometry">
         <rect>
-         <x>110</x>
+         <x>65</x>
          <y>10</y>
-         <width>58</width>
-         <height>15</height>
+         <width>131</width>
+         <height>16</height>
         </rect>
        </property>
        <property name="styleSheet">
@@ -657,103 +903,10 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);</string>
        <property name="text">
         <string>month</string>
        </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
       </widget>
-     </widget>
-    </widget>
-    <widget class="QWidget" name="pageLoadXmlFile">
-     <widget class="QWidget" name="sidebar" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>270</width>
-        <height>700</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: #141414;</string>
-      </property>
-     </widget>
-     <widget class="QWidget" name="pageTopbar_2" native="true">
-      <property name="geometry">
-       <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>1300</width>
-        <height>67</height>
-       </rect>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">background: #141414;
-box-shadow: 0px 7px 11px 0px rgba(0, 0, 0, 0.25);</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="loadXmlButton">
-      <property name="geometry">
-       <rect>
-        <x>580</x>
-        <y>260</y>
-        <width>296</width>
-        <height>186</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">border-radius: 15px;
-background: rgba(187, 134, 252, 0.15);
-padding-bottom: 50px;</string>
-      </property>
-      <property name="icon">
-       <iconset>
-        <normaloff>icons/icon_upload-removebg-preview.png</normaloff>icons/icon_upload-removebg-preview.png</iconset>
-      </property>
-      <property name="iconSize">
-       <size>
-        <width>90</width>
-        <height>90</height>
-       </size>
-      </property>
-     </widget>
-     <widget class="QLabel" name="loadXmlButtonLabel">
-      <property name="geometry">
-       <rect>
-        <x>670</x>
-        <y>390</y>
-        <width>116</width>
-        <height>32</height>
-       </rect>
-      </property>
-      <property name="cursor">
-       <cursorShape>PointingHandCursor</cursorShape>
-      </property>
-      <property name="styleSheet">
-       <string notr="true">
-border-radius: 12px;
-background: #6750A4;
-display: flex;
-padding: 6px 12px;
-justify-content: center;
-align-items: center;
-gap: 4px;
-
-
-
-color: #FFF;
-
-/* M3/label/large */
-font-family: var(--Static-Label-Large-Font, Roboto);
-font-size: var(--Static-Label-Large-Size, 14px);
-font-style: normal;
-font-weight: 500;
-line-height: var(--Static-Label-Large-Line-Height, 20px); /* 142.857% */
-letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
-</string>
-      </property>
-      <property name="text">
-       <string>GENERUJ PDF</string>
-      </property>
      </widget>
     </widget>
    </widget>

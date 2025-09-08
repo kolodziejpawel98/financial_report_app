@@ -15,16 +15,16 @@ using namespace tinyxml2;
 
 #pragma once
 
-const int EATING_OUT = 1;
-const int NON_GROCERY_SHOPPING = 2;
-const int GROCERY_SHOPPING = 3;
-const int TRANSPORT = 4;
-const int REGULAR_EXPENSES = 5;
-const int OTHERS = 6;
-const int PHOTOGRAPHY = 7;
-const int SELF_DEFINED = 8;
-const int ERROR = -1;
-const int INCOMING_MONEY = 999;
+constexpr int EATING_OUT = 1;
+constexpr int NON_GROCERY_SHOPPING = 2;
+constexpr int GROCERY_SHOPPING = 3;
+constexpr int TRANSPORT = 4;
+constexpr int REGULAR_EXPENSES = 5;
+constexpr int OTHERS = 6;
+constexpr int PHOTOGRAPHY = 7;
+constexpr int SELF_DEFINED = 8;
+constexpr int ERROR = -1;
+constexpr int INCOMING_MONEY = 999;
 
 enum class Month
 {

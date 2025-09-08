@@ -12,9 +12,11 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
     connect(ui->nextMonth, &QPushButton::clicked, this, &MainWindow::nextMonthClicked);
     connect(ui->previousMonth, &QPushButton::clicked, this, &MainWindow::previousMonthClicked);
+    connect(ui->nextPageButton, &QPushButton::clicked, this, &MainWindow::nextPage);
 
     saveMapToJson(cardTransactionCategories, "/home/pablo/Desktop/financial_report_app/xml/categoriesTags.json");
     manageSelectedMonth();
@@ -117,14 +119,19 @@ void MainWindow::loadXmlButtonClicked()
 
     if (!xmlFilePath.isEmpty())
     {
-        int nextIndex = (ui->stackedWidget->currentIndex() + 1) % ui->stackedWidget->count();
-        ui->stackedWidget->setCurrentIndex(nextIndex);
+        nextPage();
         loadXmlData();
     }
     else
     {
         throw std::invalid_argument("Cannot load file!");
     }
+}
+
+void MainWindow::nextPage()
+{
+    int nextIndex = (ui->stackedWidget->currentIndex() + 1) % ui->stackedWidget->count();
+    ui->stackedWidget->setCurrentIndex(nextIndex);
 }
 
 void MainWindow::loadXmlData()

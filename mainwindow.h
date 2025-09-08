@@ -54,6 +54,7 @@ private slots:
     void setStyleSheetOfOperationDescriptionBanner();
     void manageSelectedMonth();
     void clearData();
+    void nextPage();
 
 protected:
     bool eventFilter(QObject *watched, QEvent *event) override;

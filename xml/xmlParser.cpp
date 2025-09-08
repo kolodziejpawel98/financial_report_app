@@ -115,14 +115,17 @@ Operation::Operation(Date date, std::string type, std::string description, doubl
 int Operation::setCategoryTag()
 {
     if (amount > 0)
-        return 999;
+        return INCOMING_MONEY;
 
-    for (const auto &pair : cardTransactionCategories)
+    for (const auto &pairTagAndId : cardTransactionCategories)
     {
-        if (description.find(pair.first) != std::string::npos)
-            return pair.second;
+        if (description.find(pairTagAndId.first) != std::string::npos)
+        {
+            return pairTagAndId.second;
+        }
     }
-    return -1;
+    std::cout << "!!! description = " << description << std::endl;
+    return SELF_DEFINED;
 }
 
 void Operation::print() const
