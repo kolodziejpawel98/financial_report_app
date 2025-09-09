@@ -3,6 +3,7 @@
 using namespace tinyxml2;
 
 std::unordered_map<std::string, int> cardTransactionCategories = {
+    /*
     {"TRATTORIA", 1},
     {"llegro", 2},
     {"Good Lood", 1},
@@ -84,7 +85,8 @@ std::unordered_map<std::string, int> cardTransactionCategories = {
     {"dluta", 6},
     {"pomykalastudio", 6},
     {"TOTU", 5},
-    {"RossmannRun", 6}};
+    {"RossmannRun", 6} */
+};
 
 namespace summary
 {
@@ -124,7 +126,6 @@ int Operation::setCategoryTag()
             return pairTagAndId.second;
         }
     }
-    std::cout << "!!! description = " << description << std::endl;
     return SELF_DEFINED;
 }
 
@@ -175,7 +176,7 @@ std::string extractAddress(const std::string &descriptionFull)
     return address.empty() ? "" : address + ", " + city;
 }
 
-std::string extractCrucialData(const std::string &desc, const std::string &type)
+std::string extractCrucialDescriptionData(const std::string &desc, const std::string &type)
 {
     if (type == "Płatność kartą" || type == "Wypłata z bankomatu")
         return getSubstring(desc, "Adres :", "Kraj");
@@ -235,7 +236,7 @@ std::string getOperationChild(XMLElement *tag, const char *child)
 //         std::string balanceStr = getOperationChild(op, "ending-balance");
 
 //         Date date = parseDate(dateStr);
-//         std::string cleanDesc = extractCrucialData(desc, type);
+//         std::string cleanDesc = extractCrucialDescriptionData(desc, type);
 
 //         result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
 //         op = op->NextSiblingElement("operation");
@@ -264,13 +265,13 @@ std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth
             std::string amountStr = getOperationChild(op, "amount");
             std::string balanceStr = getOperationChild(op, "ending-balance");
 
-            std::string cleanDesc = extractCrucialData(desc, type);
+            std::string cleanDesc = extractCrucialDescriptionData(desc, type);
 
             result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
         }
         op = op->NextSiblingElement("operation");
     }
-
+    // std::cout << "cardTransactionCategories.size = " << cardTransactionCategories.size() << std::endl;
     std::reverse(result.begin(), result.end());
 
     return result;

@@ -12,14 +12,34 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
+    menuManager();
+}
 
-    connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
-    connect(ui->nextMonth, &QPushButton::clicked, this, &MainWindow::nextMonthClicked);
-    connect(ui->previousMonth, &QPushButton::clicked, this, &MainWindow::previousMonthClicked);
-    connect(ui->nextPageButton, &QPushButton::clicked, this, &MainWindow::nextPage);
-
-    saveMapToJson(cardTransactionCategories, "/home/pablo/Desktop/financial_report_app/xml/categoriesTags.json");
-    manageSelectedMonth();
+void MainWindow::menuManager()
+{
+    switch (currentScreen)
+    {
+    case Screen::LOAD_XML:
+        connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
+        break;
+    case Screen::SET_OWN_TAGS_FOR_UNKNOWN_OPERATIONS:
+        cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
+        loadXmlData();
+        for (auto &operationReadyToSetTagByUser : operationsSelfDefined)
+        {
+            cardTransactionCategories.insert({operationReadyToSetTagByUser.description, 123});
+        }
+        connect(ui->nextPageButton, &QPushButton::clicked, this, &MainWindow::openMainScreen);
+        break;
+    case Screen::MAIN:
+        loadXmlData();
+        printXmlData();
+        connect(ui->nextMonth, &QPushButton::clicked, this, &MainWindow::nextMonthClicked);
+        connect(ui->previousMonth, &QPushButton::clicked, this, &MainWindow::previousMonthClicked);
+        manageSelectedMonth();
+        break;
+    }
 }
 
 void MainWindow::manageSelectedMonth()
@@ -98,6 +118,7 @@ void MainWindow::nextMonthClicked()
     manageSelectedMonth();
     clearData();
     loadXmlData();
+    printXmlData();
 }
 
 void MainWindow::previousMonthClicked()
@@ -111,6 +132,7 @@ void MainWindow::previousMonthClicked()
     manageSelectedMonth();
     clearData();
     loadXmlData();
+    printXmlData();
 }
 
 void MainWindow::loadXmlButtonClicked()
@@ -119,8 +141,10 @@ void MainWindow::loadXmlButtonClicked()
 
     if (!xmlFilePath.isEmpty())
     {
-        nextPage();
-        loadXmlData();
+        int nextIndex = (ui->stackedWidget->currentIndex() + 1) % ui->stackedWidget->count();
+        ui->stackedWidget->setCurrentIndex(nextIndex);
+        currentScreen = Screen::SET_OWN_TAGS_FOR_UNKNOWN_OPERATIONS;
+        menuManager();
     }
     else
     {
@@ -128,29 +152,32 @@ void MainWindow::loadXmlButtonClicked()
     }
 }
 
-void MainWindow::nextPage()
+void MainWindow::openMainScreen()
 {
     int nextIndex = (ui->stackedWidget->currentIndex() + 1) % ui->stackedWidget->count();
     ui->stackedWidget->setCurrentIndex(nextIndex);
+    saveMapToJson(cardTransactionCategories, "../xml/xd_test_file.json");
+    currentScreen = Screen::MAIN;
+    menuManager();
 }
 
 void MainWindow::loadXmlData()
 {
-    std::vector<Operation> operations;
+    allOperations.clear();
+    operationsEatingOut.clear();
+    operationsNonGroceryShopping.clear();
+    operationsGroceryShopping.clear();
+    operationsTransport.clear();
+    operationsRegularExpenses.clear();
+    operationsPhotography.clear();
+    operationsOthers.clear();
+    operationsSummary.clear();
+
     std::string pathStr = xmlFilePath.toStdString();
     const char *path = pathStr.c_str();
-    operations = getOperationsByDate(path, selectedMonth);
+    allOperations = getOperationsByDate(path, selectedMonth);
 
-    std::vector<Operation> operationsEatingOut;
-    std::vector<Operation> operationsNonGroceryShopping;
-    std::vector<Operation> operationsGroceryShopping;
-    std::vector<Operation> operationsTransport;
-    std::vector<Operation> operationsRegularExpenses;
-    std::vector<Operation> operationsPhotography;
-    std::vector<Operation> operationsOthers;
-    std::vector<Operation> operationsSummary;
-
-    for (auto &operation : operations)
+    for (auto &operation : allOperations)
     {
         if (operation.categoryTag == EATING_OUT)
         {
@@ -194,6 +221,10 @@ void MainWindow::loadXmlData()
             summary::operationsOthers.amount += operation.amount;
             summary::operationsTotal.amount += operation.amount;
         }
+        else if (operation.categoryTag == SELF_DEFINED)
+        {
+            operationsSelfDefined.emplace_back(operation);
+        }
     }
 
     operationsSummary = {summary::operationsEatingOut,
@@ -204,8 +235,11 @@ void MainWindow::loadXmlData()
                          summary::operationsOthers,
                          summary::operationsPhotography,
                          summary::operationsTotal};
-    operations.clear();
+    allOperations.clear();
+}
 
+void MainWindow::printXmlData()
+{
     QPoint p0{290, 110};
     QPoint p1 = drawExpensesLabels(ui->eatingOutLabelsContainer, ui->eatingOutHeading, operationsEatingOut, EATING_OUT, p0);
     QPoint p2 = drawExpensesLabels(ui->nonGroceryShoppingLabelsContainer, ui->nonGroceryShoppingHeading, operationsNonGroceryShopping, NON_GROCERY_SHOPPING, p1);
