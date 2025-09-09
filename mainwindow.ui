@@ -133,7 +133,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
       <property name="geometry">
        <rect>
         <x>660</x>
-        <y>430</y>
+        <y>440</y>
         <width>241</width>
         <height>23</height>
        </rect>
@@ -142,7 +142,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
        <string notr="true">color: black;</string>
       </property>
       <property name="text">
-       <string>next</string>
+       <string>save and continue</string>
       </property>
      </widget>
      <widget class="QWidget" name="sidebar_3" native="true">
@@ -211,7 +211,7 @@ letter-spacing: var(--Static-Label-Large-Tracking, 0.1px);
 box-shadow: 0px 7px 11px 0px rgba(0, 0, 0, 0.25);</string>
       </property>
      </widget>
-     <widget class="QLabel" name="label">
+     <widget class="QLabel" name="operationForSettingTagLabel">
       <property name="geometry">
        <rect>
         <x>540</x>
@@ -251,7 +251,7 @@ padding-bottom: 50px;</string>
        </size>
       </property>
      </widget>
-     <widget class="QComboBox" name="comboBox">
+     <widget class="QComboBox" name="tagsDropDownList">
       <property name="geometry">
        <rect>
         <x>800</x>
@@ -264,13 +264,30 @@ padding-bottom: 50px;</string>
        <string notr="true">color: black;</string>
       </property>
      </widget>
+     <widget class="QPushButton" name="acceptOperationTag">
+      <property name="geometry">
+       <rect>
+        <x>660</x>
+        <y>360</y>
+        <width>241</width>
+        <height>23</height>
+       </rect>
+      </property>
+      <property name="styleSheet">
+       <string notr="true">color: black;</string>
+      </property>
+      <property name="text">
+       <string>OK</string>
+      </property>
+     </widget>
      <zorder>nextPageButton</zorder>
      <zorder>sidebar_3</zorder>
      <zorder>loadXmlButtonLabel_2</zorder>
      <zorder>pageTopbar_3</zorder>
      <zorder>whiteBackground</zorder>
-     <zorder>label</zorder>
-     <zorder>comboBox</zorder>
+     <zorder>operationForSettingTagLabel</zorder>
+     <zorder>tagsDropDownList</zorder>
+     <zorder>acceptOperationTag</zorder>
     </widget>
     <widget class="QWidget" name="pageExpenses">
      <widget class="QWidget" name="sidebar_2" native="true">

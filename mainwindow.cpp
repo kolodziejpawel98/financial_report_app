@@ -25,10 +25,23 @@ void MainWindow::menuManager()
         break;
     case Screen::SET_OWN_TAGS_FOR_UNKNOWN_OPERATIONS:
         cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
+
+        ui->tagsDropDownList->addItem("1");
+        ui->tagsDropDownList->addItem("2");
+
         loadXmlData();
         for (auto &operationReadyToSetTagByUser : operationsSelfDefined)
         {
-            cardTransactionCategories.insert({operationReadyToSetTagByUser.description, 123});
+            //     std::string operationDescription;
+            //     int operationTag;
+            //     ui->operationForSettingTagLabel->setText(QString::fromStdString(operationReadyToSetTagByUser.description));
+
+            //     connect(ui->acceptOperationTag, &QPushButton::clicked, this, [this, &operationDescription, &operationTag, &operationReadyToSetTagByUser]()
+            //             {
+            //         operationDescription = operationReadyToSetTagByUser.description;
+            //         operationTag = (ui->tagsDropDownList->currentText()).toInt(); });
+
+            cardTransactionCategories.insert({operationReadyToSetTagByUser.description, 555});
         }
         connect(ui->nextPageButton, &QPushButton::clicked, this, &MainWindow::openMainScreen);
         break;
