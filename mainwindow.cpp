@@ -21,37 +21,73 @@ void MainWindow::menuManager()
     switch (currentScreen)
     {
     case Screen::LOAD_XML:
+    {
         connect(ui->loadXmlButton, &QPushButton::clicked, this, &MainWindow::loadXmlButtonClicked);
         break;
+    }
     case Screen::SET_OWN_TAGS_FOR_UNKNOWN_OPERATIONS:
+    {
+        ui->nextPageButton->setVisible(false);
         cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
 
         ui->tagsDropDownList->addItem("1");
         ui->tagsDropDownList->addItem("2");
 
         loadXmlData();
-        for (auto &operationReadyToSetTagByUser : operationsSelfDefined)
+
+        if (!operationsSelfDefined.empty())
         {
-            //     std::string operationDescription;
-            //     int operationTag;
-            //     ui->operationForSettingTagLabel->setText(QString::fromStdString(operationReadyToSetTagByUser.description));
-
-            //     connect(ui->acceptOperationTag, &QPushButton::clicked, this, [this, &operationDescription, &operationTag, &operationReadyToSetTagByUser]()
-            //             {
-            //         operationDescription = operationReadyToSetTagByUser.description;
-            //         operationTag = (ui->tagsDropDownList->currentText()).toInt(); });
-
-            cardTransactionCategories.insert({operationReadyToSetTagByUser.description, 555});
+            operationsSelfDefinedIterator = operationsSelfDefined.begin();
+            ui->operationForSettingTagLabel->setText(
+                QString::fromStdString(operationsSelfDefinedIterator->description));
         }
+
+        connect(ui->acceptOperationTag, &QPushButton::clicked, this, [this]()
+                {
+            if (operationsSelfDefinedIterator != operationsSelfDefined.end()) {
+                ++operationsSelfDefinedIterator;
+                if (operationsSelfDefinedIterator != operationsSelfDefined.end()) {
+                    ui->operationForSettingTagLabel->setText(
+                        QString::fromStdString(operationsSelfDefinedIterator->description));
+                }
+            }else{
+                ui->nextPageButton->setVisible(true);
+        } });
+
+        // for (auto &operationReadyToSetTagByUser : operationsSelfDefined)
+        // {
+        //     std::string operationDescription;
+        //     int operationTag;
+        // ui->operationForSettingTagLabel->setText(QString::fromStdString(operationsSelfDefinedIterator->description));
+
+        // connect(ui->acceptOperationTag, &QPushButton::clicked, this, [this, &operationsSelfDefinedIterator]()
+        //         {
+        //             std::cout << "operationsSelfDefined.size() = " << operationsSelfDefined.size() << std::endl;
+        //             if (operationsSelfDefinedIterator != operationsSelfDefined.end())
+        //             {
+        //                 operationsSelfDefinedIterator++;
+        //                 ui->operationForSettingTagLabel->setText(QString::fromStdString(operationsSelfDefinedIterator->description));
+        //             }
+
+        // operationDescription = operationReadyToSetTagByUser.description;
+        // operationTag = (ui->tagsDropDownList->currentText()).toInt();
+        // });
+
+        // cardTransactionCategories.insert({operationReadyToSetTagByUser.description, 555});
+        // }
+
         connect(ui->nextPageButton, &QPushButton::clicked, this, &MainWindow::openMainScreen);
         break;
+    }
     case Screen::MAIN:
+    {
         loadXmlData();
         printXmlData();
         connect(ui->nextMonth, &QPushButton::clicked, this, &MainWindow::nextMonthClicked);
         connect(ui->previousMonth, &QPushButton::clicked, this, &MainWindow::previousMonthClicked);
         manageSelectedMonth();
         break;
+    }
     }
 }
 

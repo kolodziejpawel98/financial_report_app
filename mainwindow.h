@@ -91,6 +91,7 @@ private:
     std::vector<Operation> operationsOthers;
     std::vector<Operation> operationsSelfDefined;
     std::vector<Operation> operationsSummary;
+    std::vector<Operation>::iterator operationsSelfDefinedIterator;
 };
 
 #endif // MAINWINDOW_H
