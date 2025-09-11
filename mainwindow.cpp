@@ -30,8 +30,14 @@ void MainWindow::menuManager()
         ui->nextPageButton->setVisible(false);
         cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
 
-        ui->tagsDropDownList->addItem("1");
-        ui->tagsDropDownList->addItem("2");
+        ui->tagsDropDownList->addItem("<wybierz kategorie>");
+        ui->tagsDropDownList->addItem("Zakupy (spozywka)");
+        ui->tagsDropDownList->addItem("Zakupy (inne)");
+        ui->tagsDropDownList->addItem("Rzeczy na mieśćie");
+        ui->tagsDropDownList->addItem("Transport");
+        ui->tagsDropDownList->addItem("Opłaty stałe");
+        ui->tagsDropDownList->addItem("Inne");
+        ui->tagsDropDownList->addItem("Fotografia");
 
         loadXmlData();
 
@@ -44,7 +50,9 @@ void MainWindow::menuManager()
 
         connect(ui->acceptOperationTag, &QPushButton::clicked, this, [this]()
                 {
-            if (operationsSelfDefinedIterator != operationsSelfDefined.end()) {
+            if (operationsSelfDefinedIterator != operationsSelfDefined.end() && ui->tagsDropDownList->currentIndex() != 0) {
+                cardTransactionCategories.insert({operationsSelfDefinedIterator->description, ui->tagsDropDownList->currentIndex()});
+                // ui->tagsDropDownList->setCurrentText("<wybierz kategorie>");
                 ++operationsSelfDefinedIterator;
                 if (operationsSelfDefinedIterator != operationsSelfDefined.end()) {
                     ui->operationForSettingTagLabel->setText(
@@ -53,28 +61,6 @@ void MainWindow::menuManager()
             }else{
                 ui->nextPageButton->setVisible(true);
         } });
-
-        // for (auto &operationReadyToSetTagByUser : operationsSelfDefined)
-        // {
-        //     std::string operationDescription;
-        //     int operationTag;
-        // ui->operationForSettingTagLabel->setText(QString::fromStdString(operationsSelfDefinedIterator->description));
-
-        // connect(ui->acceptOperationTag, &QPushButton::clicked, this, [this, &operationsSelfDefinedIterator]()
-        //         {
-        //             std::cout << "operationsSelfDefined.size() = " << operationsSelfDefined.size() << std::endl;
-        //             if (operationsSelfDefinedIterator != operationsSelfDefined.end())
-        //             {
-        //                 operationsSelfDefinedIterator++;
-        //                 ui->operationForSettingTagLabel->setText(QString::fromStdString(operationsSelfDefinedIterator->description));
-        //             }
-
-        // operationDescription = operationReadyToSetTagByUser.description;
-        // operationTag = (ui->tagsDropDownList->currentText()).toInt();
-        // });
-
-        // cardTransactionCategories.insert({operationReadyToSetTagByUser.description, 555});
-        // }
 
         connect(ui->nextPageButton, &QPushButton::clicked, this, &MainWindow::openMainScreen);
         break;
@@ -258,18 +244,19 @@ void MainWindow::loadXmlData()
             summary::operationsRegularExpenses.amount += operation.amount;
             summary::operationsTotal.amount += operation.amount;
         }
-        else if (operation.categoryTag == PHOTOGRAPHY)
-        {
-            operationsPhotography.emplace_back(operation);
-            summary::operationsPhotography.amount += operation.amount;
-            summary::operationsTotal.amount += operation.amount;
-        }
         else if (operation.categoryTag == OTHERS)
         {
             operationsOthers.emplace_back(operation);
             summary::operationsOthers.amount += operation.amount;
             summary::operationsTotal.amount += operation.amount;
         }
+        else if (operation.categoryTag == PHOTOGRAPHY)
+        {
+            operationsPhotography.emplace_back(operation);
+            summary::operationsPhotography.amount += operation.amount;
+            summary::operationsTotal.amount += operation.amount;
+        }
+
         else if (operation.categoryTag == SELF_DEFINED)
         {
             operationsSelfDefined.emplace_back(operation);
@@ -295,8 +282,8 @@ void MainWindow::printXmlData()
     QPoint p3 = drawExpensesLabels(ui->groceryShoppingLabelsContainer, ui->groceryShoppingHeading, operationsGroceryShopping, GROCERY_SHOPPING, p2);
     QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operationsTransport, TRANSPORT, p3);
     QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
-    QPoint p6 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsOthers, OTHERS, p5);
-    QPoint p7 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsPhotography, PHOTOGRAPHY, p6);
+    QPoint p6 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsPhotography, OTHERS, p5);
+    QPoint p7 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsPhotography, PHOTOGRAPHY, p6);
     QPoint p8 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p7);
 }
 
