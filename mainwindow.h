@@ -90,6 +90,7 @@ private:
     std::vector<Operation> operationsPhotography;
     std::vector<Operation> operationsOthers;
     std::vector<Operation> operationsSelfDefined;
+    std::vector<Operation> operationsIncoming;
     std::vector<Operation> operationsSummary;
     std::vector<Operation>::iterator operationsSelfDefinedIterator;
 };

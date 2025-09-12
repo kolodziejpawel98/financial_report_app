@@ -23,8 +23,8 @@ constexpr int REGULAR_EXPENSES = 5;
 constexpr int OTHERS = 6;
 constexpr int PHOTOGRAPHY = 7;
 constexpr int SELF_DEFINED = 8;
+constexpr int INCOMING_MONEY = 9;
 constexpr int ERROR = -1;
-constexpr int INCOMING_MONEY = 999;
 
 enum class Month
 {
@@ -105,6 +105,7 @@ namespace summary
     extern Operation operationsRegularExpenses;
     extern Operation operationsOthers;
     extern Operation operationsPhotography;
+    extern Operation operationsIncoming;
     extern Operation operationsTotal;
 }
 

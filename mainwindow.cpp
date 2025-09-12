@@ -261,6 +261,10 @@ void MainWindow::loadXmlData()
         {
             operationsSelfDefined.emplace_back(operation);
         }
+        else if (operation.categoryTag == INCOMING_MONEY)
+        {
+            operationsIncoming.emplace_back(operation);
+        }
     }
 
     operationsSummary = {summary::operationsEatingOut,
@@ -270,6 +274,7 @@ void MainWindow::loadXmlData()
                          summary::operationsRegularExpenses,
                          summary::operationsOthers,
                          summary::operationsPhotography,
+                         summary::operationsIncoming,
                          summary::operationsTotal};
     allOperations.clear();
 }
@@ -282,9 +287,10 @@ void MainWindow::printXmlData()
     QPoint p3 = drawExpensesLabels(ui->groceryShoppingLabelsContainer, ui->groceryShoppingHeading, operationsGroceryShopping, GROCERY_SHOPPING, p2);
     QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operationsTransport, TRANSPORT, p3);
     QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
-    QPoint p6 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsPhotography, OTHERS, p5);
+    QPoint p6 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsOthers, OTHERS, p5);
     QPoint p7 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsPhotography, PHOTOGRAPHY, p6);
-    QPoint p8 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p7);
+    QPoint p8 = drawExpensesLabels(ui->incomingLabelsContainer, ui->incomingHeading, operationsIncoming, INCOMING_MONEY, p7);
+    QPoint p9 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p8);
 }
 
 QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer,

@@ -97,6 +97,7 @@ namespace summary
     Operation operationsRegularExpenses{Date{}, "", "regular expenses", 0.0, 0.0, 5};
     Operation operationsOthers{Date{}, "", "others", 0.0, 0.0, 6};
     Operation operationsPhotography{Date{}, "", "photography", 0.0, 0.0, 7};
+    Operation operationsIncoming{Date{}, "", "incoming", 0.0, 0.0, 9};
     Operation operationsTotal{Date{}, "", "total", 0.0, 0.0, 8};
 }
 
