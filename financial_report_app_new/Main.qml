@@ -1,50 +1,52 @@
 import QtQuick
 import QtQuick.Controls 2.15
 
-Window {
+ApplicationWindow {
+    visible: true
     width: 1266
     height: 668
-    visible: true
-    title: qsTr("Hello World")
 
-    Rectangle {
-        id: rectangle
-        x: 53
-        y: 43
-        width: 919
-        height: 303
-        color: "#fbe18f"
-        radius: 9
+    StackView {
+        id: stackView
+        anchors.fill: parent
+        initialItem: mainScreenComponent
     }
 
-Button {
-    id: button
-    x: 475
-    y: 407
-    width: 515
-    height: 162
-    text: "Hover me bro"
-    font.bold: true
-    font.pointSize: 14
-    hoverEnabled: true
-    onClicked: backend.printTestString()
+    Component {
+        id: mainScreenComponent
+        Rectangle {
+            width: stackView.width
+            height: stackView.height
+            color: "#fbe18f"
 
-    background: Rectangle {
-        id: bg
-        radius: 8
-        color: button.containsMouse ? "darkred" : "red"
-        Behavior on color { ColorAnimation { duration: 200 } }
+            Button {
+                id: myButton
+                anchors.centerIn: parent
+                width: 250
+                height: 60
+                text: "Next screen"
 
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
+                onClicked: {
+                    backend.printTestString()
+                    stackView.push(secondScreenComponent)
+                }
 
-            onClicked: {
-                backend.printTestString()
+                background: Rectangle {
+                    radius: 8
+                    color: myButton.containsMouse ? "darkred" : "red"
+                    Behavior on color { ColorAnimation { duration: 200 } }
+                }
             }
         }
     }
-}
 
+    Component {
+        id: secondScreenComponent
+        Loader {
+            source: "SecondScreen.qml"
+            onLoaded: {
+                item.requestPop.connect(function() { stackView.pop() })
+            }
+        }
+    }
 }
