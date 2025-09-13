@@ -10,6 +10,8 @@ qt_standard_project_setup(REQUIRES 6.8)
 
 qt_add_executable(appfinancial_report_app_new
     main.cpp
+    backend/backend.cpp
+    xml_cpp_training/external/tinyxml2-master/tinyxml2.cpp
 )
 
 qt_add_qml_module(appfinancial_report_app_new
@@ -39,4 +41,9 @@ install(TARGETS appfinancial_report_app_new
     BUNDLE DESTINATION .
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
+
+include_directories(xml_cpp_training/external/tinyxml2-master)
+target_include_directories(appfinancial_report_app_new PRIVATE
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/json-develop/include
 )

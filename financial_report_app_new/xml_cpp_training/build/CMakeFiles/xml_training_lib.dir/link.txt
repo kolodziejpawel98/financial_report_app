@@ -1,0 +1,2 @@
+/usr/bin/ar qc libxml_training_lib.a CMakeFiles/xml_training_lib.dir/xml_training_lib.cpp.o
+/usr/bin/ranlib libxml_training_lib.a
