@@ -47,3 +47,8 @@ include_directories(xml_cpp_training/external/tinyxml2-master)
 target_include_directories(appfinancial_report_app_new PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}/external/json-develop/include
 )
+
+find_package(Qt6 REQUIRED COMPONENTS Quick Widgets)
+target_link_libraries(appfinancial_report_app_new
+    PRIVATE Qt6::Quick Qt6::Widgets
+)

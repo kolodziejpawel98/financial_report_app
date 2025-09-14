@@ -54,7 +54,7 @@ Window {
             hoverEnabled: true
             cursorShape: Qt.PointingHandCursor
             onClicked: {
-                backend.printTestString()
+                backend.loadXmlButtonClicked()
             }
             onEntered: parent.background.color = "#b073fa"
             onExited: parent.background.color = "#BB86FC"
