@@ -19,7 +19,6 @@ qt_add_qml_module(appfinancial_report_app_new
     VERSION 1.0
     QML_FILES
         Main.qml
-        SecondScreen.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.

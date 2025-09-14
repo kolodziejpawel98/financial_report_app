@@ -289,8 +289,8 @@ void MainWindow::printXmlData()
     QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
     QPoint p6 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsOthers, OTHERS, p5);
     QPoint p7 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsPhotography, PHOTOGRAPHY, p6);
-    QPoint p8 = drawExpensesLabels(ui->incomingLabelsContainer, ui->incomingHeading, operationsIncoming, INCOMING_MONEY, p7);
-    QPoint p9 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p8);
+    // QPoint p8 = drawExpensesLabels(ui->incomingLabelsContainer, ui->incomingHeading, operationsIncoming, INCOMING_MONEY, p7);
+    QPoint p8 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p7);
 }
 
 QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer,
