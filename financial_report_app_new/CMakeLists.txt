@@ -12,6 +12,7 @@ qt_add_executable(appfinancial_report_app_new
     main.cpp
     backend/backend.cpp
     xml_cpp_training/external/tinyxml2-master/tinyxml2.cpp
+    xml/xmlParser.cpp
 )
 
 qt_add_qml_module(appfinancial_report_app_new

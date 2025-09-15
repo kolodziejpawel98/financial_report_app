@@ -246,7 +246,7 @@ std::string getOperationChild(XMLElement *tag, const char *child)
 //     return result;
 // }
 
-std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth)
+std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth, bool isDescriptionShortened)
 {
     std::vector<Operation> result;
     XMLDocument doc;
@@ -266,9 +266,9 @@ std::vector<Operation> getOperationsByDate(const char *path, Month selectedMonth
             std::string amountStr = getOperationChild(op, "amount");
             std::string balanceStr = getOperationChild(op, "ending-balance");
 
-            std::string cleanDesc = extractCrucialDescriptionData(desc, type);
+            std::string processedDescription = isDescriptionShortened ? extractCrucialDescriptionData(desc, type) : desc;
 
-            result.emplace_back(date, type, cleanDesc, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
+            result.emplace_back(date, type, processedDescription, myStringToDouble(amountStr), myStringToDouble(cleanBalanceString(balanceStr)));
         }
         op = op->NextSiblingElement("operation");
     }

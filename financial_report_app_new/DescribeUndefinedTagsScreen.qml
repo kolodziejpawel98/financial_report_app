@@ -39,8 +39,6 @@ Rectangle {
         }
     }
 
-
-
     Rectangle {
         id: mainScreenBackgroundRectangle
         x: 0
@@ -49,9 +47,6 @@ Rectangle {
         height: 668
         color: "#b0282828"
     }
-
-
-
 
     Rectangle {
         id: rectangle
@@ -63,15 +58,36 @@ Rectangle {
         radius: 10
     }
 
-
     Button {
+        id: acceptUserTagAndDescriptionButton
         width: 91
         height: 33
         anchors.centerIn: parent
         text: "OK"
-        anchors.verticalCenterOffset: 81
+        anchors.verticalCenterOffset: 155
         anchors.horizontalCenterOffset: 112
-        onClicked: stackView.pop()
+        onClicked: backend.nextOperation();
+        // onClicked: stackView.pop()
+    }
+
+    TextArea {
+        id: userOperationDescriptionTextArena
+        x: 391
+        y: 312
+        width: 399
+        height: 110
+        placeholderTextColor: "#006cc65b"
+        placeholderText: qsTr("Text Area")
+        wrapMode: Text.Wrap
+
+        background: Rectangle {
+            color: "#292929"
+            radius: 5
+            border.color: "#555555"
+            border.width: 1
+        }
+
+        color: "white"
     }
 
     Button {
@@ -85,8 +101,8 @@ Rectangle {
 
     Text {
         id: text1
-        x: 406
-        y: 263
+        x: 391
+        y: 206
         width: 64
         height: 14
         text: qsTr("Operation:")
@@ -95,34 +111,46 @@ Rectangle {
     }
 
     Text {
-        id: text3
-        x: 476
-        y: 263
-        width: 486
-        height: 42
-        text: qsTr("sampletext sampletext sampletext sampletextsampletext sampletextsampletext sampletext")
+        id: operationDescriptionText
+        x: 465
+        y: 206
+        width: 325
+        height: 89
         font.pixelSize: 12
         horizontalAlignment: Text.AlignLeft
         verticalAlignment: Text.AlignTop
         font.weight: Font.Normal
+        wrapMode: Text.WordWrap
     }
 
-    TextField {
-        id: textField
-        x: 406
-        y: 311
-        width: 384
-        height: 24
-        placeholderText: qsTr("Text Field")
-    }
+    // TextField {
+    //     id: userOperationDescriptionTextArena
+    //     x: 406
+    //     y: 358
+    //     width: 384
+    //     height: 24
+    // }
 
     ComboBox {
-        id: comboBox
+        id: operationTagsComboBox
         x: 626
-        y: 354
+        y: 435
         width: 164
         height: 24
     }
 
 
+    Component.onCompleted: {
+        backend.initDescribeUndefinedTagsScreen()
+
+        operationDescriptionText.text = backend.getOperationDescriptionText()
+        userOperationDescriptionTextArena.text = backend.getuserOperationDescriptionTextArena()
+        operationTagsComboBox.model = backend.getComboBoxItems()
+    }
 }
+
+/*##^##
+Designer {
+    D{i:0}D{i:1;locked:true}D{i:2;locked:true}D{i:3;locked:true}D{i:4;locked:true}D{i:5;locked:true}
+}
+##^##*/

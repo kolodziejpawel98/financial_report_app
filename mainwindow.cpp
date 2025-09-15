@@ -40,6 +40,7 @@ void MainWindow::menuManager()
         ui->tagsDropDownList->addItem("Fotografia");
 
         loadXmlData();
+    std::cout << "operationsPhotography.size = " << operationsPhotography.size() << std::endl;
 
         if (!operationsSelfDefined.empty())
         {

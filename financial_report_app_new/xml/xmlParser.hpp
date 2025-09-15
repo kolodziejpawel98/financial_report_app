@@ -92,7 +92,7 @@ std::string extractCrucialDescriptionData(const std::string &descriptionFull, co
 XMLElement *getFirstOperationTag(XMLDocument &xmlDocument);
 std::string getOperationChild(XMLElement *operationTag, const char *childName);
 std::vector<Operation> getAllOperations(const char *path);
-std::vector<Operation> getOperationsByDate(const char *path, Month);
+std::vector<Operation> getOperationsByDate(const char *path, Month, bool = true);
 double myStringToDouble(const std::string &str);
 std::string cleanBalanceString(const std::string &input);
 
