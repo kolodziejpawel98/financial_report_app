@@ -49,21 +49,51 @@ void Backend::initDescribeUndefinedTagsScreen()
     }
 }
 
-void Backend::nextOperation()
+void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTIFY)
 {
-    // if (!m_rootObject)
-    //     return;
 
-    // QObject *comboBox = m_rootObject->findChild<QObject *>("operationTagsComboBox");
-    // std::cout << "xd" << std::endl;
-    // if (comboBox)
-    // {
-    //     std::cout << "xd222" << std::endl;
-    //     int index = comboBox->property("currentIndex").toInt();
-    //     QString text = comboBox->property("currentText").toString();
-    //     std::cout << "Selected index:" << index << "text:" << text.toStdString() << std::endl;
-    // }
+    int index = getUserDescriptionCurrentTagIndex();
+    if (operationsSelfDefinedIterator != operationsSelfDefined.end() && index != 0)
+    {
+        // cardTransactionCategories.insert({operationsSelfDefinedIterator->description, ui->tagsDropDownList->currentIndex()});
+        std::cout << "insertujemy: " << operationsSelfDefinedIterator->description << " " << index << std::endl;
+        // ui->tagsDropDownList->setCurrentText("<wybierz kategorie>");
+        ++operationsSelfDefinedIterator;
+        if (operationsSelfDefinedIterator != operationsSelfDefined.end())
+        {
+            std::cout << "ustawiam teraz w text: " << operationsSelfDefinedIterator->description << std::endl;
+            // ui->operationForSettingTagLabel->setText(
+            //     QString::fromStdString(operationsSelfDefinedIterator->description));
+        }
+    }
+    else
+    {
+        std::cout << "koniec" << std::endl;
+        // ui->nextPageButton->setVisible(true);
+    }
 }
+
+int Backend::getUserDescriptionCurrentTagIndex() const { return userDescriptionCurrentTagIndex; }
+
+void Backend::setUserDescriptionCurrentTagIndex(int index)
+{
+    if (userDescriptionCurrentTagIndex != index)
+    {
+        userDescriptionCurrentTagIndex = index;
+        emit userDescriptionCurrentTagIndexChanged();
+    }
+}
+
+// QString Backend::getUserDescriptionCurrentText() const { return userDescriptionCurrentText; }
+
+// void Backend::setUserDescriptionCurrentText(const QString &text)
+// {
+//     if (userDescriptionCurrentText != text)
+//     {
+//         userDescriptionCurrentText = text;
+//         emit currentTextChanged();
+//     }
+// }
 
 void Backend::loadXmlData(bool isDescriptionShortened)
 {

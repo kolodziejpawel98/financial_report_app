@@ -7,6 +7,8 @@
 
 class Backend : public QObject {
     Q_OBJECT
+    Q_PROPERTY(int userDescriptionCurrentTagIndex READ getUserDescriptionCurrentTagIndex WRITE setUserDescriptionCurrentTagIndex NOTIFY userDescriptionCurrentTagIndexChanged)
+    // Q_PROPERTY(QString userDescriptionCurrentText READ getUserDescriptionCurrentText WRITE setUserDescriptionCurrentText NOTIFY userDescriptionCurrentTextChanged)
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent) {}
     void setRootObject(QObject *root) { m_rootObject = root; }
@@ -21,6 +23,11 @@ public:
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     void loadXmlData(bool = true);
     Q_INVOKABLE void nextOperation();
+
+    int getUserDescriptionCurrentTagIndex() const;
+    void setUserDescriptionCurrentTagIndex(int);
+    // QString getUserDescriptionCurrentText() const;
+    // void setUserDescriptionCurrentText(const QString &);
 
 private:
     QObject *m_rootObject = nullptr;
@@ -42,4 +49,11 @@ private:
     std::vector<Operation> operationsIncoming;
     std::vector<Operation> operationsSummary;
     std::vector<Operation>::iterator operationsSelfDefinedIterator;
+
+    int userDescriptionCurrentTagIndex = -1;
+    // QString userDescriptionCurrentText = "";
+
+signals:
+    void userDescriptionCurrentTagIndexChanged();
+    // void userDescriptionCurrentTextChanged();
 };

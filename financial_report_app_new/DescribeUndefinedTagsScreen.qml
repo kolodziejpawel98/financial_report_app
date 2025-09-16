@@ -133,12 +133,13 @@ Rectangle {
 
     ComboBox {
         id: operationTagsComboBox
+        objectName: "operationTagsComboBox"
         x: 626
         y: 435
         width: 164
         height: 24
+        onCurrentIndexChanged: backend.userDescriptionCurrentTagIndex = currentIndex
     }
-
 
     Component.onCompleted: {
         backend.initDescribeUndefinedTagsScreen()
