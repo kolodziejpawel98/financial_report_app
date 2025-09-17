@@ -51,17 +51,15 @@ void Backend::initDescribeUndefinedTagsScreen()
 
 void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTIFY)
 {
-
-    int index = getUserDescriptionCurrentTagIndex();
-    if (operationsSelfDefinedIterator != operationsSelfDefined.end() && index != 0)
+    if (operationsSelfDefinedIterator != operationsSelfDefined.end() && getUserDescriptionCurrentTagIndex() != 0)
     {
-        // cardTransactionCategories.insert({operationsSelfDefinedIterator->description, ui->tagsDropDownList->currentIndex()});
-        std::cout << "insertujemy: " << operationsSelfDefinedIterator->description << " " << index << std::endl;
-        // ui->tagsDropDownList->setCurrentText("<wybierz kategorie>");
+        cardTransactionCategories.insert({operationsSelfDefinedIterator->description, getUserDescriptionCurrentTagIndex()});
+        // setUserDescriptionCurrentTagIndex(0);
         ++operationsSelfDefinedIterator;
         if (operationsSelfDefinedIterator != operationsSelfDefined.end())
         {
-            std::cout << "ustawiam teraz w text: " << operationsSelfDefinedIterator->description << std::endl;
+            std::cout << "operationsSelfDefinedIterator->description = " << operationsSelfDefinedIterator->description << std::endl;
+            setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
             // ui->operationForSettingTagLabel->setText(
             //     QString::fromStdString(operationsSelfDefinedIterator->description));
         }
@@ -81,6 +79,17 @@ void Backend::setUserDescriptionCurrentTagIndex(int index)
     {
         userDescriptionCurrentTagIndex = index;
         emit userDescriptionCurrentTagIndexChanged();
+    }
+}
+
+QString Backend::getUserOperationDescriptionText() const { return userOperationDescriptionText; }
+
+void Backend::setUserOperationDescriptionText(const QString &text)
+{
+    if (userOperationDescriptionText != text)
+    {
+        userOperationDescriptionText = text;
+        emit userOperationDescriptionTextChanged();
     }
 }
 

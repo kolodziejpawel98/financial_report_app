@@ -88,6 +88,7 @@ Rectangle {
         }
 
         color: "white"
+        onTextChanged: backend.userOperationDescriptionText = text
     }
 
     Button {
