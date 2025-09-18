@@ -21,20 +21,20 @@ QString Backend::getOperationDescriptionText() const
     return operationDescriptionText;
 }
 
-QString Backend::getuserOperationDescriptionTextArena() const
-{
-    return userOperationDescriptionTextArena;
-}
+// QString Backend::getuserOperationDescriptionTextArena() const
+// {
+//     return userOperationDescriptionTextArena;
+// }
 
 void Backend::setOperationDescriptionText(QString text)
 {
     operationDescriptionText = text;
 }
 
-void Backend::setuserOperationDescriptionTextArena(QString text)
-{
-    userOperationDescriptionTextArena = text;
-}
+// void Backend::setuserOperationDescriptionTextArena(QString text)
+// {
+//     userOperationDescriptionTextArena = text;
+// }
 
 void Backend::initDescribeUndefinedTagsScreen()
 {
@@ -45,15 +45,15 @@ void Backend::initDescribeUndefinedTagsScreen()
     {
         operationsSelfDefinedIterator = operationsSelfDefined.begin();
         setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
-        setuserOperationDescriptionTextArena(QString::fromStdString(operationsSelfDefinedIterator->description));
+        setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
     }
 }
 
 void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTIFY)
 {
-    if (operationsSelfDefinedIterator != operationsSelfDefined.end() && getUserDescriptionCurrentTagIndex() != 0)
+    if (operationsSelfDefinedIterator != operationsSelfDefined.end() && tagIndex->getUserDescriptionCurrentTagIndex() != 0)
     {
-        cardTransactionCategories.insert({operationsSelfDefinedIterator->description, getUserDescriptionCurrentTagIndex()});
+        cardTransactionCategories.insert({operationsSelfDefinedIterator->description, tagIndex->getUserDescriptionCurrentTagIndex()});
         // setUserDescriptionCurrentTagIndex(0);
         ++operationsSelfDefinedIterator;
         if (operationsSelfDefinedIterator != operationsSelfDefined.end())
@@ -71,9 +71,9 @@ void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTI
     }
 }
 
-int Backend::getUserDescriptionCurrentTagIndex() const { return userDescriptionCurrentTagIndex; }
+int TagIndex::getUserDescriptionCurrentTagIndex() const { return userDescriptionCurrentTagIndex; }
 
-void Backend::setUserDescriptionCurrentTagIndex(int index)
+void TagIndex::setUserDescriptionCurrentTagIndex(int index)
 {
     if (userDescriptionCurrentTagIndex != index)
     {

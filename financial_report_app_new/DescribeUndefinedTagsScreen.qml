@@ -139,14 +139,14 @@ Rectangle {
         y: 435
         width: 164
         height: 24
-        onCurrentIndexChanged: backend.userDescriptionCurrentTagIndex = currentIndex
+        onCurrentIndexChanged: backend.tagIndex.userDescriptionCurrentTagIndex = currentIndex
     }
 
     Component.onCompleted: {
         backend.initDescribeUndefinedTagsScreen()
 
         operationDescriptionText.text = backend.getOperationDescriptionText()
-        userOperationDescriptionTextArena.text = backend.getuserOperationDescriptionTextArena()
+        userOperationDescriptionTextArena.text = backend.userOperationDescriptionText
         operationTagsComboBox.model = backend.getComboBoxItems()
     }
 }

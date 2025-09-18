@@ -5,12 +5,30 @@
 #include <iostream>
 #include "xml/xmlParser.hpp"
 
-class Backend : public QObject {
+class TagIndex : public QObject
+{
     Q_OBJECT
     Q_PROPERTY(int userDescriptionCurrentTagIndex
                    READ getUserDescriptionCurrentTagIndex
                        WRITE setUserDescriptionCurrentTagIndex
                            NOTIFY userDescriptionCurrentTagIndexChanged)
+public:
+    explicit TagIndex(QObject *parent = nullptr) : QObject(parent) {}
+
+    int getUserDescriptionCurrentTagIndex() const;
+    void setUserDescriptionCurrentTagIndex(int);
+
+signals:
+    void userDescriptionCurrentTagIndexChanged();
+
+private:
+    int userDescriptionCurrentTagIndex = -1;
+};
+
+class Backend : public QObject
+{
+    Q_OBJECT
+    Q_PROPERTY(TagIndex *tagIndex READ getTagIndex CONSTANT)
     Q_PROPERTY(QString userOperationDescriptionText
                    READ getUserOperationDescriptionText
                        WRITE setUserOperationDescriptionText
@@ -21,28 +39,27 @@ private:
 
     // Q_PROPERTY(QString userDescriptionCurrentText READ getUserDescriptionCurrentText WRITE setUserDescriptionCurrentText NOTIFY userDescriptionCurrentTextChanged)
 public:
-    explicit Backend(QObject *parent = nullptr) : QObject(parent)
-    {
-    }
+    explicit Backend(QObject *parent = nullptr) : QObject(parent), tagIndex(new TagIndex(this)) {}
     void setRootObject(QObject *root) { m_rootObject = root; }
 
     Q_INVOKABLE void printTestString();
     Q_INVOKABLE bool loadXmlButtonClicked();
     Q_INVOKABLE QStringList getComboBoxItems();
     Q_INVOKABLE QString getOperationDescriptionText() const;
-    Q_INVOKABLE QString getuserOperationDescriptionTextArena() const;
+    // Q_INVOKABLE QString getuserOperationDescriptionTextArena() const;
     void setOperationDescriptionText(QString);
-    void setuserOperationDescriptionTextArena(QString);
+    // void setuserOperationDescriptionTextArena(QString);
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     void loadXmlData(bool = true);
     Q_INVOKABLE void nextOperation();
 
-    int getUserDescriptionCurrentTagIndex() const;
-    void setUserDescriptionCurrentTagIndex(int);
+    // int getUserDescriptionCurrentTagIndex() const;
+    // void setUserDescriptionCurrentTagIndex(int);
     QString getUserOperationDescriptionText() const;
     void setUserOperationDescriptionText(const QString &);
     // QString getUserDescriptionCurrentText() const;
     // void setUserDescriptionCurrentText(const QString &);
+    TagIndex *getTagIndex() const { return tagIndex; }
 
 private:
     QObject *m_rootObject = nullptr;
@@ -65,12 +82,13 @@ private:
     std::vector<Operation> operationsSummary;
     std::vector<Operation>::iterator operationsSelfDefinedIterator;
 
-    int userDescriptionCurrentTagIndex = -1;
+    // int userDescriptionCurrentTagIndex = -1;
     QString userOperationDescriptionText = "";
+    TagIndex *tagIndex;
     // QString userDescriptionCurrentText = "";
 
 signals:
-    void userDescriptionCurrentTagIndexChanged();
+    // void userDescriptionCurrentTagIndexChanged();
     void userOperationDescriptionTextChanged();
     // void userDescriptionCurrentTextChanged();
 };
