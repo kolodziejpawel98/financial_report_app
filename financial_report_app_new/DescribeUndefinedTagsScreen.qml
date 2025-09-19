@@ -88,7 +88,8 @@ Rectangle {
         }
 
         color: "white"
-        onTextChanged: backend.userOperationDescriptionText = text
+        onTextChanged: backend.userDescription.userOperationDescriptionText = text
+        text: backend.userDescription.userOperationDescriptionText
     }
 
     Button {
@@ -124,14 +125,6 @@ Rectangle {
         wrapMode: Text.WordWrap
     }
 
-    // TextField {
-    //     id: userOperationDescriptionTextArena
-    //     x: 406
-    //     y: 358
-    //     width: 384
-    //     height: 24
-    // }
-
     ComboBox {
         id: operationTagsComboBox
         objectName: "operationTagsComboBox"
@@ -146,7 +139,6 @@ Rectangle {
         backend.initDescribeUndefinedTagsScreen()
 
         operationDescriptionText.text = backend.getOperationDescriptionText()
-        userOperationDescriptionTextArena.text = backend.userOperationDescriptionText
         operationTagsComboBox.model = backend.getComboBoxItems()
     }
 }

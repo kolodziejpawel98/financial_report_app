@@ -21,20 +21,10 @@ QString Backend::getOperationDescriptionText() const
     return operationDescriptionText;
 }
 
-// QString Backend::getuserOperationDescriptionTextArena() const
-// {
-//     return userOperationDescriptionTextArena;
-// }
-
 void Backend::setOperationDescriptionText(QString text)
 {
     operationDescriptionText = text;
 }
-
-// void Backend::setuserOperationDescriptionTextArena(QString text)
-// {
-//     userOperationDescriptionTextArena = text;
-// }
 
 void Backend::initDescribeUndefinedTagsScreen()
 {
@@ -45,11 +35,11 @@ void Backend::initDescribeUndefinedTagsScreen()
     {
         operationsSelfDefinedIterator = operationsSelfDefined.begin();
         setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
-        setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+        userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
     }
 }
 
-void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTIFY)
+void Backend::nextOperation()
 {
     if (operationsSelfDefinedIterator != operationsSelfDefined.end() && tagIndex->getUserDescriptionCurrentTagIndex() != 0)
     {
@@ -59,7 +49,7 @@ void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTI
         if (operationsSelfDefinedIterator != operationsSelfDefined.end())
         {
             std::cout << "operationsSelfDefinedIterator->description = " << operationsSelfDefinedIterator->description << std::endl;
-            setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+            userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
             // ui->operationForSettingTagLabel->setText(
             //     QString::fromStdString(operationsSelfDefinedIterator->description));
         }
@@ -71,9 +61,9 @@ void Backend::nextOperation() // todo: change to Q_PROPERTY (READ / WRITE / NOTI
     }
 }
 
-int TagIndex::getUserDescriptionCurrentTagIndex() const { return userDescriptionCurrentTagIndex; }
+int DescribeUndefinedTagsScreen::TagIndex::getUserDescriptionCurrentTagIndex() const { return userDescriptionCurrentTagIndex; }
 
-void TagIndex::setUserDescriptionCurrentTagIndex(int index)
+void DescribeUndefinedTagsScreen::TagIndex::setUserDescriptionCurrentTagIndex(int index)
 {
     if (userDescriptionCurrentTagIndex != index)
     {
@@ -82,27 +72,16 @@ void TagIndex::setUserDescriptionCurrentTagIndex(int index)
     }
 }
 
-QString Backend::getUserOperationDescriptionText() const { return userOperationDescriptionText; }
+QString DescribeUndefinedTagsScreen::UserDescription::getUserOperationDescriptionText() const { return m_userOperationDescriptionText; }
 
-void Backend::setUserOperationDescriptionText(const QString &text)
+void DescribeUndefinedTagsScreen::UserDescription::setUserOperationDescriptionText(const QString &text)
 {
-    if (userOperationDescriptionText != text)
+    if (m_userOperationDescriptionText != text)
     {
-        userOperationDescriptionText = text;
+        m_userOperationDescriptionText = text;
         emit userOperationDescriptionTextChanged();
     }
 }
-
-// QString Backend::getUserDescriptionCurrentText() const { return userDescriptionCurrentText; }
-
-// void Backend::setUserDescriptionCurrentText(const QString &text)
-// {
-//     if (userDescriptionCurrentText != text)
-//     {
-//         userDescriptionCurrentText = text;
-//         emit currentTextChanged();
-//     }
-// }
 
 void Backend::loadXmlData(bool isDescriptionShortened)
 {
