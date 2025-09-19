@@ -16,16 +16,6 @@ QStringList Backend::getComboBoxItems()
     return {"<choose category>", "groceries", "non-grocery shopping", "going-out expenses", "transportation", "regular payments", "others", "photography", "income"};
 }
 
-QString Backend::getOperationDescriptionText() const
-{
-    return operationDescriptionText;
-}
-
-void Backend::setOperationDescriptionText(QString text)
-{
-    operationDescriptionText = text;
-}
-
 void Backend::initDescribeUndefinedTagsScreen()
 {
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
@@ -34,7 +24,7 @@ void Backend::initDescribeUndefinedTagsScreen()
     if (!operationsSelfDefined.empty())
     {
         operationsSelfDefinedIterator = operationsSelfDefined.begin();
-        setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+        operationDescription->setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
         userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
     }
 }
@@ -44,12 +34,12 @@ void Backend::nextOperation()
     if (operationsSelfDefinedIterator != operationsSelfDefined.end() && tagIndex->getUserDescriptionCurrentTagIndex() != 0)
     {
         cardTransactionCategories.insert({operationsSelfDefinedIterator->description, tagIndex->getUserDescriptionCurrentTagIndex()});
-        // setUserDescriptionCurrentTagIndex(0);
         ++operationsSelfDefinedIterator;
         if (operationsSelfDefinedIterator != operationsSelfDefined.end())
         {
-            std::cout << "operationsSelfDefinedIterator->description = " << operationsSelfDefinedIterator->description << std::endl;
+            operationDescription->setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
             userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+            // std::cout << "operationDescriptionText = " << operationDescriptionText.toStdString() << std::endl;
             // ui->operationForSettingTagLabel->setText(
             //     QString::fromStdString(operationsSelfDefinedIterator->description));
         }
@@ -80,6 +70,17 @@ void DescribeUndefinedTagsScreen::UserDescription::setUserOperationDescriptionTe
     {
         m_userOperationDescriptionText = text;
         emit userOperationDescriptionTextChanged();
+    }
+}
+
+QString DescribeUndefinedTagsScreen::OperationDescription::getOperationDescriptionText() const { return m_operationDescriptionText; }
+
+void DescribeUndefinedTagsScreen::OperationDescription::setOperationDescriptionText(const QString &text)
+{
+    if (m_operationDescriptionText != text)
+    {
+        m_operationDescriptionText = text;
+        emit operationDescriptionTextChanged();
     }
 }
 

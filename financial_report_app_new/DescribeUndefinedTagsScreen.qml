@@ -123,6 +123,8 @@ Rectangle {
         verticalAlignment: Text.AlignTop
         font.weight: Font.Normal
         wrapMode: Text.WordWrap
+        onTextChanged: backend.operationDescription.operationDescriptionText = operationDescriptionText.text
+        text: backend.operationDescription.operationDescriptionText
     }
 
     ComboBox {
@@ -137,8 +139,6 @@ Rectangle {
 
     Component.onCompleted: {
         backend.initDescribeUndefinedTagsScreen()
-
-        operationDescriptionText.text = backend.getOperationDescriptionText()
         operationTagsComboBox.model = backend.getComboBoxItems()
     }
 }

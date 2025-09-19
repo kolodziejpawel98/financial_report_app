@@ -27,6 +27,26 @@ namespace DescribeUndefinedTagsScreen
         int userDescriptionCurrentTagIndex = -1;
     };
 
+    class OperationDescription : public QObject
+    {
+        Q_OBJECT
+        Q_PROPERTY(QString operationDescriptionText
+                       READ getOperationDescriptionText
+                           WRITE setOperationDescriptionText
+                               NOTIFY operationDescriptionTextChanged)
+    public:
+        explicit OperationDescription(QObject *parent = nullptr) : QObject(parent) {}
+
+        QString getOperationDescriptionText() const;
+        void setOperationDescriptionText(const QString &);
+
+    signals:
+        void operationDescriptionTextChanged();
+
+    private:
+        QString m_operationDescriptionText = "";
+    };
+
     class UserDescription : public QObject
     {
         Q_OBJECT
@@ -53,32 +73,29 @@ class Backend : public QObject
     Q_OBJECT
     Q_PROPERTY(DescribeUndefinedTagsScreen::TagIndex *tagIndex READ getTagIndex CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::UserDescription *userDescription READ getUserDescription CONSTANT)
+    Q_PROPERTY(DescribeUndefinedTagsScreen::OperationDescription *operationDescription READ getOperationDescription CONSTANT)
 
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent),
                                                   tagIndex(new DescribeUndefinedTagsScreen::TagIndex(this)),
-                                                  userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)) {}
-    void setRootObject(QObject *root) { m_rootObject = root; }
+                                                  userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
+                                                  operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)) {}
 
     Q_INVOKABLE void printTestString();
     Q_INVOKABLE bool loadXmlButtonClicked();
     Q_INVOKABLE QStringList getComboBoxItems();
-    Q_INVOKABLE QString getOperationDescriptionText() const;
-    void setOperationDescriptionText(QString);
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     void loadXmlData(bool = true);
     Q_INVOKABLE void nextOperation();
 
     DescribeUndefinedTagsScreen::TagIndex *getTagIndex() const { return tagIndex; }
     DescribeUndefinedTagsScreen::UserDescription *getUserDescription() const { return userDescription; }
+    DescribeUndefinedTagsScreen::OperationDescription *getOperationDescription() const { return operationDescription; }
 
 private:
-    QObject *m_rootObject = nullptr;
     QString xmlFilePath = "";
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
     Month selectedMonth = Month::April;
-    QString operationDescriptionText = "<empty>";
-    QString userOperationDescriptionTextArena = "<empty>";
 
     std::vector<Operation> allOperations;
     std::vector<Operation> operationsEatingOut;
@@ -95,4 +112,5 @@ private:
 
     DescribeUndefinedTagsScreen::TagIndex *tagIndex;
     DescribeUndefinedTagsScreen::UserDescription *userDescription;
+    DescribeUndefinedTagsScreen::OperationDescription *operationDescription;
 };
