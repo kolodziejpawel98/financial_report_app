@@ -7,7 +7,7 @@ Rectangle {
     color: "#ffffff"
 
     Rectangle {
-        id: sidebar
+        id: menu_sidebar
         x: 0
         y: 0
         width: 186
@@ -19,7 +19,7 @@ Rectangle {
     }
 
     Rectangle {
-        id: topbar
+        id: menu_topbar
         x: 0
         y: 0
         width: 1266
@@ -27,7 +27,7 @@ Rectangle {
         color: "#292929"
         radius: 0
         Text {
-            id: text2
+            id: menu_appName
             x: 28
             y: 27
             width: 265
@@ -40,7 +40,7 @@ Rectangle {
     }
 
     Rectangle {
-        id: mainScreenBackgroundRectangle
+        id: blurredBackground
         x: 0
         y: 0
         width: 1266
@@ -49,7 +49,7 @@ Rectangle {
     }
 
     Rectangle {
-        id: rectangle
+        id: mainContent_whiteBackgroundRectangle
         x: 290
         y: 150
         width: 812
@@ -59,7 +59,7 @@ Rectangle {
     }
 
     Button {
-        id: acceptUserTagAndDescriptionButton
+        id: mainContent_button_acceptUserInput
         width: 91
         height: 33
         anchors.centerIn: parent
@@ -71,7 +71,7 @@ Rectangle {
     }
 
     TextArea {
-        id: userOperationDescriptionTextArena
+        id: mainContent_textArea_userOperationDescription
         x: 391
         y: 312
         width: 399
@@ -93,6 +93,7 @@ Rectangle {
     }
 
     Button {
+        id: mainContent_button_saveChangesAndGoToNextScreen
         width: 153
         height: 33
         text: "Save changes"
@@ -102,7 +103,7 @@ Rectangle {
     }
 
     Text {
-        id: text1
+        id: mainContent_staticText_operation
         x: 391
         y: 206
         width: 64
@@ -113,7 +114,7 @@ Rectangle {
     }
 
     Text {
-        id: operationDescriptionText
+        id: mainContent_staticText_operationName
         x: 465
         y: 206
         width: 325
@@ -123,13 +124,13 @@ Rectangle {
         verticalAlignment: Text.AlignTop
         font.weight: Font.Normal
         wrapMode: Text.WordWrap
-        onTextChanged: backend.operationDescription.operationDescriptionText = operationDescriptionText.text
+        onTextChanged: backend.operationDescription.operationDescriptionText = mainContent_staticText_operationName.text
         text: backend.operationDescription.operationDescriptionText
     }
 
     ComboBox {
-        id: operationTagsComboBox
-        objectName: "operationTagsComboBox"
+        id: mainContent_comboBox_operationTag
+        objectName: "mainContent_comboBox_operationTag"
         x: 626
         y: 435
         width: 164
@@ -139,7 +140,7 @@ Rectangle {
 
     Component.onCompleted: {
         backend.initDescribeUndefinedTagsScreen()
-        operationTagsComboBox.model = backend.getComboBoxItems()
+        mainContent_comboBox_operationTag.model = backend.getComboBoxItems()
     }
 }
 

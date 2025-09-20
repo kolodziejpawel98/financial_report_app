@@ -6,7 +6,7 @@ Rectangle {
     height: 668
 
     Rectangle {
-        id: sidebar
+        id: menu_sidebar
         x: 0
         y: 0
         width: 186
@@ -17,7 +17,7 @@ Rectangle {
         border.width: 0
     }
     Rectangle {
-        id: topbar
+        id: menu_topbar
         x: 0
         y: 0
         width: 1266
@@ -26,7 +26,7 @@ Rectangle {
         radius: 0
 
         Text {
-            id: text2
+            id: menu_appName
             x: 28
             y: 27
             width: 265
@@ -39,7 +39,7 @@ Rectangle {
     }
 
     Button {
-        id: loadXmlButtonBackground
+        id: button_loadXmlBig
         x: 500
         y: 254
         width: 350
@@ -71,7 +71,7 @@ Rectangle {
         }
 
         Text {
-            id: text1
+            id: button_loadXmlSmall
             x: 123
             y: 173
             width: 105
@@ -90,7 +90,7 @@ Rectangle {
         }
 
         Image {
-            id: image
+            id: button_icon
             x: 125
             y: 61
             width: 100
