@@ -75,11 +75,19 @@ class Backend : public QObject
     Q_PROPERTY(DescribeUndefinedTagsScreen::UserDescription *userDescription READ getUserDescription CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::OperationDescription *operationDescription READ getOperationDescription CONSTANT)
 
+    Q_PROPERTY(QStringList dynamicButtons READ getDynamicButtons CONSTANT)
+
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent),
                                                   tagIndex(new DescribeUndefinedTagsScreen::TagIndex(this)),
                                                   userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
                                                   operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)) {}
+
+public:
+    QStringList getDynamicButtons() const
+    {
+        return {"One", "Two", "Three", "Four", "Five", "Six"};
+    }
 
     Q_INVOKABLE void printTestString();
     Q_INVOKABLE bool loadXmlButtonClicked();

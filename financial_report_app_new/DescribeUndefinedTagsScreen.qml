@@ -100,6 +100,8 @@ Rectangle {
         anchors.verticalCenterOffset: 220
         anchors.horizontalCenterOffset: 366
         anchors.centerIn: parent
+        onClicked: stackView.push("OperationsByType.qml")
+
     }
 
     Text {

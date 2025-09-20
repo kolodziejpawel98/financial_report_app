@@ -22,6 +22,7 @@ qt_add_qml_module(appfinancial_report_app_new
         Main.qml
         LoadXmlScreen.qml
         DescribeUndefinedTagsScreen.qml
+        OperationsByType.qml
 )
 
 # Qt for iOS sets MACOSX_BUNDLE_GUI_IDENTIFIER automatically since Qt 6.1.
