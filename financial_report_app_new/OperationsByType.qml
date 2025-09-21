@@ -46,24 +46,54 @@ Rectangle {
 
 
 
+// Flow {
+//     id: buttonContainer
+//     x: 222
+//     y: 128
+//     width: 1006
+//     height: 58
+//     spacing: 10
+
+//     Repeater {
+//         model: backend.dynamicButtons
+
+//         Button {
+//             text: modelData
+//             width: 120
+//             height: 40
+
+//             onClicked: {
+//                 console.log("button pushed", text)
+//             }
+//         }
+//     }
+// }
 Flow {
     id: buttonContainer
+    spacing: 10
     x: 222
     y: 128
     width: 1006
     height: 58
-    spacing: 10
 
     Repeater {
-        model: backend.dynamicButtons
-
-        Button {
-            text: modelData
-            width: 120
+        model: backend.operationButtons.operationButtons
+        delegate: Button {
+            text: modelData.buttonText
+            width: modelData.buttonWidth
             height: 40
 
+            hoverEnabled: true
+            onHoveredChanged: {
+                if (hovered) {
+                    cursor: Qt.PointingHandCursor
+                    // backend.operationButtons.operationButtons.operationButtonsHovered(text) ??
+                    console.log("hover", text)
+                }
+            }
+
             onClicked: {
-                console.log("button pushed", text)
+                console.log("clicked", text)
             }
         }
     }

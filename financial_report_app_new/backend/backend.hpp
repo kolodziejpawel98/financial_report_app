@@ -1,6 +1,7 @@
 #include <QObject>
 #include <QDebug>
 #include <QFileDialog>
+#include <QQmlListProperty>
 #include "globals.hpp"
 #include <iostream>
 #include "xml/xmlParser.hpp"
@@ -68,24 +69,90 @@ namespace DescribeUndefinedTagsScreen
     };
 }
 
+namespace OperationsByTypeScreen
+{
+
+    class OperationButton : public QObject
+    {
+        Q_OBJECT
+        Q_PROPERTY(QString buttonText READ getButtonText WRITE setButtonText NOTIFY buttonTextChanged)
+        Q_PROPERTY(int buttonWidth READ getButtonWidth WRITE setButtonWidth NOTIFY buttonWidthChanged)
+    public:
+        OperationButton(QString text, int width, QObject *parent = nullptr)
+            : QObject(parent), m_buttonText(text), m_buttonWidth(width) {}
+
+        QString getButtonText() const { return m_buttonText; }
+        void setButtonText(const QString &text)
+        {
+            if (m_buttonText != text)
+            {
+                m_buttonText = text;
+                emit buttonTextChanged();
+            }
+        }
+
+        int getButtonWidth() const { return m_buttonWidth; }
+        void setButtonWidth(int w)
+        {
+            if (m_buttonWidth != w)
+            {
+                m_buttonWidth = w;
+                emit buttonWidthChanged();
+            }
+        }
+
+    signals:
+        void buttonTextChanged();
+        void buttonWidthChanged();
+
+    private:
+        QString m_buttonText;
+        int m_buttonWidth;
+    };
+
+    class OperationButtons : public QObject
+    {
+        Q_OBJECT
+        Q_PROPERTY(QQmlListProperty<OperationsByTypeScreen::OperationButton> operationButtons READ getOperationButtons NOTIFY operationButtonsChanged)
+
+    public:
+        explicit OperationButtons(QObject *parent = nullptr) : QObject(parent)
+        {
+
+            m_buttons.append(new OperationsByTypeScreen::OperationButton("Onwwwwwwwe", 420, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButton("Two", 150, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButton("Three", 180, this));
+        }
+
+        QQmlListProperty<OperationsByTypeScreen::OperationButton> getOperationButtons()
+        {
+            return QQmlListProperty<OperationsByTypeScreen::OperationButton>(this, &m_buttons);
+        }
+
+    signals:
+        void operationButtonsChanged();
+        void operationButtonsHovered(QString text);
+
+    private:
+        QList<OperationsByTypeScreen::OperationButton *> m_buttons;
+    };
+}
+
 class Backend : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(DescribeUndefinedTagsScreen::TagIndex *tagIndex READ getTagIndex CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::UserDescription *userDescription READ getUserDescription CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::OperationDescription *operationDescription READ getOperationDescription CONSTANT)
-
-    Q_PROPERTY(QStringList dynamicButtons READ getDynamicButtons CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtons *operationButtons READ getOperationButtons CONSTANT)
 
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent),
                                                   tagIndex(new DescribeUndefinedTagsScreen::TagIndex(this)),
                                                   userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
-                                                  operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)) {}
-
-    QStringList getDynamicButtons() const
+                                                  operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)),
+                                                  operationButtons(new OperationsByTypeScreen::OperationButtons(this))
     {
-        return {"One", "Two", "Three", "Four", "Five", "Six"};
     }
 
     void setRootObject(QObject *root) { m_rootObject = root; }
@@ -101,6 +168,7 @@ public:
     DescribeUndefinedTagsScreen::TagIndex *getTagIndex() const { return tagIndex; }
     DescribeUndefinedTagsScreen::UserDescription *getUserDescription() const { return userDescription; }
     DescribeUndefinedTagsScreen::OperationDescription *getOperationDescription() const { return operationDescription; }
+    OperationsByTypeScreen::OperationButtons *getOperationButtons() const { return operationButtons; }
 
 private:
     QObject *m_rootObject = nullptr;
@@ -124,4 +192,5 @@ private:
     DescribeUndefinedTagsScreen::TagIndex *tagIndex;
     DescribeUndefinedTagsScreen::UserDescription *userDescription;
     DescribeUndefinedTagsScreen::OperationDescription *operationDescription;
+    OperationsByTypeScreen::OperationButtons *operationButtons;
 };
