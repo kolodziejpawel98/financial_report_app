@@ -5,6 +5,12 @@ Rectangle {
     width: 1266
     height: 668
 
+
+    Component.onCompleted: {
+        backend.initOperationsByType()
+    }
+
+
     Rectangle {
         id: menu_sidebar
         x: 0

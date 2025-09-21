@@ -94,6 +94,7 @@ Rectangle {
 
     Button {
         id: mainContent_button_saveChangesAndGoToNextScreen
+        objectName: "mainContent_button_saveChangesAndGoToNextScreen"
         width: 153
         height: 33
         text: "Save changes"

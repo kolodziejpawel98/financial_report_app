@@ -20,6 +20,11 @@ void Backend::initDescribeUndefinedTagsScreen()
 {
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
     loadXmlData(false);
+    QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
+    if (buttonSaveChanges)
+    {
+        buttonSaveChanges->setProperty("enabled", false);
+    }
 
     if (!operationsSelfDefined.empty())
     {
@@ -29,25 +34,33 @@ void Backend::initDescribeUndefinedTagsScreen()
     }
 }
 
+void Backend::initOperationsByType()
+{
+    std::cout << "HERE I AM" << std::endl;
+    loadXmlData();
+}
+
 void Backend::nextOperation()
 {
     if (operationsSelfDefinedIterator != operationsSelfDefined.end() && tagIndex->getUserDescriptionCurrentTagIndex() != 0)
     {
-        cardTransactionCategories.insert({operationsSelfDefinedIterator->description, tagIndex->getUserDescriptionCurrentTagIndex()});
+        // !!!!!!!!!!!!!!!!!! do not remove below (need to add implementation)
+        // cardTransactionCategories.insert({operationsSelfDefinedIterator->description, tagIndex->getUserDescriptionCurrentTagIndex()});
+        // !!!!!!!!!!!!!!!!!! do not remove
         ++operationsSelfDefinedIterator;
         if (operationsSelfDefinedIterator != operationsSelfDefined.end())
         {
             operationDescription->setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
             userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
-            // std::cout << "operationDescriptionText = " << operationDescriptionText.toStdString() << std::endl;
-            // ui->operationForSettingTagLabel->setText(
-            //     QString::fromStdString(operationsSelfDefinedIterator->description));
         }
     }
     else
     {
-        std::cout << "koniec" << std::endl;
-        // ui->nextPageButton->setVisible(true);
+        QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
+        if (buttonSaveChanges)
+        {
+            buttonSaveChanges->setProperty("enabled", true);
+        }
     }
 }
 
@@ -166,3 +179,59 @@ void Backend::loadXmlData(bool isDescriptionShortened)
                          summary::operationsTotal};
     allOperations.clear();
 }
+
+void Backend::printXmlDataOnScreen()
+{
+    // QPoint p0{290, 110};
+    // QPoint p1 = drawExpensesLabels(ui->eatingOutLabelsContainer, ui->eatingOutHeading, operationsEatingOut, EATING_OUT, p0);
+    // QPoint p2 = drawExpensesLabels(ui->nonGroceryShoppingLabelsContainer, ui->nonGroceryShoppingHeading, operationsNonGroceryShopping, NON_GROCERY_SHOPPING, p1);
+    // QPoint p3 = drawExpensesLabels(ui->groceryShoppingLabelsContainer, ui->groceryShoppingHeading, operationsGroceryShopping, GROCERY_SHOPPING, p2);
+    // QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operationsTransport, TRANSPORT, p3);
+    // QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
+    // QPoint p6 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsOthers, OTHERS, p5);
+    // QPoint p7 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsPhotography, PHOTOGRAPHY, p6);
+    // // QPoint p8 = drawExpensesLabels(ui->incomingLabelsContainer, ui->incomingHeading, operationsIncoming, INCOMING_MONEY, p7);
+    // QPoint p8 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p7);
+}
+
+// QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer,
+//                                       QLabel *labelsContainerHeader,
+//                                       const std::vector<Operation> &operations,
+//                                       int categoryTagToPrint,
+//                                       QPoint movingPoints)
+// {
+//     labelsContainerHeader->move(movingPoints.x(), movingPoints.y() + 20);
+//     labelsContainer->move(movingPoints.x(), movingPoints.y() + 40);
+
+//     int xCoordinateOfLabelInContainer = 0;
+//     int yCoordinateOfLabelInContainer = 0;
+//     int spacingBetweenLabels = 5;
+//     int maxWidthOfLabelsContainer = labelsContainer->width();
+
+//     for (auto &operation : operations)
+//     {
+//         OperationLabel *label = new OperationLabel(operation, labelsContainer);
+//         label->setText(QString::number(operation.amount, 'f', 2));
+
+//         label->setStyleSheet("color: black; font-size: 12px; font-family: Roboto; font-size: 12px; font-style: normal;");
+//         label->adjustSize();
+//         label->setCursor(Qt::PointingHandCursor);
+//         label->installEventFilter(this);
+
+//         expenseLabels.push_back(label);
+
+//         int predictedWidthOfLabel = xCoordinateOfLabelInContainer + label->width();
+//         if (predictedWidthOfLabel > maxWidthOfLabelsContainer)
+//         {
+//             xCoordinateOfLabelInContainer = 0;
+//             yCoordinateOfLabelInContainer += label->height() + spacingBetweenLabels;
+//         }
+//         label->move(xCoordinateOfLabelInContainer, yCoordinateOfLabelInContainer);
+//         label->show();
+//         xCoordinateOfLabelInContainer += label->width() + spacingBetweenLabels;
+//     }
+
+//     labelsContainer->resize(maxWidthOfLabelsContainer, yCoordinateOfLabelInContainer + 20);
+//     QPoint posRelativeToMainWindow = labelsContainer->mapTo(this, labelsContainer->rect().bottomLeft());
+//     return posRelativeToMainWindow;
+// }

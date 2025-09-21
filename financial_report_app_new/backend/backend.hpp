@@ -83,17 +83,19 @@ public:
                                                   userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
                                                   operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)) {}
 
-public:
     QStringList getDynamicButtons() const
     {
         return {"One", "Two", "Three", "Four", "Five", "Six"};
     }
 
+    void setRootObject(QObject *root) { m_rootObject = root; }
     Q_INVOKABLE void printTestString();
     Q_INVOKABLE bool loadXmlButtonClicked();
     Q_INVOKABLE QStringList getComboBoxItems();
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
+    Q_INVOKABLE void initOperationsByType();
     void loadXmlData(bool = true);
+    void printXmlDataOnScreen();
     Q_INVOKABLE void nextOperation();
 
     DescribeUndefinedTagsScreen::TagIndex *getTagIndex() const { return tagIndex; }
@@ -101,6 +103,7 @@ public:
     DescribeUndefinedTagsScreen::OperationDescription *getOperationDescription() const { return operationDescription; }
 
 private:
+    QObject *m_rootObject = nullptr;
     QString xmlFilePath = "";
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
     Month selectedMonth = Month::April;

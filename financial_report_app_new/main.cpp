@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
     if (!engine.rootObjects().isEmpty())
     {
         QObject *rootObject = engine.rootObjects().first();
+        backend.setRootObject(rootObject);
     }
-
     return app.exec();
 }
