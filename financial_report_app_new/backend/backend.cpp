@@ -19,7 +19,8 @@ QStringList Backend::getComboBoxItems()
 void Backend::initDescribeUndefinedTagsScreen()
 {
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
-    loadXmlData(false);
+    // loadXmlData(false);
+    loadXmlData();
     QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
     if (buttonSaveChanges)
     {

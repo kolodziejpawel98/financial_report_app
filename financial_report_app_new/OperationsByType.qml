@@ -77,7 +77,7 @@ Flow {
     height: 58
 
     Repeater {
-        model: backend.operationButtons.operationButtons
+        model: backend.operationButtonList.operationButtons
         delegate: Button {
             text: modelData.buttonText
             width: modelData.buttonWidth

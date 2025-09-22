@@ -72,13 +72,13 @@ namespace DescribeUndefinedTagsScreen
 namespace OperationsByTypeScreen
 {
 
-    class OperationButton : public QObject
+    class OperationButtonItem : public QObject
     {
         Q_OBJECT
         Q_PROPERTY(QString buttonText READ getButtonText WRITE setButtonText NOTIFY buttonTextChanged)
         Q_PROPERTY(int buttonWidth READ getButtonWidth WRITE setButtonWidth NOTIFY buttonWidthChanged)
     public:
-        OperationButton(QString text, int width, QObject *parent = nullptr)
+        OperationButtonItem(QString text, int width, QObject *parent = nullptr)
             : QObject(parent), m_buttonText(text), m_buttonWidth(width) {}
 
         QString getButtonText() const { return m_buttonText; }
@@ -110,23 +110,28 @@ namespace OperationsByTypeScreen
         int m_buttonWidth;
     };
 
-    class OperationButtons : public QObject
+    class OperationButtonList : public QObject
     {
         Q_OBJECT
-        Q_PROPERTY(QQmlListProperty<OperationsByTypeScreen::OperationButton> operationButtons READ getOperationButtons NOTIFY operationButtonsChanged)
+        Q_PROPERTY(QQmlListProperty<OperationsByTypeScreen::OperationButtonItem> operationButtons READ getOperationButtons NOTIFY operationButtonsChanged)
 
     public:
-        explicit OperationButtons(QObject *parent = nullptr) : QObject(parent)
+        explicit OperationButtonList(QObject *parent = nullptr) : QObject(parent)
         {
 
-            m_buttons.append(new OperationsByTypeScreen::OperationButton("Onwwwwwwwe", 420, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButton("Two", 150, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButton("Three", 180, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Onwwwwwwwe", 420, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Two", 150, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 180, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
+            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
         }
 
-        QQmlListProperty<OperationsByTypeScreen::OperationButton> getOperationButtons()
+        QQmlListProperty<OperationsByTypeScreen::OperationButtonItem> getOperationButtons()
         {
-            return QQmlListProperty<OperationsByTypeScreen::OperationButton>(this, &m_buttons);
+            return QQmlListProperty<OperationsByTypeScreen::OperationButtonItem>(this, &m_buttons);
         }
 
     signals:
@@ -134,7 +139,7 @@ namespace OperationsByTypeScreen
         void operationButtonsHovered(QString text);
 
     private:
-        QList<OperationsByTypeScreen::OperationButton *> m_buttons;
+        QList<OperationsByTypeScreen::OperationButtonItem *> m_buttons;
     };
 }
 
@@ -144,14 +149,14 @@ class Backend : public QObject
     Q_PROPERTY(DescribeUndefinedTagsScreen::TagIndex *tagIndex READ getTagIndex CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::UserDescription *userDescription READ getUserDescription CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::OperationDescription *operationDescription READ getOperationDescription CONSTANT)
-    Q_PROPERTY(OperationsByTypeScreen::OperationButtons *operationButtons READ getOperationButtons CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList READ getOperationButtons CONSTANT)
 
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent),
                                                   tagIndex(new DescribeUndefinedTagsScreen::TagIndex(this)),
                                                   userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
                                                   operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)),
-                                                  operationButtons(new OperationsByTypeScreen::OperationButtons(this))
+                                                  operationButtonList(new OperationsByTypeScreen::OperationButtonList(this))
     {
     }
 
@@ -168,7 +173,7 @@ public:
     DescribeUndefinedTagsScreen::TagIndex *getTagIndex() const { return tagIndex; }
     DescribeUndefinedTagsScreen::UserDescription *getUserDescription() const { return userDescription; }
     DescribeUndefinedTagsScreen::OperationDescription *getOperationDescription() const { return operationDescription; }
-    OperationsByTypeScreen::OperationButtons *getOperationButtons() const { return operationButtons; }
+    OperationsByTypeScreen::OperationButtonList *getOperationButtons() const { return operationButtonList; }
 
 private:
     QObject *m_rootObject = nullptr;
@@ -192,5 +197,5 @@ private:
     DescribeUndefinedTagsScreen::TagIndex *tagIndex;
     DescribeUndefinedTagsScreen::UserDescription *userDescription;
     DescribeUndefinedTagsScreen::OperationDescription *operationDescription;
-    OperationsByTypeScreen::OperationButtons *operationButtons;
+    OperationsByTypeScreen::OperationButtonList *operationButtonList;
 };

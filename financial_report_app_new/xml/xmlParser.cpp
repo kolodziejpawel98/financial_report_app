@@ -108,6 +108,7 @@ Operation::Operation(Date date, std::string type, std::string description, doubl
     : date(date), type(type), description(description),
       amount(amount), totalBalanceAfterOperation(totalBalanceAfterOperation)
 {
+
     categoryTag = setCategoryTag();
 }
 
@@ -118,7 +119,9 @@ Operation::Operation(Date date, std::string type, std::string description, doubl
 int Operation::setCategoryTag()
 {
     if (amount > 0)
+    {
         return INCOMING_MONEY;
+    }
 
     for (const auto &pairTagAndId : cardTransactionCategories)
     {
@@ -127,6 +130,8 @@ int Operation::setCategoryTag()
             return pairTagAndId.second;
         }
     }
+    std::cout << "description = " << description << std::endl;
+    std::cout << "amount = " << amount << std::endl;
     return SELF_DEFINED;
 }
 
@@ -287,6 +292,10 @@ double myStringToDouble(const std::string &str)
     if (str[i] == '-')
     {
         negative = true;
+        ++i;
+    }
+    else if (str[i] == '+')
+    {
         ++i;
     }
 
