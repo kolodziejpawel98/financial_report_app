@@ -5,11 +5,9 @@ Rectangle {
     width: 1266
     height: 668
 
-
     Component.onCompleted: {
         backend.initOperationsByType()
     }
-
 
     Rectangle {
         id: menu_sidebar
@@ -18,10 +16,9 @@ Rectangle {
         width: 186
         height: 668
         color: "#353535"
-        radius: 0
-        border.color: "#949494"
         border.width: 0
     }
+
     Rectangle {
         id: menu_topbar
         x: 0
@@ -29,7 +26,6 @@ Rectangle {
         width: 1266
         height: 80
         color: "#292929"
-        radius: 0
 
         Text {
             id: menu_appName
@@ -44,60 +40,59 @@ Rectangle {
         }
     }
 
+    Flow {
+        id: buttonContainer
+        spacing: 10
+        x: 222
+        y: 128
+        width: 1006
+        height: 58
 
+        Repeater {
+            model: backend.operationButtonList.operationButtons
 
-// Flow {
-//     id: buttonContainer
-//     x: 222
-//     y: 128
-//     width: 1006
-//     height: 58
-//     spacing: 10
+            delegate: Button {
+                id: btn
+                text: modelData.buttonText
+                width: modelData.buttonWidth
+                height: 20
+                font.pixelSize: 10
+                hoverEnabled: true
 
-//     Repeater {
-//         model: backend.dynamicButtons
-
-//         Button {
-//             text: modelData
-//             width: 120
-//             height: 40
-
-//             onClicked: {
-//                 console.log("button pushed", text)
-//             }
-//         }
-//     }
-// }
-Flow {
-    id: buttonContainer
-    spacing: 10
-    x: 222
-    y: 128
-    width: 1006
-    height: 58
-
-    Repeater {
-        model: backend.operationButtonList.operationButtons
-        delegate: Button {
-            text: modelData.buttonText
-            width: modelData.buttonWidth
-            height: 40
-
-            hoverEnabled: true
-            onHoveredChanged: {
-                if (hovered) {
-                    cursor: Qt.PointingHandCursor
-                    // backend.operationButtons.operationButtons.operationButtonsHovered(text) ??
-                    console.log("hover", text)
+                contentItem: Text {
+                    text: btn.text
+                    font: btn.font
+                    color: "white"
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                    elide: Text.ElideRight
                 }
-            }
 
-            onClicked: {
-                console.log("clicked", text)
+                background: Rectangle {
+                    implicitWidth: 120
+                    implicitHeight: 40
+                    color: btn.hovered ? '#8a4abb' : '#9a5fc7'
+                    radius: 3
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: btn.clicked()
+                }
+
+                onHoveredChanged: {
+                    if (hovered)
+                    {
+                        console.log("hover", text)
+                    }
+                }
+
+                onClicked: {
+                    console.log("clicked", text)
+                }
             }
         }
     }
-}
-
-
 }

@@ -37,8 +37,11 @@ void Backend::initDescribeUndefinedTagsScreen()
 
 void Backend::initOperationsByType()
 {
-    std::cout << "HERE I AM" << std::endl;
     loadXmlData();
+    for (auto &operation : operationsEatingOut)
+    {
+        operationButtonList->addButton(QString::number(operation.amount, 'f', 2), 50);
+    }
 }
 
 void Backend::nextOperation()

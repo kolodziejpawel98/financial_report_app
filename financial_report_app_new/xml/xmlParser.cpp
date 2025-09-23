@@ -130,8 +130,6 @@ int Operation::setCategoryTag()
             return pairTagAndId.second;
         }
     }
-    std::cout << "description = " << description << std::endl;
-    std::cout << "amount = " << amount << std::endl;
     return SELF_DEFINED;
 }
 

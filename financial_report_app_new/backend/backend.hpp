@@ -118,20 +118,17 @@ namespace OperationsByTypeScreen
     public:
         explicit OperationButtonList(QObject *parent = nullptr) : QObject(parent)
         {
-
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Onwwwwwwwe", 420, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Two", 150, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 180, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
-            m_buttons.append(new OperationsByTypeScreen::OperationButtonItem("Three", 100, this));
         }
 
         QQmlListProperty<OperationsByTypeScreen::OperationButtonItem> getOperationButtons()
         {
             return QQmlListProperty<OperationsByTypeScreen::OperationButtonItem>(this, &m_buttons);
+        }
+
+        Q_INVOKABLE void addButton(const QString &text, int width)
+        {
+            m_buttons.append(new OperationButtonItem(text, width, this));
+            emit operationButtonsChanged();
         }
 
     signals:
