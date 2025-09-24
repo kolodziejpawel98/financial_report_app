@@ -80,6 +80,14 @@ Rectangle {
                     hoverEnabled: true
                     cursorShape: Qt.PointingHandCursor
                     onClicked: btn.clicked()
+
+                    onPositionChanged: {
+                        tooltip.x = mouse.x + 20
+                        tooltip.y = mouse.y - 10
+                    }
+                    onEntered: tooltip.visible = true
+                    onExited: tooltip.visible = false
+
                 }
 
                 onHoveredChanged: {
@@ -92,6 +100,27 @@ Rectangle {
                 onClicked: {
                     console.log("clicked", text)
                 }
+
+
+                Rectangle {
+                    id: tooltip
+                    visible: false
+                    width: textItem.implicitWidth + 20
+                    height: textItem.implicitHeight + 10
+                    color: "white"
+                    radius: 6
+                    border.color: "#888"
+
+                    Text {
+                        id: textItem
+                        anchors.centerIn: parent
+                        text: "To jest tooltip"
+                        color: "black"
+                        font.pixelSize: 14
+                    }
+                }
+
+
             }
         }
     }
