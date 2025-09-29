@@ -37,10 +37,33 @@ void Backend::initDescribeUndefinedTagsScreen()
 
 void Backend::initOperationsByType()
 {
+    std::string spaceBetweenInformations = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    std::string textColor = "";
     loadXmlData();
     for (auto &operation : operationsEatingOut)
     {
-        operationButtonList->addButton(QString::number(operation.amount, 'f', 2), 50);
+        if (operation.amount > 0)
+        {
+            textColor = "<span style='color:green;'>";
+        }
+        else
+        {
+            textColor = "<span style='color:red;'>";
+        }
+        std::string descriptionBannerText = operation.date.getDate() +
+                                            spaceBetweenInformations +
+                                            "<b>" +
+                                            operation.description +
+                                            "</b>" +
+                                            spaceBetweenInformations +
+                                            textColor +
+                                            QString::number(operation.amount, 'f', 2).toStdString() +
+                                            "</span>" +
+                                            spaceBetweenInformations +
+                                            QString::number(operation.totalBalanceAfterOperation, 'f', 2).toStdString() +
+                                            " PLN";
+
+        operationButtonList->addButton(QString::number(operation.amount, 'f', 2), QString::fromStdString(descriptionBannerText), 50);
     }
 }
 

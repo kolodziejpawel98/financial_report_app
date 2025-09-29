@@ -82,11 +82,11 @@ Rectangle {
                     onClicked: btn.clicked()
 
                     onPositionChanged: {
-                        tooltip.x = mouse.x + 20
-                        tooltip.y = mouse.y - 10
+                        operationDescriptionRectangle.x = mouse.x - 20
+                        operationDescriptionRectangle.y = mouse.y - 60
                     }
-                    onEntered: tooltip.visible = true
-                    onExited: tooltip.visible = false
+                    onEntered: operationDescriptionRectangle.visible = true
+                    onExited: operationDescriptionRectangle.visible = false
 
                 }
 
@@ -103,23 +103,24 @@ Rectangle {
 
 
                 Rectangle {
-                    id: tooltip
+                    id: operationDescriptionRectangle
                     visible: false
-                    width: textItem.implicitWidth + 20
-                    height: textItem.implicitHeight + 10
+                    width: textItem.implicitWidth + 120
+                    height: textItem.implicitHeight + 20
                     color: "white"
-                    radius: 6
-                    border.color: "#888"
+                    radius: 3
+                    border.color: '#c2c2c2'
 
                     Text {
                         id: textItem
                         anchors.centerIn: parent
-                        text: "To jest tooltip"
+                        text: modelData.buttonDescriptionRectangleText
+                        textFormat: Text.RichText
                         color: "black"
                         font.pixelSize: 14
                     }
-                }
 
+                }
 
             }
         }

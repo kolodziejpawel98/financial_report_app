@@ -76,18 +76,32 @@ namespace OperationsByTypeScreen
     {
         Q_OBJECT
         Q_PROPERTY(QString buttonText READ getButtonText WRITE setButtonText NOTIFY buttonTextChanged)
+        Q_PROPERTY(QString buttonDescriptionRectangleText
+                       READ getButtonDescriptionRectangleText
+                           WRITE setButtonDescriptionRectangleText
+                               NOTIFY buttonDescriptionRectangleTextChanged)
         Q_PROPERTY(int buttonWidth READ getButtonWidth WRITE setButtonWidth NOTIFY buttonWidthChanged)
     public:
-        OperationButtonItem(QString text, int width, QObject *parent = nullptr)
-            : QObject(parent), m_buttonText(text), m_buttonWidth(width) {}
+        OperationButtonItem(QString buttonText, QString operationDescriptionRectangleText, int width, QObject *parent = nullptr)
+            : QObject(parent), m_buttonText(buttonText), m_buttonDescriptionRectangleText(operationDescriptionRectangleText), m_buttonWidth(width) {}
 
         QString getButtonText() const { return m_buttonText; }
+        QString getButtonDescriptionRectangleText() const { return m_buttonDescriptionRectangleText; }
         void setButtonText(const QString &text)
         {
             if (m_buttonText != text)
             {
                 m_buttonText = text;
                 emit buttonTextChanged();
+            }
+        }
+
+        void setButtonDescriptionRectangleText(const QString &text)
+        {
+            if (m_buttonDescriptionRectangleText != text)
+            {
+                m_buttonDescriptionRectangleText = text;
+                emit buttonDescriptionRectangleTextChanged();
             }
         }
 
@@ -104,9 +118,11 @@ namespace OperationsByTypeScreen
     signals:
         void buttonTextChanged();
         void buttonWidthChanged();
+        void buttonDescriptionRectangleTextChanged();
 
     private:
         QString m_buttonText;
+        QString m_buttonDescriptionRectangleText;
         int m_buttonWidth;
     };
 
@@ -125,9 +141,9 @@ namespace OperationsByTypeScreen
             return QQmlListProperty<OperationsByTypeScreen::OperationButtonItem>(this, &m_buttons);
         }
 
-        Q_INVOKABLE void addButton(const QString &text, int width)
+        Q_INVOKABLE void addButton(const QString &buttonText, const QString &operationDescriptionRectangleText, int width)
         {
-            m_buttons.append(new OperationButtonItem(text, width, this));
+            m_buttons.append(new OperationButtonItem(buttonText, operationDescriptionRectangleText, width, this));
             emit operationButtonsChanged();
         }
 
