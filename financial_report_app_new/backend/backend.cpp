@@ -35,12 +35,18 @@ void Backend::initDescribeUndefinedTagsScreen()
     }
 }
 
-void Backend::initOperationsByType()
+void Backend::initOperationsByTypeScreen()
+{
+    loadXmlData();
+    addOperationButton(operationsEatingOut, operationButtonList_operationsEatingOut);
+    addOperationButton(operationsNonGroceryShopping, operationButtonList_operationsNonGroceryShopping);
+}
+
+void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisplay, OperationsByTypeScreen::OperationButtonList *operationButtonListToDisplay) const
 {
     std::string spaceBetweenInformations = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
     std::string textColor = "";
-    loadXmlData();
-    for (auto &operation : operationsEatingOut)
+    for (auto &operation : operationCategoryToDisplay)
     {
         if (operation.amount > 0)
         {
@@ -63,7 +69,7 @@ void Backend::initOperationsByType()
                                             QString::number(operation.totalBalanceAfterOperation, 'f', 2).toStdString() +
                                             " PLN";
 
-        operationButtonList->addButton(QString::number(operation.amount, 'f', 2), QString::fromStdString(descriptionBannerText), 50);
+        operationButtonListToDisplay->addButton(QString::number(operation.amount, 'f', 2), QString::fromStdString(descriptionBannerText), 50);
     }
 }
 

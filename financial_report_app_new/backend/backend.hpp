@@ -162,14 +162,16 @@ class Backend : public QObject
     Q_PROPERTY(DescribeUndefinedTagsScreen::TagIndex *tagIndex READ getTagIndex CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::UserDescription *userDescription READ getUserDescription CONSTANT)
     Q_PROPERTY(DescribeUndefinedTagsScreen::OperationDescription *operationDescription READ getOperationDescription CONSTANT)
-    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList READ getOperationButtons CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut READ getOperationButtonList_operationsEatingOut CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping READ getOperationButtonList_operationsNonGroceryShopping CONSTANT)
 
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent),
                                                   tagIndex(new DescribeUndefinedTagsScreen::TagIndex(this)),
                                                   userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
                                                   operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)),
-                                                  operationButtonList(new OperationsByTypeScreen::OperationButtonList(this))
+                                                  operationButtonList_operationsEatingOut(new OperationsByTypeScreen::OperationButtonList(this)),
+                                                  operationButtonList_operationsNonGroceryShopping(new OperationsByTypeScreen::OperationButtonList(this))
     {
     }
 
@@ -178,7 +180,8 @@ public:
     Q_INVOKABLE bool loadXmlButtonClicked();
     Q_INVOKABLE QStringList getComboBoxItems();
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
-    Q_INVOKABLE void initOperationsByType();
+    Q_INVOKABLE void initOperationsByTypeScreen();
+    void addOperationButton(std::vector<Operation> &, OperationsByTypeScreen::OperationButtonList *) const;
     void loadXmlData(bool = true);
     void printXmlDataOnScreen();
     Q_INVOKABLE void nextOperation();
@@ -186,7 +189,8 @@ public:
     DescribeUndefinedTagsScreen::TagIndex *getTagIndex() const { return tagIndex; }
     DescribeUndefinedTagsScreen::UserDescription *getUserDescription() const { return userDescription; }
     DescribeUndefinedTagsScreen::OperationDescription *getOperationDescription() const { return operationDescription; }
-    OperationsByTypeScreen::OperationButtonList *getOperationButtons() const { return operationButtonList; }
+    OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsEatingOut() const { return operationButtonList_operationsEatingOut; }
+    OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsNonGroceryShopping() const { return operationButtonList_operationsNonGroceryShopping; }
 
 private:
     QObject *m_rootObject = nullptr;
@@ -210,5 +214,6 @@ private:
     DescribeUndefinedTagsScreen::TagIndex *tagIndex;
     DescribeUndefinedTagsScreen::UserDescription *userDescription;
     DescribeUndefinedTagsScreen::OperationDescription *operationDescription;
-    OperationsByTypeScreen::OperationButtonList *operationButtonList;
+    OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut;
+    OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping;
 };
