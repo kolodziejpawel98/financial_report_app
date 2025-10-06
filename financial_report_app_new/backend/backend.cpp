@@ -40,6 +40,7 @@ void Backend::initOperationsByTypeScreen()
     loadXmlData();
     addOperationButton(operationsEatingOut, operationButtonList_operationsEatingOut);
     addOperationButton(operationsNonGroceryShopping, operationButtonList_operationsNonGroceryShopping);
+    addOperationButton(operationsGroceryShopping, operationButtonList_operationsGroceryShopping);
 }
 
 void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisplay, OperationsByTypeScreen::OperationButtonList *operationButtonListToDisplay) const

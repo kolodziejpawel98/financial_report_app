@@ -164,6 +164,7 @@ class Backend : public QObject
     Q_PROPERTY(DescribeUndefinedTagsScreen::OperationDescription *operationDescription READ getOperationDescription CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut READ getOperationButtonList_operationsEatingOut CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping READ getOperationButtonList_operationsNonGroceryShopping CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsGroceryShopping READ getOperationButtonList_operationsGroceryShopping CONSTANT)
 
 public:
     explicit Backend(QObject *parent = nullptr) : QObject(parent),
@@ -171,7 +172,8 @@ public:
                                                   userDescription(new DescribeUndefinedTagsScreen::UserDescription(this)),
                                                   operationDescription(new DescribeUndefinedTagsScreen::OperationDescription(this)),
                                                   operationButtonList_operationsEatingOut(new OperationsByTypeScreen::OperationButtonList(this)),
-                                                  operationButtonList_operationsNonGroceryShopping(new OperationsByTypeScreen::OperationButtonList(this))
+                                                  operationButtonList_operationsNonGroceryShopping(new OperationsByTypeScreen::OperationButtonList(this)),
+                                                  operationButtonList_operationsGroceryShopping(new OperationsByTypeScreen::OperationButtonList(this))
     {
     }
 
@@ -191,6 +193,7 @@ public:
     DescribeUndefinedTagsScreen::OperationDescription *getOperationDescription() const { return operationDescription; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsEatingOut() const { return operationButtonList_operationsEatingOut; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsNonGroceryShopping() const { return operationButtonList_operationsNonGroceryShopping; }
+    OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsGroceryShopping() const { return operationButtonList_operationsGroceryShopping; }
 
 private:
     QObject *m_rootObject = nullptr;
@@ -216,4 +219,5 @@ private:
     DescribeUndefinedTagsScreen::OperationDescription *operationDescription;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping;
+    OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsGroceryShopping;
 };
