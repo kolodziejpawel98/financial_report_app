@@ -45,383 +45,383 @@ Rectangle {
         Button {
             id: btn
             text: modelData.buttonText
-            width: modelData.buttonWidth
-            height: 15
-            font.pixelSize: 10
             hoverEnabled: true
 
+            width: contentItem.implicitWidth
+            height: contentItem.implicitHeight
+
+            padding: 0
             contentItem: Text {
+                id: textItemButton
                 text: btn.text
-                font: btn.font
-                color: "white"
+                font.pixelSize: btn.hovered ? 11 : 10
+                font.bold: btn.hovered
+                color: btn.hovered ? '#aa74d2' : "#000000"
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
-                elide: Text.ElideRight
+
+                Behavior on font.pixelSize {
+                NumberAnimation { duration: 120; easing.type: Easing.OutQuad }
             }
+        }
 
-            background: Rectangle {
-                implicitWidth: 120
-                implicitHeight: 40
-                color: btn.hovered ? "#8a4abb" : "#9a5fc7"
-                radius: 3
+        background: Rectangle {
+            color: btn.hovered ? '#f8efff' : "#ffffff"
+            radius: 3
+            width: btn.width
+            height: btn.height
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: btn.clicked()
+
+            onPositionChanged: {
+                operationDescriptionRectangle.x = mouse.x - 20
+                operationDescriptionRectangle.y = mouse.y - 60
             }
+            onEntered: operationDescriptionRectangle.visible = true
+            onExited: operationDescriptionRectangle.visible = false
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: btn.clicked()
+        Rectangle {
+            id: operationDescriptionRectangle
+            visible: false
+            width: textDescription.implicitWidth + 120
+            height: textDescription.implicitHeight + 20
+            color: "white"
+            radius: 3
+            border.color: "#c2c2c2"
 
-                onPositionChanged: {
-                    operationDescriptionRectangle.x = mouse.x - 20
-                    operationDescriptionRectangle.y = mouse.y - 60
-                }
-                onEntered: operationDescriptionRectangle.visible = true
-                onExited: operationDescriptionRectangle.visible = false
-            }
-
-            onHoveredChanged: if (hovered) console.log("hover", text)
-            onClicked: console.log("clicked", text)
-
-            Rectangle {
-                id: operationDescriptionRectangle
-                visible: false
-                width: textItem.implicitWidth + 120
-                height: textItem.implicitHeight + 20
-                color: "white"
-                radius: 3
-                border.color: "#c2c2c2"
-
-                Text {
-                    id: textItem
-                    anchors.centerIn: parent
-                    text: modelData.buttonDescriptionRectangleText
-                    textFormat: Text.RichText
-                    color: "black"
-                    font.pixelSize: 14
-                }
+            Text {
+                id: textDescription
+                anchors.centerIn: parent
+                text: modelData.buttonDescriptionRectangleText
+                textFormat: Text.RichText
+                color: "black"
+                font.pixelSize: 12
             }
         }
     }
-
-    property int section_spacing: 57
-
-        Text {
-            id: text1
-            x: 222
-            y: 114
-            width: 285
-            height: 14
-            text: qsTr("Eating out")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsEatingOut_background
-            x: 222
-            y: 128
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsEatingOut
-            spacing: 10
-            x: 222
-            y: 128
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsEatingOut.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
+}
 
 
 
+property int section_spacing: 15
 
-        Text {
-            id: buttonContainer_operationsNonGroceryShopping_title
-            x: 222
-            y: 114 + section_spacing
-            width: 285
-            height: 14
-            text: qsTr("Non grocery shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsNonGroceryShopping_background
-            x: 222
-            y: 128 + section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsNonGroceryShopping_container
-            spacing: 10
-            x: 222
-            y: 128 + section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsNonGroceryShopping.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-        Text {
-            id: buttonContainer_operationsGroceryShopping_title
-            x: 222
-            y: 114 + 2*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("Grocery shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsGroceryShopping_background
-            x: 222
-            y: 128 + 2*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsGroceryShopping_container
-            spacing: 10
-            x: 222
-            y: 128 + 2*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsGroceryShopping.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-
-
-        Text {
-            id: buttonContainer_operationsTransportation_title
-            x: 222
-            y: 114 + 3*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("Transportation shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsTransportation_background
-            x: 222
-            y: 128 + 3*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsTransportation_container
-            spacing: 10
-            x: 222
-            y: 128 + 3*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsTransportation.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-
-        Text {
-            id: buttonContainer_operationsRegularExpenses_title
-            x: 222
-            y: 114 + 4*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("RegularExpenses shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsRegularExpenses_background
-            x: 222
-            y: 128 + 4*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsRegularExpenses_container
-            spacing: 10
-            x: 222
-            y: 128 + 4*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsRegularExpenses.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-        Text {
-            id: buttonContainer_operationsOtherExpenses_title
-            x: 222
-            y: 114 + 5*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("OtherExpenses shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsOtherExpenses_background
-            x: 222
-            y: 128 + 5*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsOtherExpenses_container
-            spacing: 10
-            x: 222
-            y: 128 + 5*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsOtherExpenses.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-
-        Text {
-            id: buttonContainer_operationsPhotography_title
-            x: 222
-            y: 114 + 6*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("Photography shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsPhotography_background
-            x: 222
-            y: 128 + 6*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsPhotography_container
-            spacing: 10
-            x: 222
-            y: 128 + 6*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsPhotography.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-
-        Text {
-            id: buttonContainer_operationsIncoming_title
-            x: 222
-            y: 114 + 7*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("Incoming shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsIncoming_background
-            x: 222
-            y: 128 + 7*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsIncoming_container
-            spacing: 10
-            x: 222
-            y: 128 + 7*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsIncoming.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-
-        Text {
-            id: buttonContainer_operationsSummary_title
-            x: 222
-            y: 114 + 8*section_spacing
-            width: 285
-            height: 14
-            text: qsTr("Summary shopping")
-            font.pixelSize: 12
-        }
-
-        Rectangle {
-            id: buttonContainer_operationsSummary_background
-            x: 222
-            y: 128 + 8*section_spacing
-            width: 1006
-            height: 42
-            color: '#f4f4f4'
-        }
-
-        Flow {
-            id: buttonContainer_operationsSummary_container
-            spacing: 10
-            x: 222
-            y: 128 + 8*section_spacing
-            width: 1006
-            height: 42
-
-            Repeater {
-                model: backend.operationButtonList_operationsSummary.operationButtons
-                delegate: operationButtonDelegate
-            }
-        }
-
-
-
-
-
-
+    Text {
+        id: text1
+        x: 225
+        y: 108
+        // width: 285
+        // height: 14
+        text: qsTr("Eating out")
+        font.pixelSize: 14
+        font.styleName: "Bold"
     }
+
+    Rectangle {
+        id: buttonContainer_operationsEatingOut_background
+        x: 222
+        y: 128
+        width: 1006
+        height: 42
+        // color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsEatingOut
+        spacing: 5
+        x: buttonContainer_operationsEatingOut_background.x
+        y: buttonContainer_operationsEatingOut_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsEatingOut.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+
+
+
+    Text {
+        id: buttonContainer_operationsNonGroceryShopping_title
+        x: text1.x
+        y: text1.y + buttonContainer_operationsEatingOut_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Non grocery shopping")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsNonGroceryShopping_background
+        x: 222
+        y: buttonContainer_operationsEatingOut_background.y + buttonContainer_operationsEatingOut_background.height + section_spacing
+        width: 1006
+        height: 42
+        // color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsNonGroceryShopping_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsNonGroceryShopping_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsNonGroceryShopping.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+
+    Text {
+        id: buttonContainer_operationsGroceryShopping_title
+        x: text1.x
+        y: buttonContainer_operationsNonGroceryShopping_title.y + buttonContainer_operationsNonGroceryShopping_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Grocery shopping")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsGroceryShopping_background
+        x: 222
+        y: buttonContainer_operationsNonGroceryShopping_background.y + buttonContainer_operationsNonGroceryShopping_background.height + section_spacing
+        width: 1006
+        height: 42
+        // color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsGroceryShopping_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsGroceryShopping_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsGroceryShopping.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+
+
+
+    Text {
+        id: buttonContainer_operationsTransportation_title
+        x: text1.x
+        y: buttonContainer_operationsGroceryShopping_title.y + buttonContainer_operationsGroceryShopping_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Transportation shopping")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsTransportation_background
+        x: 222
+        y: buttonContainer_operationsGroceryShopping_background.y + buttonContainer_operationsGroceryShopping_background.height + section_spacing
+        width: 1006
+        height: 42
+        // color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsTransportation_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsTransportation_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsTransportation.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+
+    Text {
+        id: buttonContainer_operationsRegularExpenses_title
+        x: text1.x
+        y: buttonContainer_operationsTransportation_title.y + buttonContainer_operationsTransportation_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Regular expenses")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsRegularExpenses_background
+        x: 222
+        y: buttonContainer_operationsTransportation_background.y + buttonContainer_operationsTransportation_background.height + section_spacing
+        width: 1006
+        height: 42
+        //color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsRegularExpenses_container
+        spacing: 5
+        x: 222
+        y: buttonContainer_operationsRegularExpenses_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsRegularExpenses.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+    Text {
+        id: buttonContainer_operationsOtherExpenses_title
+        x: text1.x
+        y: buttonContainer_operationsRegularExpenses_title.y + buttonContainer_operationsRegularExpenses_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Other expenses")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsOtherExpenses_background
+        x: 222
+        y: buttonContainer_operationsRegularExpenses_background.y + buttonContainer_operationsRegularExpenses_background.height + section_spacing
+        width: 1006
+        height: 42
+        //color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsOtherExpenses_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsOtherExpenses_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsOtherExpenses.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+    Text {
+        id: buttonContainer_operationsPhotography_title
+        x: text1.x
+        y: buttonContainer_operationsOtherExpenses_title.y + buttonContainer_operationsOtherExpenses_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Photography")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsPhotography_background
+        x: 222
+        y: buttonContainer_operationsOtherExpenses_background.y + buttonContainer_operationsOtherExpenses_background.height + section_spacing
+        width: 1006
+        height: 42
+        //color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsPhotography_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsPhotography_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsPhotography.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+    Text {
+        id: buttonContainer_operationsIncoming_title
+        x: text1.x
+        y: buttonContainer_operationsPhotography_title.y + buttonContainer_operationsPhotography_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Incoming")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsIncoming_background
+        x: 222
+        y: buttonContainer_operationsPhotography_background.y + buttonContainer_operationsPhotography_background.height + section_spacing
+        width: 1006
+        height: 42
+        //color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsIncoming_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsIncoming_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsIncoming.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+
+    Text {
+        id: buttonContainer_operationsSummary_title
+        x: text1.x
+        y: buttonContainer_operationsIncoming_title.y + buttonContainer_operationsIncoming_background.height + section_spacing
+        // width: 285
+        // height: 14
+        text: qsTr("Summary")
+        font.pixelSize: text1.font.pixelSize
+        font.styleName: "Bold"
+    }
+
+    Rectangle {
+        id: buttonContainer_operationsSummary_background
+        x: 222
+        y: buttonContainer_operationsIncoming_background.y + buttonContainer_operationsIncoming_background.height + section_spacing
+        width: 1006
+        height: 42
+        //color: '#f4f4f4'
+    }
+
+    Flow {
+        id: buttonContainer_operationsSummary_container
+        spacing: 10
+        x: 222
+        y: buttonContainer_operationsSummary_background.y
+        width: 1006
+        height: 42
+
+        Repeater {
+            model: backend.operationButtonList_operationsSummary.operationButtons
+            delegate: operationButtonDelegate
+        }
+    }
+}
