@@ -54,62 +54,62 @@ Rectangle {
             contentItem: Text {
                 id: textItemButton
                 text: btn.text
-                font.pixelSize: btn.hovered ? 11 : 10
+                // font.pixelSize: btn.hovered ? 11 : 10
                 font.bold: btn.hovered
                 color: btn.hovered ? '#aa74d2' : "#000000"
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
 
                 Behavior on font.pixelSize {
-                NumberAnimation { duration: 120; easing.type: Easing.OutQuad }
+                    NumberAnimation { duration: 120; easing.type: Easing.OutQuad }
+                }
             }
-        }
 
-        background: Rectangle {
-            color: btn.hovered ? '#f8efff' : "#ffffff"
-            radius: 3
-            width: btn.width
-            height: btn.height
-        }
-
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: btn.clicked()
-
-            onPositionChanged: {
-                operationDescriptionRectangle.x = mouse.x - 20
-                operationDescriptionRectangle.y = mouse.y - 60
+            background: Rectangle {
+                color: btn.hovered ? '#f8efff' : "#ffffff"
+                radius: 3
+                width: btn.width
+                height: btn.height
             }
-            onEntered: operationDescriptionRectangle.visible = true
-            onExited: operationDescriptionRectangle.visible = false
-        }
 
-        Rectangle {
-            id: operationDescriptionRectangle
-            visible: false
-            width: textDescription.implicitWidth + 120
-            height: textDescription.implicitHeight + 20
-            color: "white"
-            radius: 3
-            border.color: "#c2c2c2"
+            MouseArea {
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: btn.clicked()
 
-            Text {
-                id: textDescription
-                anchors.centerIn: parent
-                text: modelData.buttonDescriptionRectangleText
-                textFormat: Text.RichText
-                color: "black"
-                font.pixelSize: 12
+                onPositionChanged: {
+                    operationDescriptionRectangle.x = mouse.x - 20
+                    operationDescriptionRectangle.y = mouse.y - 60
+                }
+                onEntered: operationDescriptionRectangle.visible = true
+                onExited: operationDescriptionRectangle.visible = false
+            }
+
+            Rectangle {
+                id: operationDescriptionRectangle
+                visible: false
+                width: textDescription.implicitWidth + 120
+                height: textDescription.implicitHeight + 20
+                color: "white"
+                radius: 3
+                border.color: "#c2c2c2"
+
+                Text {
+                    id: textDescription
+                    anchors.centerIn: parent
+                    text: modelData.buttonDescriptionRectangleText
+                    textFormat: Text.RichText
+                    color: "black"
+                    font.pixelSize: 12
+                }
             }
         }
     }
-}
 
 
 
-property int section_spacing: 15
+    property int section_spacing: 15
 
     Text {
         id: text1
@@ -170,7 +170,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsNonGroceryShopping_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsNonGroceryShopping_background.y
         width: 1006
@@ -205,7 +205,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsGroceryShopping_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsGroceryShopping_background.y
         width: 1006
@@ -242,7 +242,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsTransportation_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsTransportation_background.y
         width: 1006
@@ -277,7 +277,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsRegularExpenses_container
-        spacing: 5
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsRegularExpenses_background.y
         width: 1006
@@ -311,7 +311,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsOtherExpenses_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsOtherExpenses_background.y
         width: 1006
@@ -345,7 +345,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsPhotography_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsPhotography_background.y
         width: 1006
@@ -379,7 +379,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsIncoming_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsIncoming_background.y
         width: 1006
@@ -413,7 +413,7 @@ property int section_spacing: 15
 
     Flow {
         id: buttonContainer_operationsSummary_container
-        spacing: 10
+        spacing: buttonContainer_operationsEatingOut.spacing
         x: 222
         y: buttonContainer_operationsSummary_background.y
         width: 1006
@@ -423,5 +423,38 @@ property int section_spacing: 15
             model: backend.operationButtonList_operationsSummary.operationButtons
             delegate: operationButtonDelegate
         }
+    }
+
+    Row {
+        id: monthsSelection_container
+        x: 902
+        y: 86
+        width: 312
+        height: 27
+        spacing: 26
+        layoutDirection: Qt.LeftToRight
+        padding: 0
+        leftPadding: 27
+
+        Button {
+            id: previousMonth_button
+            text: qsTr("<")
+        }
+
+        Text {
+            id: currentMonth_text
+            text: backend.currentMonthText
+            font.letterSpacing: 0
+            font.pixelSize: 16
+            horizontalAlignment: Text.AlignHCenter
+            verticalAlignment: Text.AlignVCenter
+            font.wordSpacing: 0
+        }
+
+        Button {
+            id: nextMonth_button
+            text: qsTr(">")
+        }
+
     }
 }

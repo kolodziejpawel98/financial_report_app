@@ -166,8 +166,10 @@ class Backend : public QObject
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsRegularExpenses READ getOperationButtonList_operationsRegularExpenses CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsOtherExpenses READ getOperationButtonList_operationsOtherExpenses CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsPhotography READ getOperationButtonList_operationsPhotography CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSelfDefined READ getOperationButtonList_operationsSelfDefined CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsIncoming READ getOperationButtonList_operationsIncoming CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSummary READ getOperationButtonList_operationsSummary CONSTANT)
+    Q_PROPERTY(QString currentMonthText READ getCurrentMonthText WRITE setCurrentMonthText NOTIFY currentMonthTextChanged)
 
 public:
     explicit Backend(QObject *parent = nullptr)
@@ -182,6 +184,7 @@ public:
           operationButtonList_operationsRegularExpenses(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsOtherExpenses(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsPhotography(new OperationsByTypeScreen::OperationButtonList(this)),
+          operationButtonList_operationsSelfDefined(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsIncoming(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsSummary(new OperationsByTypeScreen::OperationButtonList(this))
     {
@@ -193,6 +196,7 @@ public:
     Q_INVOKABLE QStringList getComboBoxItems();
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     Q_INVOKABLE void initOperationsByTypeScreen();
+    Q_INVOKABLE void setMonthSelectorCurrentMonth();
     void addOperationButton(std::vector<Operation> &, OperationsByTypeScreen::OperationButtonList *) const;
     void loadXmlData(bool = true);
     void printXmlDataOnScreen();
@@ -209,8 +213,26 @@ public:
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsRegularExpenses() const { return operationButtonList_operationsRegularExpenses; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsOtherExpenses() const { return operationButtonList_operationsOtherExpenses; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsPhotography() const { return operationButtonList_operationsPhotography; }
+    OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsSelfDefined() const { return operationButtonList_operationsSelfDefined; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsIncoming() const { return operationButtonList_operationsIncoming; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsSummary() const { return operationButtonList_operationsSummary; }
+
+    QString getCurrentMonthText() const
+    {
+        return m_currentMonthText;
+    }
+
+    void setCurrentMonthText(const QString &text)
+    {
+        if (m_currentMonthText != text)
+        {
+            m_currentMonthText = text;
+            emit currentMonthTextChanged();
+        }
+    }
+
+signals:
+    void currentMonthTextChanged();
 
 private:
     QObject *m_rootObject = nullptr;
@@ -243,6 +265,9 @@ private:
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsRegularExpenses;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsOtherExpenses;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsPhotography;
+    OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSelfDefined;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsIncoming;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSummary;
+
+    QString m_currentMonthText;
 };

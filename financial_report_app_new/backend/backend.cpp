@@ -46,9 +46,11 @@ void Backend::initOperationsByTypeScreen()
     addOperationButton(operationsRegularExpenses, operationButtonList_operationsRegularExpenses);
     addOperationButton(operationsPhotography, operationButtonList_operationsPhotography);
     addOperationButton(operationsOtherExpenses, operationButtonList_operationsOtherExpenses);
-    // addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
-    // addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
-    // addOperationButton(operationsSummary, operationButtonList_operationsSummary);
+    addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
+    addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
+    addOperationButton(operationsSummary, operationButtonList_operationsSummary);
+
+    setCurrentMonthText
 }
 
 void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisplay, OperationsByTypeScreen::OperationButtonList *operationButtonListToDisplay) const
