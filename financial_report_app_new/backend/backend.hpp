@@ -144,6 +144,14 @@ namespace OperationsByTypeScreen
             emit operationButtonsChanged();
         }
 
+        void clear()
+        {
+            qDeleteAll(m_buttons);
+            m_buttons.clear();
+
+            emit operationButtonsChanged();
+        }
+
     signals:
         void operationButtonsChanged();
         void operationButtonsHovered(QString text);
@@ -273,8 +281,49 @@ public:
         default:
             throw std::runtime_error("Month selection error");
         }
-
         setSelectedMonthAsQString(monthName);
+        clearData();
+
+        initOperationsByTypeScreen();
+    }
+
+    void clearData()
+    {
+        // for (auto label : expenseLabels)
+        // {
+        //     delete label;
+        // }
+        // expenseLabels.clear();
+        operationButtonList_operationsEatingOut->clear();
+        operationButtonList_operationsNonGroceryShopping->clear();
+        operationButtonList_operationsGroceryShopping->clear();
+        operationButtonList_operationsTransportation->clear();
+        operationButtonList_operationsRegularExpenses->clear();
+        operationButtonList_operationsOtherExpenses->clear();
+        operationButtonList_operationsPhotography->clear();
+        operationButtonList_operationsSelfDefined->clear();
+        operationButtonList_operationsIncoming->clear();
+        operationButtonList_operationsSummary->clear();
+
+        // addOperationButton(operationsEatingOut, operationButtonList_operationsEatingOut);
+        // addOperationButton(operationsNonGroceryShopping, operationButtonList_operationsNonGroceryShopping);
+        // addOperationButton(operationsGroceryShopping, operationButtonList_operationsGroceryShopping);
+        // addOperationButton(operationsTransport, operationButtonList_operationsTransportation);
+        // addOperationButton(operationsRegularExpenses, operationButtonList_operationsRegularExpenses);
+        // addOperationButton(operationsPhotography, operationButtonList_operationsPhotography);
+        // addOperationButton(operationsOtherExpenses, operationButtonList_operationsOtherExpenses);
+        // addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
+        // addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
+        // addOperationButton(operationsSummary, operationButtonList_operationsSummary);
+
+        summary::operationsEatingOut.amount = 0.0;
+        summary::operationsNonGroceryShopping.amount = 0.0;
+        summary::operationsGroceryShopping.amount = 0.0;
+        summary::operationsTransport.amount = 0.0;
+        summary::operationsRegularExpenses.amount = 0.0;
+        summary::operationsOthers.amount = 0.0;
+        summary::operationsPhotography.amount = 0.0;
+        summary::operationsTotal.amount = 0.0;
     }
 
     void setSelectedMonthAsQString(const QString &month)
@@ -299,7 +348,7 @@ private:
     QString xmlFilePath = "";
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
     Month selectedMonth = Month::April;
-    QString selectedMonthAsQString;
+    QString selectedMonthAsQString = "April";
 
     std::vector<Operation> allOperations;
     std::vector<Operation> operationsEatingOut;

@@ -49,8 +49,6 @@ void Backend::initOperationsByTypeScreen()
     addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
     addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
     addOperationButton(operationsSummary, operationButtonList_operationsSummary);
-
-    setSelectedMonth(Month::June);
 }
 
 void Backend::previousMonth()
