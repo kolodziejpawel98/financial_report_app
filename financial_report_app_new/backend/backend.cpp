@@ -1,4 +1,5 @@
 #include "backend.hpp"
+#include <unistd.h>
 
 void Backend::printTestString()
 {
@@ -18,6 +19,7 @@ QStringList Backend::getComboBoxItems()
 
 void Backend::initDescribeUndefinedTagsScreen()
 {
+    std::cout << "getpid = " << getpid() << std::endl;
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
     // loadXmlData(false);
     loadXmlData();
@@ -51,28 +53,6 @@ void Backend::initOperationsByTypeScreen()
     addOperationButton(operationsSummary, operationButtonList_operationsSummary);
 }
 
-void Backend::previousMonth()
-{
-    int monthValue = static_cast<int>(selectedMonth);
-    if (monthValue == 1)
-        monthValue = 12;
-    else
-        monthValue--;
-
-    setSelectedMonth(static_cast<Month>(monthValue));
-}
-
-void Backend::nextMonth()
-{
-    int monthValue = static_cast<int>(selectedMonth);
-    if (monthValue == 12)
-        monthValue = 1;
-    else
-        monthValue++;
-
-    setSelectedMonth(static_cast<Month>(monthValue));
-}
-
 void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisplay, OperationsByTypeScreen::OperationButtonList *operationButtonListToDisplay) const
 {
     std::string spaceBetweenInformations = "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
@@ -102,6 +82,129 @@ void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisp
 
         operationButtonListToDisplay->addButton(QString::number(operation.amount, 'f', 2), QString::fromStdString(descriptionBannerText), 50);
     }
+}
+
+void Backend::setSelectedMonth(Month month)
+{
+    selectedMonth = month;
+
+    QString monthName;
+    switch (month)
+    {
+    case Month::January:
+        monthName = "January";
+        break;
+    case Month::February:
+        monthName = "February";
+        break;
+    case Month::March:
+        monthName = "March";
+        break;
+    case Month::April:
+        monthName = "April";
+        break;
+    case Month::May:
+        monthName = "May";
+        break;
+    case Month::June:
+        monthName = "June";
+        break;
+    case Month::July:
+        monthName = "July";
+        break;
+    case Month::August:
+        monthName = "August";
+        break;
+    case Month::September:
+        monthName = "September";
+        break;
+    case Month::October:
+        monthName = "October";
+        break;
+    case Month::November:
+        monthName = "November";
+        break;
+    case Month::December:
+        monthName = "December";
+        break;
+    default:
+        throw std::runtime_error("Month selection error");
+    }
+    setSelectedMonthAsQString(monthName);
+    clearData();
+    initOperationsByTypeScreen();
+}
+
+void Backend::setSelectedMonthAsQString(const QString &month)
+{
+    if (selectedMonthAsQString != month)
+    {
+        selectedMonthAsQString = month;
+        emit selectedMonthAsQStringChanged();
+    }
+}
+
+QString Backend::getSelectedMonthAsQString() const
+{
+    return selectedMonthAsQString;
+}
+
+void Backend::clearData()
+{
+    operationButtonList_operationsEatingOut->clear();
+    operationButtonList_operationsNonGroceryShopping->clear();
+    operationButtonList_operationsGroceryShopping->clear();
+    operationButtonList_operationsTransportation->clear();
+    operationButtonList_operationsRegularExpenses->clear();
+    operationButtonList_operationsOtherExpenses->clear();
+    operationButtonList_operationsPhotography->clear();
+    operationButtonList_operationsSelfDefined->clear();
+    operationButtonList_operationsIncoming->clear();
+    operationButtonList_operationsSummary->clear();
+
+    allOperations.clear();
+    operationsEatingOut.clear();
+    operationsNonGroceryShopping.clear();
+    operationsGroceryShopping.clear();
+    operationsTransport.clear();
+    operationsRegularExpenses.clear();
+    operationsOtherExpenses.clear();
+    operationsPhotography.clear();
+    operationsOthers.clear();
+    operationsSelfDefined.clear();
+    operationsIncoming.clear();
+    operationsSummary.clear();
+
+    summary::operationsEatingOut.amount = 0.0;
+    summary::operationsNonGroceryShopping.amount = 0.0;
+    summary::operationsGroceryShopping.amount = 0.0;
+    summary::operationsTransport.amount = 0.0;
+    summary::operationsRegularExpenses.amount = 0.0;
+    summary::operationsOthers.amount = 0.0;
+    summary::operationsPhotography.amount = 0.0;
+    summary::operationsTotal.amount = 0.0;
+}
+
+void Backend::previousMonth()
+{
+    int monthValue = static_cast<int>(selectedMonth);
+    if (monthValue == 1)
+        monthValue = 12;
+    else
+        monthValue--;
+
+    setSelectedMonth(static_cast<Month>(monthValue));
+}
+
+void Backend::nextMonth()
+{
+    int monthValue = static_cast<int>(selectedMonth);
+    if (monthValue == 12)
+        monthValue = 1;
+    else
+        monthValue++;
+
+    setSelectedMonth(static_cast<Month>(monthValue));
 }
 
 void Backend::nextOperation()
@@ -243,59 +346,3 @@ void Backend::loadXmlData(bool isDescriptionShortened)
                          summary::operationsTotal};
     allOperations.clear();
 }
-
-void Backend::printXmlDataOnScreen()
-{
-    // QPoint p0{290, 110};
-    // QPoint p1 = drawExpensesLabels(ui->eatingOutLabelsContainer, ui->eatingOutHeading, operationsEatingOut, EATING_OUT, p0);
-    // QPoint p2 = drawExpensesLabels(ui->nonGroceryShoppingLabelsContainer, ui->nonGroceryShoppingHeading, operationsNonGroceryShopping, NON_GROCERY_SHOPPING, p1);
-    // QPoint p3 = drawExpensesLabels(ui->groceryShoppingLabelsContainer, ui->groceryShoppingHeading, operationsGroceryShopping, GROCERY_SHOPPING, p2);
-    // QPoint p4 = drawExpensesLabels(ui->transportationLabelsContainer, ui->transportationHeading, operationsTransport, TRANSPORT, p3);
-    // QPoint p5 = drawExpensesLabels(ui->regularExpensesLabelsContainer, ui->regularExpensesHeading, operationsRegularExpenses, REGULAR_EXPENSES, p4);
-    // QPoint p6 = drawExpensesLabels(ui->otherSpendingsLabelsContainer, ui->otherSpendingsHeading, operationsOthers, OTHERS, p5);
-    // QPoint p7 = drawExpensesLabels(ui->photographyLabelsContainer, ui->photographyHeading, operationsPhotography, PHOTOGRAPHY, p6);
-    // // QPoint p8 = drawExpensesLabels(ui->incomingLabelsContainer, ui->incomingHeading, operationsIncoming, INCOMING_MONEY, p7);
-    // QPoint p8 = drawExpensesLabels(ui->totalSpendingsLabelsContainer, ui->totalSpendingsHeading, operationsSummary, SELF_DEFINED, p7);
-}
-
-// QPoint MainWindow::drawExpensesLabels(QWidget *labelsContainer,
-//                                       QLabel *labelsContainerHeader,
-//                                       const std::vector<Operation> &operations,
-//                                       int categoryTagToPrint,
-//                                       QPoint movingPoints)
-// {
-//     labelsContainerHeader->move(movingPoints.x(), movingPoints.y() + 20);
-//     labelsContainer->move(movingPoints.x(), movingPoints.y() + 40);
-
-//     int xCoordinateOfLabelInContainer = 0;
-//     int yCoordinateOfLabelInContainer = 0;
-//     int spacingBetweenLabels = 5;
-//     int maxWidthOfLabelsContainer = labelsContainer->width();
-
-//     for (auto &operation : operations)
-//     {
-//         OperationLabel *label = new OperationLabel(operation, labelsContainer);
-//         label->setText(QString::number(operation.amount, 'f', 2));
-
-//         label->setStyleSheet("color: black; font-size: 12px; font-family: Roboto; font-size: 12px; font-style: normal;");
-//         label->adjustSize();
-//         label->setCursor(Qt::PointingHandCursor);
-//         label->installEventFilter(this);
-
-//         expenseLabels.push_back(label);
-
-//         int predictedWidthOfLabel = xCoordinateOfLabelInContainer + label->width();
-//         if (predictedWidthOfLabel > maxWidthOfLabelsContainer)
-//         {
-//             xCoordinateOfLabelInContainer = 0;
-//             yCoordinateOfLabelInContainer += label->height() + spacingBetweenLabels;
-//         }
-//         label->move(xCoordinateOfLabelInContainer, yCoordinateOfLabelInContainer);
-//         label->show();
-//         xCoordinateOfLabelInContainer += label->width() + spacingBetweenLabels;
-//     }
-
-//     labelsContainer->resize(maxWidthOfLabelsContainer, yCoordinateOfLabelInContainer + 20);
-//     QPoint posRelativeToMainWindow = labelsContainer->mapTo(this, labelsContainer->rect().bottomLeft());
-//     return posRelativeToMainWindow;
-// }

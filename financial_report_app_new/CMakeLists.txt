@@ -11,6 +11,8 @@ qt_standard_project_setup(REQUIRES 6.8)
 qt_add_executable(appfinancial_report_app_new
     main.cpp
     backend/backend.cpp
+    backend/OperationsByTypeScreen.cpp
+    backend/DescribeUndefinedTagsScreen.cpp
     xml_cpp_training/external/tinyxml2-master/tinyxml2.cpp
     xml/xmlParser.cpp
 )
