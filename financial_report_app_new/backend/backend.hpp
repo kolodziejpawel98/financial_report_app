@@ -169,7 +169,7 @@ class Backend : public QObject
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSelfDefined READ getOperationButtonList_operationsSelfDefined CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsIncoming READ getOperationButtonList_operationsIncoming CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSummary READ getOperationButtonList_operationsSummary CONSTANT)
-    Q_PROPERTY(QString currentMonthText READ getCurrentMonthText WRITE setCurrentMonthText NOTIFY currentMonthTextChanged)
+    Q_PROPERTY(QString selectedMonthAsQString READ getSelectedMonthAsQString WRITE setSelectedMonthAsQString NOTIFY selectedMonthAsQStringChanged)
 
 public:
     explicit Backend(QObject *parent = nullptr)
@@ -196,11 +196,13 @@ public:
     Q_INVOKABLE QStringList getComboBoxItems();
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     Q_INVOKABLE void initOperationsByTypeScreen();
-    Q_INVOKABLE void setMonthSelectorCurrentMonth();
+    // Q_INVOKABLE void setMonthSelectorCurrentMonth();
     void addOperationButton(std::vector<Operation> &, OperationsByTypeScreen::OperationButtonList *) const;
     void loadXmlData(bool = true);
     void printXmlDataOnScreen();
     Q_INVOKABLE void nextOperation();
+    Q_INVOKABLE void previousMonth();
+    Q_INVOKABLE void nextMonth();
 
     DescribeUndefinedTagsScreen::TagIndex *getTagIndex() const { return tagIndex; }
     DescribeUndefinedTagsScreen::UserDescription *getUserDescription() const { return userDescription; }
@@ -217,28 +219,87 @@ public:
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsIncoming() const { return operationButtonList_operationsIncoming; }
     OperationsByTypeScreen::OperationButtonList *getOperationButtonList_operationsSummary() const { return operationButtonList_operationsSummary; }
 
-    QString getCurrentMonthText() const
+    //     void setCurrentMonthText(const QString &text)
+    //     {
+    //         if (m_currentMonthText != text)
+    //         {
+    //             m_currentMonthText = text;
+    //             emit currentMonthTextChanged();
+    //         }
+    //     }
+    void setSelectedMonth(Month month)
     {
-        return m_currentMonthText;
+        selectedMonth = month;
+
+        QString monthName;
+        switch (month)
+        {
+        case Month::January:
+            monthName = "January";
+            break;
+        case Month::February:
+            monthName = "February";
+            break;
+        case Month::March:
+            monthName = "March";
+            break;
+        case Month::April:
+            monthName = "April";
+            break;
+        case Month::May:
+            monthName = "May";
+            break;
+        case Month::June:
+            monthName = "June";
+            break;
+        case Month::July:
+            monthName = "July";
+            break;
+        case Month::August:
+            monthName = "August";
+            break;
+        case Month::September:
+            monthName = "September";
+            break;
+        case Month::October:
+            monthName = "October";
+            break;
+        case Month::November:
+            monthName = "November";
+            break;
+        case Month::December:
+            monthName = "December";
+            break;
+        default:
+            throw std::runtime_error("Month selection error");
+        }
+
+        setSelectedMonthAsQString(monthName);
     }
 
-    void setCurrentMonthText(const QString &text)
+    void setSelectedMonthAsQString(const QString &month)
     {
-        if (m_currentMonthText != text)
+        if (selectedMonthAsQString != month)
         {
-            m_currentMonthText = text;
-            emit currentMonthTextChanged();
+            selectedMonthAsQString = month;
+            emit selectedMonthAsQStringChanged();
         }
     }
 
+    QString getSelectedMonthAsQString() const
+    {
+        return selectedMonthAsQString;
+    }
+
 signals:
-    void currentMonthTextChanged();
+    void selectedMonthAsQStringChanged();
 
 private:
     QObject *m_rootObject = nullptr;
     QString xmlFilePath = "";
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
     Month selectedMonth = Month::April;
+    QString selectedMonthAsQString;
 
     std::vector<Operation> allOperations;
     std::vector<Operation> operationsEatingOut;
@@ -269,5 +330,5 @@ private:
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsIncoming;
     OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSummary;
 
-    QString m_currentMonthText;
+    // QString m_currentMonthText;
 };

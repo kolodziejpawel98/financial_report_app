@@ -50,7 +50,29 @@ void Backend::initOperationsByTypeScreen()
     addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
     addOperationButton(operationsSummary, operationButtonList_operationsSummary);
 
-    setCurrentMonthText
+    setSelectedMonth(Month::June);
+}
+
+void Backend::previousMonth()
+{
+    int monthValue = static_cast<int>(selectedMonth);
+    if (monthValue == 1)
+        monthValue = 12;
+    else
+        monthValue--;
+
+    setSelectedMonth(static_cast<Month>(monthValue));
+}
+
+void Backend::nextMonth()
+{
+    int monthValue = static_cast<int>(selectedMonth);
+    if (monthValue == 12)
+        monthValue = 1;
+    else
+        monthValue++;
+
+    setSelectedMonth(static_cast<Month>(monthValue));
 }
 
 void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisplay, OperationsByTypeScreen::OperationButtonList *operationButtonListToDisplay) const

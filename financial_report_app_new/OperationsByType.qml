@@ -439,21 +439,25 @@ Rectangle {
         Button {
             id: previousMonth_button
             text: qsTr("<")
+            onClicked: backend.previousMonth()
         }
 
         Text {
             id: currentMonth_text
-            text: backend.currentMonthText
+            y: 3
+            text: backend.selectedMonthAsQString
             font.letterSpacing: 0
             font.pixelSize: 16
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             font.wordSpacing: 0
+            width: 100
         }
 
         Button {
             id: nextMonth_button
             text: qsTr(">")
+            onClicked: backend.nextMonth() 
         }
 
     }
