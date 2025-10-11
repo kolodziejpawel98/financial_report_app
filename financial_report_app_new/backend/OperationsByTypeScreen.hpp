@@ -75,6 +75,10 @@ namespace OperationsByTypeScreen
         Q_INVOKABLE void addButton(const QString &buttonText, const QString &operationDescriptionRectangleText, int width)
         {
             m_buttons.append(new OperationButtonItem(buttonText, operationDescriptionRectangleText, width, this));
+        }
+
+        void emitOperationsChangedSignal()
+        {
             emit operationButtonsChanged();
         }
 

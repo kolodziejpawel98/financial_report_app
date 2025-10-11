@@ -5,6 +5,8 @@
 #include <QQmlListProperty>
 #include "globals.hpp"
 #include <iostream>
+#include <type_traits>
+#include <utility>
 #include "xml/xmlParser.hpp"
 #include "DescribeUndefinedTagsScreen.hpp"
 #include "OperationsByTypeScreen.hpp"
@@ -55,7 +57,9 @@ public:
     // Q_INVOKABLE void setMonthSelectorCurrentMonth();
     void addOperationButton(std::vector<Operation> &, OperationsByTypeScreen::OperationButtonList *) const;
     void loadXmlData(bool = true);
+    void loadAllXmlData(bool = true);
     void printXmlDataOnScreen();
+    void splitOperationsToCategories(Month);
     Q_INVOKABLE void nextOperation();
     Q_INVOKABLE void previousMonth();
     Q_INVOKABLE void nextMonth();
@@ -89,6 +93,7 @@ private:
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
     Month selectedMonth = Month::April;
     QString selectedMonthAsQString = "April";
+    std::map<Month, std::vector<Operation>> allOperationsByMonth;
 
     std::vector<Operation> allOperations;
     std::vector<Operation> operationsEatingOut;
