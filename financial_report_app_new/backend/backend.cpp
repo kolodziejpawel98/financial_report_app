@@ -19,10 +19,10 @@ QStringList Backend::getComboBoxItems()
 
 void Backend::initDescribeUndefinedTagsScreen()
 {
-    std::cout << "getpid = " << getpid() << std::endl;
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
     // loadXmlData(false);
     loadAllXmlData();
+    // splitOperationsToCategories
     QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
     if (buttonSaveChanges)
     {
@@ -40,6 +40,23 @@ void Backend::initDescribeUndefinedTagsScreen()
 void Backend::initOperationsByTypeScreen()
 {
     loadAllXmlData();
+    splitOperationsToCategories(selectedMonth);
+
+    addOperationButton(operationsEatingOut, operationButtonList_operationsEatingOut);
+    addOperationButton(operationsNonGroceryShopping, operationButtonList_operationsNonGroceryShopping);
+    addOperationButton(operationsGroceryShopping, operationButtonList_operationsGroceryShopping);
+    addOperationButton(operationsTransport, operationButtonList_operationsTransportation);
+    addOperationButton(operationsRegularExpenses, operationButtonList_operationsRegularExpenses);
+    addOperationButton(operationsPhotography, operationButtonList_operationsPhotography);
+    addOperationButton(operationsOtherExpenses, operationButtonList_operationsOtherExpenses);
+    addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
+    addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
+    addOperationButton(operationsSummary, operationButtonList_operationsSummary);
+}
+
+void Backend::updateOperationsByTypeScreen()
+{
+    splitOperationsToCategories(selectedMonth);
 
     addOperationButton(operationsEatingOut, operationButtonList_operationsEatingOut);
     addOperationButton(operationsNonGroceryShopping, operationButtonList_operationsNonGroceryShopping);
@@ -133,7 +150,7 @@ void Backend::setSelectedMonth(Month month)
     }
     setSelectedMonthAsQString(monthName);
     clearData();
-    initOperationsByTypeScreen();
+    updateOperationsByTypeScreen();
 }
 
 void Backend::setSelectedMonthAsQString(const QString &month)
@@ -364,87 +381,4 @@ void Backend::splitOperationsToCategories(Month currentMonth)
                          summary::operationsPhotography,
                          summary::operationsIncoming,
                          summary::operationsTotal};
-}
-
-void Backend::loadXmlData(bool isDescriptionShortened)
-{
-    // allOperations.clear();
-    // operationsEatingOut.clear();
-    // operationsNonGroceryShopping.clear();
-    // operationsGroceryShopping.clear();
-    // operationsTransport.clear();
-    // operationsRegularExpenses.clear();
-    // operationsPhotography.clear();
-    // operationsOthers.clear();
-    // operationsSummary.clear();
-
-    // std::string pathStr = xmlFilePath.toStdString();
-    // const char *path = pathStr.c_str();
-    // allOperations = getOperationsByDate(path, selectedMonth, isDescriptionShortened);
-
-    // for (auto &operation : allOperations)
-    // {
-    //     if (operation.categoryTag == EATING_OUT)
-    //     {
-    //         operationsEatingOut.emplace_back(operation);
-    //         summary::operationsEatingOut.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-    //     else if (operation.categoryTag == NON_GROCERY_SHOPPING)
-    //     {
-    //         operationsNonGroceryShopping.emplace_back(operation);
-    //         summary::operationsNonGroceryShopping.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-    //     else if (operation.categoryTag == GROCERY_SHOPPING)
-    //     {
-    //         operationsGroceryShopping.emplace_back(operation);
-    //         summary::operationsGroceryShopping.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-    //     else if (operation.categoryTag == TRANSPORT)
-    //     {
-    //         operationsTransport.emplace_back(operation);
-    //         summary::operationsTransport.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-    //     else if (operation.categoryTag == REGULAR_EXPENSES)
-    //     {
-    //         operationsRegularExpenses.emplace_back(operation);
-    //         summary::operationsRegularExpenses.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-    //     else if (operation.categoryTag == OTHERS)
-    //     {
-    //         operationsOthers.emplace_back(operation);
-    //         summary::operationsOthers.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-    //     else if (operation.categoryTag == PHOTOGRAPHY)
-    //     {
-    //         operationsPhotography.emplace_back(operation);
-    //         summary::operationsPhotography.amount += operation.amount;
-    //         summary::operationsTotal.amount += operation.amount;
-    //     }
-
-    //     else if (operation.categoryTag == SELF_DEFINED)
-    //     {
-    //         operationsSelfDefined.emplace_back(operation);
-    //     }
-    //     else if (operation.categoryTag == INCOMING_MONEY)
-    //     {
-    //         operationsIncoming.emplace_back(operation);
-    //     }
-    // }
-
-    // operationsSummary = {summary::operationsEatingOut,
-    //                      summary::operationsNonGroceryShopping,
-    //                      summary::operationsGroceryShopping,
-    //                      summary::operationsTransport,
-    //                      summary::operationsRegularExpenses,
-    //                      summary::operationsOthers,
-    //                      summary::operationsPhotography,
-    //                      summary::operationsIncoming,
-    //                      summary::operationsTotal};
-    // allOperations.clear();
 }

@@ -54,9 +54,9 @@ public:
     Q_INVOKABLE QStringList getComboBoxItems();
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     Q_INVOKABLE void initOperationsByTypeScreen();
+    void updateOperationsByTypeScreen();
     // Q_INVOKABLE void setMonthSelectorCurrentMonth();
     void addOperationButton(std::vector<Operation> &, OperationsByTypeScreen::OperationButtonList *) const;
-    void loadXmlData(bool = true);
     void loadAllXmlData(bool = true);
     void printXmlDataOnScreen();
     void splitOperationsToCategories(Month);

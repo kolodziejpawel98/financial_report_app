@@ -61,55 +61,55 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
 
                 Behavior on font.pixelSize {
-                    NumberAnimation { duration: 120; easing.type: Easing.OutQuad }
-                }
+                NumberAnimation { duration: 120; easing.type: Easing.OutQuad }
             }
+        }
 
-            background: Rectangle {
-                color: btn.hovered ? '#f8efff' : "#ffffff"
-                radius: 3
-                width: btn.width
-                height: btn.height
+        background: Rectangle {
+            color: btn.hovered ? '#f8efff' : "#ffffff"
+            radius: 3
+            width: btn.width
+            height: btn.height
+        }
+
+        MouseArea {
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: btn.clicked()
+
+            onPositionChanged: {
+                operationDescriptionRectangle.x = mouse.x - 20
+                operationDescriptionRectangle.y = mouse.y - 60
             }
+            onEntered: operationDescriptionRectangle.visible = true
+            onExited: operationDescriptionRectangle.visible = false
+        }
 
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: btn.clicked()
+        Rectangle {
+            id: operationDescriptionRectangle
+            visible: false
+            width: textDescription.implicitWidth + 120
+            height: textDescription.implicitHeight + 20
+            color: "white"
+            radius: 3
+            border.color: "#c2c2c2"
 
-                onPositionChanged: {
-                    operationDescriptionRectangle.x = mouse.x - 20
-                    operationDescriptionRectangle.y = mouse.y - 60
-                }
-                onEntered: operationDescriptionRectangle.visible = true
-                onExited: operationDescriptionRectangle.visible = false
-            }
-
-            Rectangle {
-                id: operationDescriptionRectangle
-                visible: false
-                width: textDescription.implicitWidth + 120
-                height: textDescription.implicitHeight + 20
-                color: "white"
-                radius: 3
-                border.color: "#c2c2c2"
-
-                Text {
-                    id: textDescription
-                    anchors.centerIn: parent
-                    text: modelData.buttonDescriptionRectangleText
-                    textFormat: Text.RichText
-                    color: "black"
-                    font.pixelSize: 12
-                }
+            Text {
+                id: textDescription
+                anchors.centerIn: parent
+                text: modelData.buttonDescriptionRectangleText
+                textFormat: Text.RichText
+                color: "black"
+                font.pixelSize: 12
             }
         }
     }
+}
 
 
 
-    property int section_spacing: 15
+property int section_spacing: 15
 
     Text {
         id: text1
@@ -435,30 +435,73 @@ Rectangle {
         layoutDirection: Qt.LeftToRight
         padding: 0
         leftPadding: 27
-
         Button {
             id: previousMonth_button
-            text: qsTr("<")
-            onClicked: backend.previousMonth()
+            width: 40
+            height: 27
+            flat: true
+
+            background: Rectangle {
+                color: previousMonth_area.containsMouse ? "#9763d5" : "#BB86FC"
+                radius: 8
+                opacity: 0.4
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: "<"
+                color: "white"
+                font.pixelSize: 14
+            }
+
+            MouseArea {
+                id: previousMonth_area
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: backend.previousMonth()
+            }
         }
 
         Text {
             id: currentMonth_text
             y: 3
             text: backend.selectedMonthAsQString
-            font.letterSpacing: 0
             font.pixelSize: 16
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            font.wordSpacing: 0
             width: 100
+            color: "black"
         }
 
         Button {
             id: nextMonth_button
-            text: qsTr(">")
-            onClicked: backend.nextMonth() 
+            width: 40
+            height: 27
+            flat: true
+
+            background: Rectangle {
+                color: nextMonth_area.containsMouse ? '#9763d5' : "#BB86FC"
+                radius: 8
+                opacity: 0.4
+            }
+
+            Text {
+                anchors.centerIn: parent
+                text: ">"
+                color: "white"
+                font.pixelSize: 14
+            }
+
+            MouseArea {
+                id: nextMonth_area
+                anchors.fill: parent
+                hoverEnabled: true
+                cursorShape: Qt.PointingHandCursor
+                onClicked: backend.nextMonth()
+            }
         }
+
 
     }
 }
