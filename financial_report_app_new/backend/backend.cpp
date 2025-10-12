@@ -20,15 +20,15 @@ QStringList Backend::getComboBoxItems()
 void Backend::initDescribeUndefinedTagsScreen()
 {
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
-    // loadXmlData(false);
     loadAllXmlData();
-    // splitOperationsToCategories
+
+    // TODO: how about operations from different months (below)?
+    splitOperationsToCategories(selectedMonth);
     QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
     if (buttonSaveChanges)
     {
         buttonSaveChanges->setProperty("enabled", false);
     }
-
     if (!operationsSelfDefined.empty())
     {
         operationsSelfDefinedIterator = operationsSelfDefined.begin();

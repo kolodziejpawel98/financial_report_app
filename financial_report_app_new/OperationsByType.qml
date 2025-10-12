@@ -2,6 +2,7 @@ import QtQuick
 import QtQuick.Controls 2.15
 
 Rectangle {
+    id: main_window
     width: 1266
     height: 668
 
@@ -113,7 +114,7 @@ property int section_spacing: 15
 
     Text {
         id: text1
-        x: 225
+        x: 222
         y: 108
         // width: 285
         // height: 14
@@ -128,7 +129,7 @@ property int section_spacing: 15
         y: 128
         width: 1006
         height: 42
-        // color: '#f4f4f4'
+        //color: '#f4f4f4'
     }
 
     Flow {
@@ -165,7 +166,7 @@ property int section_spacing: 15
         y: buttonContainer_operationsEatingOut_background.y + buttonContainer_operationsEatingOut_background.height + section_spacing
         width: 1006
         height: 42
-        // color: '#f4f4f4'
+        //color: '#f4f4f4'
     }
 
     Flow {
@@ -200,7 +201,7 @@ property int section_spacing: 15
         y: buttonContainer_operationsNonGroceryShopping_background.y + buttonContainer_operationsNonGroceryShopping_background.height + section_spacing
         width: 1006
         height: 42
-        // color: '#f4f4f4'
+        //color: '#f4f4f4'
     }
 
     Flow {
@@ -237,7 +238,7 @@ property int section_spacing: 15
         y: buttonContainer_operationsGroceryShopping_background.y + buttonContainer_operationsGroceryShopping_background.height + section_spacing
         width: 1006
         height: 42
-        // color: '#f4f4f4'
+        //color: '#f4f4f4'
     }
 
     Flow {
