@@ -21,6 +21,15 @@ Rectangle {
     }
 
     Rectangle {
+        id: work_area
+        x: 183
+        y: 80
+        width: 1083
+        height: 588
+        color: "#ffffff"
+    }
+
+    Rectangle {
         id: menu_topbar
         x: 0
         y: 0
@@ -55,7 +64,6 @@ Rectangle {
             contentItem: Text {
                 id: textItemButton
                 text: btn.text
-                // font.pixelSize: btn.hovered ? 11 : 10
                 font.bold: btn.hovered
                 color: btn.hovered ? '#aa74d2' : "#000000"
                 horizontalAlignment: Text.AlignHCenter
@@ -80,8 +88,17 @@ Rectangle {
             onClicked: btn.clicked()
 
             onPositionChanged: {
-                operationDescriptionRectangle.x = mouse.x - 20
-                operationDescriptionRectangle.y = mouse.y - 60
+                var pos = mapToItem(work_area, mouse.x, mouse.y)
+                var rectanglePosition_x = mouse.x - 20
+                
+                // if(pos.x >= work_area.width/2){
+                    // console.log("xd")
+                    rectanglePosition_x = mouse.x - pos.x/2
+                // }
+
+                operationDescriptionRectangle.x = rectanglePosition_x
+                operationDescriptionRectangle.y = mouse.y - 50
+
             }
             onEntered: operationDescriptionRectangle.visible = true
             onExited: operationDescriptionRectangle.visible = false
@@ -108,401 +125,128 @@ Rectangle {
     }
 }
 
-
-
 property int section_spacing: 15
 
-    Text {
-        id: text1
+    Column {
+        id: mainColumn
         x: 222
         y: 108
-        // width: 285
-        // height: 14
-        text: qsTr("Eating out")
-        font.pixelSize: 14
-        font.styleName: "Bold"
-    }
+        spacing: section_spacing
 
-    Rectangle {
-        id: buttonContainer_operationsEatingOut_background
-        x: 222
-        y: 128
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
+        function createSection(title, model)
+        {
+            return Qt.createQmlObject(`
+import QtQuick
+import QtQuick.Controls 2.15
+
+Column {
+    spacing: 5
+    Text { text: "` + title + `"; font.pixelSize: 14; font.bold: true }
 
     Flow {
-        id: buttonContainer_operationsEatingOut
+        width: 1006
         spacing: 5
-        x: buttonContainer_operationsEatingOut_background.x
-        y: buttonContainer_operationsEatingOut_background.y
-        width: 1006
-        height: 42
+        flow: Flow.LeftToRight
 
         Repeater {
-            model: backend.operationButtonList_operationsEatingOut.operationButtons
+            model: ` + model + `
             delegate: operationButtonDelegate
         }
     }
+}
+`, mainColumn)
+}
 
+Component.onCompleted: {
+    createSection("Eating out", "backend.operationButtonList_operationsEatingOut.operationButtons")
+    createSection("Non grocery shopping", "backend.operationButtonList_operationsNonGroceryShopping.operationButtons")
+    createSection("Grocery shopping", "backend.operationButtonList_operationsGroceryShopping.operationButtons")
+    createSection("Transportation shopping", "backend.operationButtonList_operationsTransportation.operationButtons")
+    createSection("Regular expenses", "backend.operationButtonList_operationsRegularExpenses.operationButtons")
+    createSection("Other expenses", "backend.operationButtonList_operationsOtherExpenses.operationButtons")
+    createSection("Photography", "backend.operationButtonList_operationsPhotography.operationButtons")
+    createSection("Incoming", "backend.operationButtonList_operationsIncoming.operationButtons")
+    createSection("Summary", "backend.operationButtonList_operationsSummary.operationButtons")
+}
+}
 
+Row {
+    id: monthsSelection_container
+    x: 902
+    y: 86
+    width: 312
+    height: 27
+    spacing: 26
+    layoutDirection: Qt.LeftToRight
+    padding: 0
+    leftPadding: 27
 
-
-    Text {
-        id: buttonContainer_operationsNonGroceryShopping_title
-        x: text1.x
-        y: text1.y + buttonContainer_operationsEatingOut_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Non grocery shopping")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsNonGroceryShopping_background
-        x: 222
-        y: buttonContainer_operationsEatingOut_background.y + buttonContainer_operationsEatingOut_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsNonGroceryShopping_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsNonGroceryShopping_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsNonGroceryShopping.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-
-    Text {
-        id: buttonContainer_operationsGroceryShopping_title
-        x: text1.x
-        y: buttonContainer_operationsNonGroceryShopping_title.y + buttonContainer_operationsNonGroceryShopping_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Grocery shopping")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsGroceryShopping_background
-        x: 222
-        y: buttonContainer_operationsNonGroceryShopping_background.y + buttonContainer_operationsNonGroceryShopping_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsGroceryShopping_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsGroceryShopping_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsGroceryShopping.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-
-
-
-    Text {
-        id: buttonContainer_operationsTransportation_title
-        x: text1.x
-        y: buttonContainer_operationsGroceryShopping_title.y + buttonContainer_operationsGroceryShopping_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Transportation shopping")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsTransportation_background
-        x: 222
-        y: buttonContainer_operationsGroceryShopping_background.y + buttonContainer_operationsGroceryShopping_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsTransportation_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsTransportation_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsTransportation.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-
-    Text {
-        id: buttonContainer_operationsRegularExpenses_title
-        x: text1.x
-        y: buttonContainer_operationsTransportation_title.y + buttonContainer_operationsTransportation_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Regular expenses")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsRegularExpenses_background
-        x: 222
-        y: buttonContainer_operationsTransportation_background.y + buttonContainer_operationsTransportation_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsRegularExpenses_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsRegularExpenses_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsRegularExpenses.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-    Text {
-        id: buttonContainer_operationsOtherExpenses_title
-        x: text1.x
-        y: buttonContainer_operationsRegularExpenses_title.y + buttonContainer_operationsRegularExpenses_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Other expenses")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsOtherExpenses_background
-        x: 222
-        y: buttonContainer_operationsRegularExpenses_background.y + buttonContainer_operationsRegularExpenses_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsOtherExpenses_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsOtherExpenses_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsOtherExpenses.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-    Text {
-        id: buttonContainer_operationsPhotography_title
-        x: text1.x
-        y: buttonContainer_operationsOtherExpenses_title.y + buttonContainer_operationsOtherExpenses_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Photography")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsPhotography_background
-        x: 222
-        y: buttonContainer_operationsOtherExpenses_background.y + buttonContainer_operationsOtherExpenses_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsPhotography_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsPhotography_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsPhotography.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-    Text {
-        id: buttonContainer_operationsIncoming_title
-        x: text1.x
-        y: buttonContainer_operationsPhotography_title.y + buttonContainer_operationsPhotography_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Incoming")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsIncoming_background
-        x: 222
-        y: buttonContainer_operationsPhotography_background.y + buttonContainer_operationsPhotography_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsIncoming_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsIncoming_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsIncoming.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-    Text {
-        id: buttonContainer_operationsSummary_title
-        x: text1.x
-        y: buttonContainer_operationsIncoming_title.y + buttonContainer_operationsIncoming_background.height + section_spacing
-        // width: 285
-        // height: 14
-        text: qsTr("Summary")
-        font.pixelSize: text1.font.pixelSize
-        font.styleName: "Bold"
-    }
-
-    Rectangle {
-        id: buttonContainer_operationsSummary_background
-        x: 222
-        y: buttonContainer_operationsIncoming_background.y + buttonContainer_operationsIncoming_background.height + section_spacing
-        width: 1006
-        height: 42
-        //color: '#f4f4f4'
-    }
-
-    Flow {
-        id: buttonContainer_operationsSummary_container
-        spacing: buttonContainer_operationsEatingOut.spacing
-        x: 222
-        y: buttonContainer_operationsSummary_background.y
-        width: 1006
-        height: 42
-
-        Repeater {
-            model: backend.operationButtonList_operationsSummary.operationButtons
-            delegate: operationButtonDelegate
-        }
-    }
-
-    Row {
-        id: monthsSelection_container
-        x: 902
-        y: 86
-        width: 312
+    Button {
+        id: previousMonth_button
+        width: 60
         height: 27
-        spacing: 26
-        layoutDirection: Qt.LeftToRight
-        padding: 0
-        leftPadding: 27
-        Button {
-            id: previousMonth_button
-            width: 40
-            height: 27
-            flat: true
+        flat: true
 
-            background: Rectangle {
-                color: previousMonth_area.containsMouse ? "#9763d5" : "#BB86FC"
-                radius: 8
-                opacity: 0.4
-            }
-
-            Text {
-                anchors.centerIn: parent
-                text: "<"
-                color: "white"
-                font.pixelSize: 14
-            }
-
-            MouseArea {
-                id: previousMonth_area
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: backend.previousMonth()
-            }
+        background: Rectangle {
+            color: previousMonth_area.containsMouse ? "#9763d5" : "#BB86FC"
+            radius: 8
+            opacity: 0.4
         }
 
         Text {
-            id: currentMonth_text
-            y: 3
-            text: backend.selectedMonthAsQString
-            font.pixelSize: 16
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
-            width: 100
-            color: "black"
+            anchors.centerIn: parent
+            text: "<"
+            color: "white"
+            font.pixelSize: 14
         }
 
-        Button {
-            id: nextMonth_button
-            width: 40
-            height: 27
-            flat: true
-
-            background: Rectangle {
-                color: nextMonth_area.containsMouse ? '#9763d5' : "#BB86FC"
-                radius: 8
-                opacity: 0.4
-            }
-
-            Text {
-                anchors.centerIn: parent
-                text: ">"
-                color: "white"
-                font.pixelSize: 14
-            }
-
-            MouseArea {
-                id: nextMonth_area
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-                onClicked: backend.nextMonth()
-            }
+        MouseArea {
+            id: previousMonth_area
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: backend.previousMonth()
         }
-
-
     }
+
+    Text {
+        id: currentMonth_text
+        y: 3
+        text: backend.selectedMonthAsQString
+        font.pixelSize: 16
+        horizontalAlignment: Text.AlignHCenter
+        verticalAlignment: Text.AlignVCenter
+        width: 100
+        color: "black"
+    }
+
+    Button {
+        id: nextMonth_button
+        width: 60
+        height: 27
+        flat: true
+
+        background: Rectangle {
+            color: nextMonth_area.containsMouse ? '#9763d5' : "#BB86FC"
+            radius: 8
+            opacity: 0.4
+        }
+
+        Text {
+            anchors.centerIn: parent
+            text: ">"
+            color: "white"
+            font.pixelSize: 14
+        }
+
+        MouseArea {
+            id: nextMonth_area
+            anchors.fill: parent
+            hoverEnabled: true
+            cursorShape: Qt.PointingHandCursor
+            onClicked: backend.nextMonth()
+        }
+    }
+}
+
 }

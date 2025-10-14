@@ -200,6 +200,7 @@ std::string extractCrucialDescriptionData(const std::string &desc, const std::st
         return getSubstring(desc, "Nazwa odbiorcy :", "Tytuł :");
     else
         throw std::runtime_error("Unknown type: " + type);
+    // return "";
 }
 
 XMLElement *getFirstOperationTag(XMLDocument &doc)
