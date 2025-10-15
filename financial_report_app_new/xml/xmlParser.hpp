@@ -103,7 +103,7 @@ namespace summary
     extern Operation operationsGroceryShopping;
     extern Operation operationsTransport;
     extern Operation operationsRegularExpenses;
-    extern Operation operationsOthers;
+    extern Operation operationsOtherExpenses;
     extern Operation operationsPhotography;
     extern Operation operationsIncoming;
     extern Operation operationsTotal;

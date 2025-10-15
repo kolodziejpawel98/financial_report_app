@@ -188,7 +188,7 @@ void Backend::clearData()
     operationsRegularExpenses.clear();
     operationsOtherExpenses.clear();
     operationsPhotography.clear();
-    operationsOthers.clear();
+    operationsOtherExpenses.clear();
     operationsSelfDefined.clear();
     operationsIncoming.clear();
     operationsSummary.clear();
@@ -198,7 +198,7 @@ void Backend::clearData()
     summary::operationsGroceryShopping.amount = 0.0;
     summary::operationsTransport.amount = 0.0;
     summary::operationsRegularExpenses.amount = 0.0;
-    summary::operationsOthers.amount = 0.0;
+    summary::operationsOtherExpenses.amount = 0.0;
     summary::operationsPhotography.amount = 0.0;
     summary::operationsTotal.amount = 0.0;
 }
@@ -308,7 +308,7 @@ void Backend::splitOperationsToCategories(Month currentMonth)
     operationsTransport.clear();
     operationsRegularExpenses.clear();
     operationsPhotography.clear();
-    operationsOthers.clear();
+    operationsOtherExpenses.clear();
     operationsSummary.clear();
 
     auto it = allOperationsByMonth.find(currentMonth);
@@ -351,8 +351,8 @@ void Backend::splitOperationsToCategories(Month currentMonth)
         }
         else if (operation.categoryTag == OTHERS)
         {
-            operationsOthers.emplace_back(operation);
-            summary::operationsOthers.amount += operation.amount;
+            operationsOtherExpenses.emplace_back(operation);
+            summary::operationsOtherExpenses.amount += operation.amount;
             summary::operationsTotal.amount += operation.amount;
         }
         else if (operation.categoryTag == PHOTOGRAPHY)
@@ -377,7 +377,7 @@ void Backend::splitOperationsToCategories(Month currentMonth)
                          summary::operationsGroceryShopping,
                          summary::operationsTransport,
                          summary::operationsRegularExpenses,
-                         summary::operationsOthers,
+                         summary::operationsOtherExpenses,
                          summary::operationsPhotography,
                          summary::operationsIncoming,
                          summary::operationsTotal};

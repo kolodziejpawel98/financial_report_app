@@ -95,7 +95,7 @@ namespace summary
     Operation operationsGroceryShopping{Date{}, "", "grocery shopping", 0.0, 0.0, 3};
     Operation operationsTransport{Date{}, "", "transport", 0.0, 0.0, 4};
     Operation operationsRegularExpenses{Date{}, "", "regular expenses", 0.0, 0.0, 5};
-    Operation operationsOthers{Date{}, "", "others", 0.0, 0.0, 6};
+    Operation operationsOtherExpenses{Date{}, "", "others", 0.0, 0.0, 6};
     Operation operationsPhotography{Date{}, "", "photography", 0.0, 0.0, 7};
     Operation operationsIncoming{Date{}, "", "incoming", 0.0, 0.0, 9};
     Operation operationsTotal{Date{}, "", "total", 0.0, 0.0, 8};
@@ -121,6 +121,11 @@ int Operation::setCategoryTag()
     if (amount > 0)
     {
         return INCOMING_MONEY;
+    }
+    if (amount == -23.90)
+    {
+        std::cout << "\033[31m  Description: " << description << "\033[0m\n";
+        printf("  Amount: %.2f\n", amount);
     }
 
     for (const auto &pairTagAndId : cardTransactionCategories)

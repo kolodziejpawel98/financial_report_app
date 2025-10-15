@@ -103,7 +103,6 @@ private:
     std::vector<Operation> operationsRegularExpenses;
     std::vector<Operation> operationsOtherExpenses;
     std::vector<Operation> operationsPhotography;
-    std::vector<Operation> operationsOthers;
     std::vector<Operation> operationsSelfDefined;
     std::vector<Operation> operationsIncoming;
     std::vector<Operation> operationsSummary;
