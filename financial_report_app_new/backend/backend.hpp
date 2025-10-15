@@ -60,6 +60,7 @@ public:
     void loadAllXmlData(bool = true);
     void printXmlDataOnScreen();
     void splitOperationsToCategories(Month);
+    void getAllSelfDefinedOperations();
     Q_INVOKABLE void nextOperation();
     Q_INVOKABLE void previousMonth();
     Q_INVOKABLE void nextMonth();
@@ -91,9 +92,11 @@ private:
     QObject *m_rootObject = nullptr;
     QString xmlFilePath = "";
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
-    Month selectedMonth = Month::April;
-    QString selectedMonthAsQString = "April";
+    Month selectedMonth = Month::January;
+    QString selectedMonthAsQString = "January";
     std::map<Month, std::vector<Operation>> allOperationsByMonth;
+
+    std::vector<Operation> temporarySelfDefinedOperations;
 
     std::vector<Operation> allOperations;
     std::vector<Operation> operationsEatingOut;

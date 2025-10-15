@@ -22,18 +22,47 @@ void Backend::initDescribeUndefinedTagsScreen()
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
     loadAllXmlData();
 
+    getAllSelfDefinedOperations();
+
     // TODO: how about operations from different months (below)?
-    splitOperationsToCategories(selectedMonth);
+
     QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
     if (buttonSaveChanges)
     {
         buttonSaveChanges->setProperty("enabled", false);
     }
-    if (!operationsSelfDefined.empty())
+
+    splitOperationsToCategories(selectedMonth);
+    if (!temporarySelfDefinedOperations.empty())
     {
-        operationsSelfDefinedIterator = operationsSelfDefined.begin();
+        operationsSelfDefinedIterator = temporarySelfDefinedOperations.begin();
         operationDescription->setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
         userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+    }
+}
+
+void Backend::nextOperation()
+{
+    if (operationsSelfDefinedIterator != temporarySelfDefinedOperations.end() && tagIndex->getUserDescriptionCurrentTagIndex() != 0)
+    {
+        // !!!!!!!!!!!!!!!!!! do not remove below (need to add implementation)
+        cardTransactionCategories.insert({operationsSelfDefinedIterator->description, tagIndex->getUserDescriptionCurrentTagIndex()});
+        // !!!!!!!!!!!!!!!!!! do not remove
+        ++operationsSelfDefinedIterator;
+        if (operationsSelfDefinedIterator != temporarySelfDefinedOperations.end())
+        {
+            operationDescription->setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+            userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
+        }
+    }
+    else
+    {
+        saveMapToJson(cardTransactionCategories, TRANSACTION_TAGS_JSON_FILE);
+        QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
+        if (buttonSaveChanges)
+        {
+            buttonSaveChanges->setProperty("enabled", true);
+        }
     }
 }
 
@@ -225,30 +254,6 @@ void Backend::nextMonth()
     setSelectedMonth(static_cast<Month>(monthValue));
 }
 
-void Backend::nextOperation()
-{
-    if (operationsSelfDefinedIterator != operationsSelfDefined.end() && tagIndex->getUserDescriptionCurrentTagIndex() != 0)
-    {
-        // !!!!!!!!!!!!!!!!!! do not remove below (need to add implementation)
-        // cardTransactionCategories.insert({operationsSelfDefinedIterator->description, tagIndex->getUserDescriptionCurrentTagIndex()});
-        // !!!!!!!!!!!!!!!!!! do not remove
-        ++operationsSelfDefinedIterator;
-        if (operationsSelfDefinedIterator != operationsSelfDefined.end())
-        {
-            operationDescription->setOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
-            userDescription->setUserOperationDescriptionText(QString::fromStdString(operationsSelfDefinedIterator->description));
-        }
-    }
-    else
-    {
-        QObject *buttonSaveChanges = m_rootObject->findChild<QObject *>("mainContent_button_saveChangesAndGoToNextScreen");
-        if (buttonSaveChanges)
-        {
-            buttonSaveChanges->setProperty("enabled", true);
-        }
-    }
-}
-
 int DescribeUndefinedTagsScreen::TagIndex::getUserDescriptionCurrentTagIndex() const { return userDescriptionCurrentTagIndex; }
 
 void DescribeUndefinedTagsScreen::TagIndex::setUserDescriptionCurrentTagIndex(int index)
@@ -294,6 +299,22 @@ void Backend::loadAllXmlData(bool isDescriptionShortened)
     {
         Month currentMonth = static_cast<Month>(month);
         allOperationsByMonth.insert({currentMonth, getOperationsByDate(path, currentMonth, isDescriptionShortened)});
+    }
+}
+
+void Backend::getAllSelfDefinedOperations()
+{
+    for (const auto &[month, operations] : allOperationsByMonth)
+    {
+        for (const auto &operation : operations)
+        {
+            if (operation.categoryTag == SELF_DEFINED)
+            {
+                temporarySelfDefinedOperations.push_back(operation);
+                // std::cout << "Found operation with tag 6 in month " << static_cast<int>(month)
+                //   << ": " << operation.description << std::endl;
+            }
+        }
     }
 }
 

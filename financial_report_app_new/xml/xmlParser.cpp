@@ -122,11 +122,6 @@ int Operation::setCategoryTag()
     {
         return INCOMING_MONEY;
     }
-    if (amount == -23.90)
-    {
-        std::cout << "\033[31m  Description: " << description << "\033[0m\n";
-        printf("  Amount: %.2f\n", amount);
-    }
 
     for (const auto &pairTagAndId : cardTransactionCategories)
     {
@@ -135,6 +130,7 @@ int Operation::setCategoryTag()
             return pairTagAndId.second;
         }
     }
+
     return SELF_DEFINED;
 }
 
