@@ -198,9 +198,17 @@ std::string extractCrucialDescriptionData(const std::string &desc, const std::st
         return getSubstring(desc, "Adres :", "Operacja");
     else if (type == "Przelew z rachunku")
         return getSubstring(desc, "Nazwa odbiorcy :", "Tytuł :");
+    else if (type == "Wpłata gotówkowa w kasie")
+        return type;
+    else if (type == "Wpłata gotówki we wpłatomacie")
+        return type;
+    else if (type == "Zwrot płatności kartą")
+        return getSubstring(desc, "Adres :", "Kraj :");
     else
-        throw std::runtime_error("Unknown type: " + type);
-    // return "";
+    {
+        // throw std::runtime_error("Unknown type: " + type);
+        return desc;
+    }
 }
 
 XMLElement *getFirstOperationTag(XMLDocument &doc)
