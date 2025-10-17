@@ -1,7 +1,6 @@
 import QtQuick
 import QtQuick.Controls 2.15
-// import QtGraphicalEffects 1.15
-import QtGraphicalEffects 1.15
+import Qt5Compat.GraphicalEffects
 
 Rectangle {
     width: 1266
@@ -18,7 +17,7 @@ Rectangle {
 
     Rectangle {
         id: menu_sidebar
-        x: 18
+        x: 29
         y: 15
         width: 219
         height: 638
@@ -27,6 +26,17 @@ Rectangle {
         border.color: "#949494"
         border.width: 0
         topLeftRadius: 7
+
+        layer.enabled: true
+        layer.effect: DropShadow {
+            color: "#00000033"
+            radius: 24
+            samples: 32
+            horizontalOffset: 3
+            verticalOffset: 3
+            spread: 0
+        }
+
 
         Text {
             id: logo_text
@@ -52,9 +62,6 @@ Rectangle {
                 anchors.centerIn: parent
                 color: "#D1D3DA"
                 text: "Report"
-                // font.family: control.font.family
-                // font.pixelSize: control.font.pixelSize
-                // font.weight: control.font.weight
             }
 
             background: Rectangle {
@@ -62,25 +69,6 @@ Rectangle {
                 radius: 6
             }
         }
-
-        // DropShadow {
-        //     anchors.fill: myRect
-        //     source: myRect
-        //     horizontalOffset: 2
-        //     verticalOffset: 2
-        //     blurRadius: 28
-        //     color: "#E6EAF5"
-        //     opacity: 0.99
-        // }
-
-// DropShadow {
-//         anchors.fill: butterfly
-//         horizontalOffset: 3
-//         verticalOffset: 3
-//         radius: 8.0
-//         color: "#80000000"
-//         source: butterfly
-//     }
 
         Button {
             id: sidebarButton_allOperations
@@ -95,9 +83,6 @@ Rectangle {
                 anchors.centerIn: parent
                 color: "#D1D3DA"
                 text: "All operations"
-                // font.family: control.font.family
-                // font.pixelSize: control.font.pixelSize
-                // font.weight: control.font.weight
             }
 
             background: Rectangle {
@@ -119,9 +104,6 @@ Rectangle {
                 anchors.centerIn: parent
                 color: "#D1D3DA"
                 text: "Statistics"
-                // font.family: control.font.family
-                // font.pixelSize: control.font.pixelSize
-                // font.weight: control.font.weight
             }
 
             background: Rectangle {
@@ -130,85 +112,44 @@ Rectangle {
             }
         }
 
-        // DesignEffect {
-        //     effects: [
-        //         DesignDropShadow {
-        //             color: "#9c2a2a"
-        //             spread: 9
-        //             offsetX: 5
-        //         }
-        //     ]
-        // }
-
     }
+Button {
+    id: button_loadXmlBig
+    x: 556
+    y: 204
+    width: 334
+    height: 231
+    flat: true
 
-    Button {
-        id: button_loadXmlBig
-        x: 556
-        y: 204
-        width: 334
-        height: 231
-        flat: true
-
-        MouseArea {
-            anchors.fill: parent
-            anchors.leftMargin: 0
-            anchors.rightMargin: 0
-            anchors.topMargin: 0
-            anchors.bottomMargin: 0
-            hoverEnabled: true
-            cursorShape: Qt.PointingHandCursor
-            onClicked: {
-                if (backend.loadXmlButtonClicked())
-                {
-                    stackView.push("DescribeUndefinedTagsScreen.qml")
-                } else {
+    MouseArea {
+        anchors.fill: parent
+        hoverEnabled: true
+        cursorShape: Qt.PointingHandCursor
+        onClicked: {
+            if (backend.loadXmlButtonClicked())
+                stackView.push("DescribeUndefinedTagsScreen.qml")
+            else
                 console.log("Błąd: nie wybrano pliku XML")
-            }
         }
-        onEntered: parent.background.color = "#b073fa"
-        onExited: parent.background.color = "#BB86FC"
-
-        // Rectangle {
-        //     id: smallButtonRectangle
-        //     x: -66
-        //     y: -57
-        //     width: 107
-        //     height: 23
-        //     color: "#742fa4"
-        //     radius: 3
-        // }
-
-        // Text {
-        //     id: buttonLoadXmlSmallText
-        //     x: -74
-        //     y: -53
-        //     width: 105
-        //     height: 14
-        //     color: "#ffffff"
-        //     text: qsTr("Load XML file")
-        //     font.pixelSize: 12
-        //     horizontalAlignment: Text.AlignHCenter
-        // }
+        onEntered: buttonDottedLine.opacity = 1.0   // pełna widoczność przy hover
+    onExited: buttonDottedLine.opacity = 0.65
+        // onEntered: parent.background.color = '#d5d8e0'
+        // onExited: parent.background.color = "#f8f9fc" //?????
     }
 
-    background: Rectangle {
-        radius: 3
-        color: "transparent"
-        border.width: 3
-        border.color: "#BB86FC"
-        opacity: 0.5
-    }
-    Image {
-        id: button_icon
-        x: 131
-        y: 56
-        width: 73
-        height: 64
-        source: "file:/home/pablo/Desktop/financial_report_app/icons/icon_upload-removebg-preview.png"
-        fillMode: Image.PreserveAspectFit
-    }
+    background: Item {
+        id: backgroundItem
+        anchors.fill: parent
 
+        Image {
+            id: buttonDottedLine
+            anchors.fill: parent
+            source: "file:../images/loadXml_button-01.svg"
+            fillMode: Image.PreserveAspectFit
+            anchors.margins: 12
+            opacity: 0.65
+        }
+    }
     Text {
         id: text_importYourXmlFile
         x: 66
