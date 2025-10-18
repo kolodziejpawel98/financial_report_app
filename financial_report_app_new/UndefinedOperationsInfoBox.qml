@@ -37,13 +37,15 @@ Rectangle {
         Behavior on opacity { NumberAnimation { duration: 400 } }
         Behavior on scale { NumberAnimation { duration: 400; easing.type: Easing.OutBack } }
 
-        function showPopup() {
+        function showPopup()
+        {
             visible = true
             opacity = 1
             scale = 1
         }
 
-        function hidePopup() {
+        function hidePopup()
+        {
             opacity = 0
             scale = 0.5
             Qt.callLater(() => visible = false)
@@ -84,13 +86,13 @@ Rectangle {
             width: 339
             height: 142
             color: "#adaeb5"
-            text: qsTr("In your XML file, there are some undefined operations. You can match them to the categories manually, or ignore them and put all of them into the \"           \" category.")
             font.pixelSize: 13
+            font.family: "Lato"
             horizontalAlignment: Text.AlignLeft
             verticalAlignment: Text.AlignTop
             wrapMode: Text.Wrap
-            font.styleName: "Regular"
-            font.family: "Lato"
+            textFormat: Text.RichText
+            text: qsTr("In your XML file, there are some undefined operations. You can match them to the categories manually, or ignore them and put all of them into the \"<b>Others</b>\" category.")
         }
 
         Button {
@@ -102,8 +104,10 @@ Rectangle {
             font.family: "Lato"
             font.pixelSize: 16
             font.weight: Font.Medium
+            text: "Match manually"
 
             contentItem: Text {
+                id: button_matchManually_text
                 text: button_matchManually.text
                 color: "#FFFFFF"
                 font: button_matchManually.font
@@ -112,11 +116,15 @@ Rectangle {
                 verticalAlignment: Text.AlignVCenter
             }
 
-            text: "Match manually"
-
             background: Rectangle {
+                id: button_matchManually_background
                 color: "#FCCF66"
                 radius: 4
+                border.color: "#FCCF66"
+                border.width: 2
+
+                Behavior on color { ColorAnimation { duration: 150 } }
+                Behavior on border.color { ColorAnimation { duration: 150 } }
             }
 
             layer.enabled: true
@@ -134,8 +142,18 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                onEntered: { background.color = "#DEAE40" }
-                onExited: { background.color = "#FCCF66" }
+                onEntered: {
+                    button_matchManually_background.color = '#f0bb3f'
+                    button_matchManually_background.border.color = '#f9c64e'
+                    button_matchManually_text.color = '#ffebbb'
+
+                }
+                onExited: {
+                    button_matchManually_background.color = "#FCCF66"
+                    button_matchManually_background.border.color = "#FCCF66"
+                    button_matchManually_text.color = '#FFFFFF'
+
+                }
             }
         }
 
@@ -151,6 +169,7 @@ Rectangle {
             text: "Ignore them"
 
             contentItem: Text {
+                id: button_ignoreThem_text
                 text: button_ignoreThem.text
                 color: "#ADAEB5"
                 font: button_ignoreThem.font
@@ -160,6 +179,7 @@ Rectangle {
             }
 
             background: Rectangle {
+                id: button_ignoreThem_background
                 color: "#FFFFFF"
                 border.color: "#D1D3DA"
                 border.width: 2
@@ -171,10 +191,19 @@ Rectangle {
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
 
-                onEntered: { background.color = "#DEDEDE" }
-                onExited: { background.color = "#FFFFFF" }
+                onEntered: {
+                    button_ignoreThem_background.color = '#ececec'
+                    button_ignoreThem_background.border.color = '#bbbdc4'
+                    button_ignoreThem_text.color = '#9b9ca5'
+                }
+                onExited: {
+                    button_ignoreThem_background.color = "#FFFFFF"
+                    button_ignoreThem_background.border.color = "#D1D3DA"
+                    button_ignoreThem_text.color = '#ADAEB5'
+                }
             }
         }
+
     }
 
     Rectangle {
