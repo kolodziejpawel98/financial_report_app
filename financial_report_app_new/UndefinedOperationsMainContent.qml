@@ -1,5 +1,6 @@
 import QtQuick
 import QtQuick.Controls 2.15
+import QtQuick.Layouts 1.15
 import Qt5Compat.GraphicalEffects
 
 Rectangle {
@@ -28,60 +29,82 @@ Rectangle {
         id: undefinedOperations_table
         anchors.fill: parent
         anchors.margins: 20
-        anchors.leftMargin: 265
-        anchors.rightMargin: 27
-        anchors.topMargin: 100
-        anchors.bottomMargin: 47
+        anchors.leftMargin: 267
+        anchors.topMargin: 93
         model: tableModel
         clip: true
-        spacing: 6
 
         delegate: Rectangle {
             width: undefinedOperations_table.width
             height: 40
-            radius: 6
-            color: index % 2 === 0 ? "#ffffff" : "#f1f2f6"
+            color: isHeader ? "#e0e0e0" : (index % 2 === 0 ? "#ffffff" : "#f1f2f6")
 
-            Row {
+            RowLayout {
                 anchors.fill: parent
                 anchors.margins: 10
                 spacing: 20
 
                 Text {
-                    text: name
-                    width: 200
+                    text: date
+                    font.bold: isHeader
                     verticalAlignment: Text.AlignVCenter
                     color: "#222"
                     font.pixelSize: 14
+                    Layout.preferredWidth: 200
+                    Layout.alignment: Qt.AlignVCenter
                 }
 
                 Text {
-                    text: price + " zł"
-                    width: 100
-                    color: "#555"
+                    text: description
+                    font.bold: isHeader
                     verticalAlignment: Text.AlignVCenter
+                    color: "#555"
                     font.pixelSize: 14
+                    Layout.preferredWidth: 100
+                    Layout.alignment: Qt.AlignVCenter
                 }
 
-                Button {
-                    text: "Edit"
-                    width: 80
-                    height: 28
-                    background: Rectangle {
-                        color: "#FCCF66"
-                        radius: 4
+                RowLayout {
+                    spacing: 10
+                    Layout.preferredWidth: 200
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+                    Button {
+                        text: "B1"
+                        width: 40
+                        height: 28
+                        visible: !isHeader
+                        background: Rectangle { color: "#FCCF66"; radius: 4 }
+                        onClicked: console.log("Button 1 clicked:", date)
                     }
-                    onClicked: console.log("Editing:", name)
+
+                    Text {
+                        text: category
+                        font.bold: isHeader
+                        verticalAlignment: Text.AlignVCenter
+                        color: "#555"
+                        font.pixelSize: 14
+                        horizontalAlignment: Text.AlignHCenter
+                    }
+
+                    Button {
+                        text: "B2"
+                        width: 40
+                        height: 28
+                        visible: !isHeader
+                        background: Rectangle { color: "#FCCF66"; radius: 4 }
+                        onClicked: console.log("Button 2 clicked:", date)
+                    }
                 }
             }
         }
 
-
         ListModel {
             id: tableModel
-            ListElement { name: "Coffee"; price: "10.99" }
-            ListElement { name: "Tea"; price: "7.50" }
-            ListElement { name: "Juice"; price: "12.30" }
+            ListElement { date: "Date"; description: "Description"; category: "Category"; isHeader: true }
+            ListElement { date: "Coffee"; description: "10.99"; category: "Eating"; isHeader: false }
+            ListElement { date: "Tea"; description: "7.50"; category: "Eating"; isHeader: false }
+            ListElement { date: "Juice"; description: "12.30"; category: "Groceries"; isHeader: false }
         }
     }
 
@@ -122,63 +145,45 @@ Rectangle {
             id: sidebarButton_report
             x: 85
             y: 124
-
             font.family: "Lato"
             font.pixelSize: 16
             font.weight: Font.Normal
-
             contentItem: Text {
                 anchors.centerIn: parent
                 color: "#D1D3DA"
                 text: "Report"
             }
-
-            background: Rectangle {
-                color: "transparent"
-                radius: 6
-            }
+            background: Rectangle { color: "transparent"; radius: 6 }
         }
 
         Button {
             id: sidebarButton_allOperations
             x: 65
             y: 191
-
             font.family: "Lato"
             font.pixelSize: 16
             font.weight: Font.Normal
-
             contentItem: Text {
                 anchors.centerIn: parent
                 color: "#D1D3DA"
                 text: "All operations"
             }
-
-            background: Rectangle {
-                color: "transparent"
-                radius: 6
-            }
+            background: Rectangle { color: "transparent"; radius: 6 }
         }
 
         Button {
             id: sidebarButton_statistics
             x: 77
             y: 260
-
             font.family: "Lato"
             font.pixelSize: 16
             font.weight: Font.Normal
-
             contentItem: Text {
                 anchors.centerIn: parent
                 color: "#D1D3DA"
                 text: "Statistics"
             }
-
-            background: Rectangle {
-                color: "transparent"
-                radius: 6
-            }
+            background: Rectangle { color: "transparent"; radius: 6 }
         }
 
         Button {
@@ -191,17 +196,6 @@ Rectangle {
             font.pixelSize: 16
             font.weight: Font.Medium
             text: "Load new XML"
-
-            // contentItem: Text {
-            //     id: button_ignoreThem_text
-            //     text: button_ignoreThem.text
-            //     color: "#ADAEB5"
-            //     font: button_ignoreThem.font
-            //     anchors.centerIn: parent
-            //     horizontalAlignment: Text.AlignHCenter
-            //     verticalAlignment: Text.AlignVCenter
-            // }
-
             background: Rectangle {
                 id: button_ignoreThem_background
                 color: "#FFFFFF"
@@ -209,7 +203,6 @@ Rectangle {
                 border.width: 2
                 radius: 4
             }
-
             MouseArea {
                 anchors.fill: parent
                 anchors.leftMargin: -22
@@ -218,16 +211,13 @@ Rectangle {
                 anchors.bottomMargin: 7
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
-
                 onEntered: {
                     button_ignoreThem_background.color = '#ececec'
                     button_ignoreThem_background.border.color = '#bbbdc4'
-                    button_ignoreThem_text.color = '#9b9ca5'
                 }
                 onExited: {
                     button_ignoreThem_background.color = "#FFFFFF"
                     button_ignoreThem_background.border.color = "#D1D3DA"
-                    button_ignoreThem_text.color = '#ADAEB5'
                 }
             }
         }
