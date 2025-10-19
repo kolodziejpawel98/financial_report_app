@@ -22,6 +22,8 @@ Rectangle {
         radius: 15
         opacity: 0
         scale: 0.8
+        // opacity: 1
+        // scale: 1
         visible: false
 
         layer.enabled: true
@@ -63,6 +65,16 @@ Rectangle {
             height: 56
             color: "#ffefc8"
             radius: 11
+
+            Image {
+                id: orangeIconWarning_icon
+                width: 32.48
+                height: 29.12
+                anchors.centerIn: parent
+                source: "file:../images/warning_icon.svg"
+                fillMode: Image.PreserveAspectFit
+                smooth: true
+            }
         }
 
         Text {
@@ -83,7 +95,7 @@ Rectangle {
             id: text_inYourXmlFileThereAre
             x: 34
             y: 162
-            width: 339
+            width: 288
             height: 142
             color: "#adaeb5"
             font.pixelSize: 13
@@ -141,6 +153,15 @@ Rectangle {
                 anchors.fill: parent
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
+
+
+
+                //  Here are 3 simple actions to show the button has hover states:
+                //     adding shadows on button or
+                //     changing the button backgorund color or
+                //     making the text become bold
+
+
 
                 onEntered: {
                     button_matchManually_background.color = '#f0bb3f'

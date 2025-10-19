@@ -11,7 +11,8 @@ ApplicationWindow {
     StackView {
         id: stackView
         anchors.fill: parent
-        initialItem: "LoadXmlScreen.qml"
+        // initialItem: "LoadXmlScreen.qml"
+        initialItem: "UndefinedOperationsMainContent.qml"
 
         pushEnter: Transition {}
         pushExit: Transition {}
