@@ -81,6 +81,8 @@ void Backend::initOperationsByTypeScreen()
     addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
     addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
     addOperationButton(operationsSummary, operationButtonList_operationsSummary);
+
+    std::cout << "operationsEatingOut.size() = " << operationsEatingOut.size() << std::endl;
 }
 
 void Backend::updateOperationsByTypeScreen()

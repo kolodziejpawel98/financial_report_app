@@ -160,104 +160,105 @@ Rectangle {
                 //     adding shadows on button or
                 //     changing the button backgorund color or
                 //     making the text become bold
+                onClicked: {
+                        stackView.push("UndefinedOperationsMainContent.qml")
+                    }
 
+                    onEntered: {
+                        button_matchManually_background.color = '#f0bb3f'
+                        button_matchManually_background.border.color = '#f9c64e'
+                        button_matchManually_text.color = '#ffebbb'
 
+                    }
+                    onExited: {
+                        button_matchManually_background.color = "#FCCF66"
+                        button_matchManually_background.border.color = "#FCCF66"
+                        button_matchManually_text.color = '#FFFFFF'
 
-                onEntered: {
-                    button_matchManually_background.color = '#f0bb3f'
-                    button_matchManually_background.border.color = '#f9c64e'
-                    button_matchManually_text.color = '#ffebbb'
-
-                }
-                onExited: {
-                    button_matchManually_background.color = "#FCCF66"
-                    button_matchManually_background.border.color = "#FCCF66"
-                    button_matchManually_text.color = '#FFFFFF'
-
+                    }
                 }
             }
+
+            Button {
+                id: button_ignoreThem
+                x: 34
+                y: 327
+                width: 339
+                height: 36
+                font.family: "Lato"
+                font.pixelSize: 16
+                font.weight: Font.Medium
+                text: "Ignore them"
+
+                contentItem: Text {
+                    id: button_ignoreThem_text
+                    text: button_ignoreThem.text
+                    color: "#ADAEB5"
+                    font: button_ignoreThem.font
+                    anchors.centerIn: parent
+                    horizontalAlignment: Text.AlignHCenter
+                    verticalAlignment: Text.AlignVCenter
+                }
+
+                background: Rectangle {
+                    id: button_ignoreThem_background
+                    color: "#FFFFFF"
+                    border.color: "#D1D3DA"
+                    border.width: 2
+                    radius: 4
+                }
+
+                MouseArea {
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    cursorShape: Qt.PointingHandCursor
+
+                    onEntered: {
+                        button_ignoreThem_background.color = '#ececec'
+                        button_ignoreThem_background.border.color = '#bbbdc4'
+                        button_ignoreThem_text.color = '#9b9ca5'
+                    }
+                    onExited: {
+                        button_ignoreThem_background.color = "#FFFFFF"
+                        button_ignoreThem_background.border.color = "#D1D3DA"
+                        button_ignoreThem_text.color = '#ADAEB5'
+                    }
+                }
+            }
+
         }
 
-        Button {
-            id: button_ignoreThem
-            x: 34
-            y: 327
-            width: 339
-            height: 36
-            font.family: "Lato"
-            font.pixelSize: 16
-            font.weight: Font.Medium
-            text: "Ignore them"
+        Rectangle {
+            id: menu_sidebar
+            x: 29
+            y: 15
+            width: 219
+            height: 638
+            color: "#ffffff"
+            radius: 7
+            border.color: "#949494"
+            border.width: 0
+            topLeftRadius: 7
 
-            contentItem: Text {
-                id: button_ignoreThem_text
-                text: button_ignoreThem.text
-                color: "#ADAEB5"
-                font: button_ignoreThem.font
-                anchors.centerIn: parent
-                horizontalAlignment: Text.AlignHCenter
-                verticalAlignment: Text.AlignVCenter
+            layer.enabled: true
+            layer.effect: DropShadow {
+                color: '#27393987'
+                radius: 24
+                samples: 32
+                horizontalOffset: 3
+                verticalOffset: 3
+                spread: 0
             }
 
-            background: Rectangle {
-                id: button_ignoreThem_background
-                color: "#FFFFFF"
-                border.color: "#D1D3DA"
-                border.width: 2
-                radius: 4
-            }
-
-            MouseArea {
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: Qt.PointingHandCursor
-
-                onEntered: {
-                    button_ignoreThem_background.color = '#ececec'
-                    button_ignoreThem_background.border.color = '#bbbdc4'
-                    button_ignoreThem_text.color = '#9b9ca5'
-                }
-                onExited: {
-                    button_ignoreThem_background.color = "#FFFFFF"
-                    button_ignoreThem_background.border.color = "#D1D3DA"
-                    button_ignoreThem_text.color = '#ADAEB5'
-                }
+            Text {
+                id: logo_text
+                x: 83
+                y: 30
+                text: qsTr("Text")
+                color: "#000000"
+                font.family: "Lato"
+                font.pixelSize: 24
+                font.weight: Font.Black
             }
         }
-
     }
-
-    Rectangle {
-        id: menu_sidebar
-        x: 29
-        y: 15
-        width: 219
-        height: 638
-        color: "#ffffff"
-        radius: 7
-        border.color: "#949494"
-        border.width: 0
-        topLeftRadius: 7
-
-        layer.enabled: true
-        layer.effect: DropShadow {
-            color: '#27393987'
-            radius: 24
-            samples: 32
-            horizontalOffset: 3
-            verticalOffset: 3
-            spread: 0
-        }
-
-        Text {
-            id: logo_text
-            x: 83
-            y: 30
-            text: qsTr("Text")
-            color: "#000000"
-            font.family: "Lato"
-            font.pixelSize: 24
-            font.weight: Font.Black
-        }
-    }
-}

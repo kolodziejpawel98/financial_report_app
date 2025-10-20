@@ -7,6 +7,10 @@ Rectangle {
     width: 1266
     height: 668
 
+   Component.onCompleted: {
+        backend.initOperationsByTypeScreen()
+    }
+    
     Rectangle {
         id: background_color
         anchors.fill: parent
@@ -31,7 +35,8 @@ Rectangle {
         anchors.margins: 20
         anchors.leftMargin: 267
         anchors.topMargin: 93
-        model: tableModel
+        // model: tableModel
+        model: backend.operationButtonList_operationsSelfDefined.operationButtons
         clip: true
 
         delegate: Rectangle {
@@ -45,7 +50,7 @@ Rectangle {
                 spacing: 20
 
                 Text {
-                    text: date
+                    text: buttonText
                     font.bold: isHeader
                     verticalAlignment: Text.AlignVCenter
                     color: "#222"
@@ -54,48 +59,48 @@ Rectangle {
                     Layout.alignment: Qt.AlignVCenter
                 }
 
-                Text {
-                    text: description
-                    font.bold: isHeader
-                    verticalAlignment: Text.AlignVCenter
-                    color: "#555"
-                    font.pixelSize: 14
-                    Layout.preferredWidth: 100
-                    Layout.alignment: Qt.AlignVCenter
-                }
+                // Text {
+                //     text: description
+                //     font.bold: isHeader
+                //     verticalAlignment: Text.AlignVCenter
+                //     color: "#555"
+                //     font.pixelSize: 14
+                //     Layout.preferredWidth: 100
+                //     Layout.alignment: Qt.AlignVCenter
+                // }
 
-                RowLayout {
-                    spacing: 10
-                    Layout.preferredWidth: 200
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                // RowLayout {
+                //     spacing: 10
+                //     Layout.preferredWidth: 200
+                //     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-                    Button {
-                        text: "B1"
-                        width: 40
-                        height: 28
-                        visible: !isHeader
-                        background: Rectangle { color: "#FCCF66"; radius: 4 }
-                        onClicked: console.log("Button 1 clicked:", date)
-                    }
+                //     Button {
+                //         text: "B1"
+                //         width: 40
+                //         height: 28
+                //         visible: !isHeader
+                //         background: Rectangle { color: "#FCCF66"; radius: 4 }
+                //         onClicked: console.log("Button 1 clicked:", date)
+                //     }
 
-                    Text {
-                        text: category
-                        font.bold: isHeader
-                        verticalAlignment: Text.AlignVCenter
-                        color: "#555"
-                        font.pixelSize: 14
-                        horizontalAlignment: Text.AlignHCenter
-                    }
+                //     Text {
+                //         text: category
+                //         font.bold: isHeader
+                //         verticalAlignment: Text.AlignVCenter
+                //         color: "#555"
+                //         font.pixelSize: 14
+                //         horizontalAlignment: Text.AlignHCenter
+                //     }
 
-                    Button {
-                        text: "B2"
-                        width: 40
-                        height: 28
-                        visible: !isHeader
-                        background: Rectangle { color: "#FCCF66"; radius: 4 }
-                        onClicked: console.log("Button 2 clicked:", date)
-                    }
-                }
+                //     Button {
+                //         text: "B2"
+                //         width: 40
+                //         height: 28
+                //         visible: !isHeader
+                //         background: Rectangle { color: "#FCCF66"; radius: 4 }
+                //         onClicked: console.log("Button 2 clicked:", date)
+                //     }
+                // }
             }
         }
 
@@ -205,10 +210,6 @@ Rectangle {
             }
             MouseArea {
                 anchors.fill: parent
-                anchors.leftMargin: -22
-                anchors.rightMargin: 22
-                anchors.topMargin: -7
-                anchors.bottomMargin: 7
                 hoverEnabled: true
                 cursorShape: Qt.PointingHandCursor
                 onEntered: {
