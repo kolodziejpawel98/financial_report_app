@@ -2,7 +2,7 @@
 #pragma once
 #include <QObject>
 #include <QQmlListProperty>
-
+#include <iostream>
 
 namespace OperationsByTypeScreen
 {
@@ -79,7 +79,13 @@ namespace OperationsByTypeScreen
 
         void emitOperationsChangedSignal()
         {
+            std::cout << "xd" << this->getSize() << std::endl;
             emit operationButtonsChanged();
+        }
+
+        int getSize() const
+        {
+            return m_buttons.size();
         }
 
         void clear()

@@ -6,10 +6,6 @@ import Qt5Compat.GraphicalEffects
 Rectangle {
     width: 1266
     height: 668
-
-   Component.onCompleted: {
-        backend.initOperationsByTypeScreen()
-    }
     
     Rectangle {
         id: background_color
@@ -36,7 +32,7 @@ Rectangle {
         anchors.leftMargin: 267
         anchors.topMargin: 93
         // model: tableModel
-        model: backend.operationButtonList_operationsSelfDefined.operationButtons
+        // model: backend.operationButtonList_operationsSelfDefined.operationButtons
         clip: true
 
         delegate: Rectangle {
@@ -112,6 +108,15 @@ Rectangle {
             ListElement { date: "Juice"; description: "12.30"; category: "Groceries"; isHeader: false }
         }
     }
+
+// Connections {
+//     target: backend.operationButtonList_operationsSelfDefined
+//     function onOperationButtonsChanged() {
+//         undefinedOperations_table.model = backend.operationButtonList_operationsSelfDefined.operationButtons
+//         console.log("Liczba przycisków:", backend.operationButtonList_operationsSelfDefined.getSize())
+//     }
+// }
+
 
     Rectangle {
         id: menu_sidebar

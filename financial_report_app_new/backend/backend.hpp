@@ -44,6 +44,7 @@ public:
     Q_INVOKABLE void initDescribeUndefinedTagsScreen();
     Q_INVOKABLE void initOperationsByTypeScreen();
     void updateOperationsByTypeScreen();
+    Q_INVOKABLE void initDefineCategoriesForUndefinedOperations_screen();
     // Q_INVOKABLE void setMonthSelectorCurrentMonth();
     void addOperationButton(std::vector<Operation> &, OperationsByTypeScreen::OperationButtonList *) const;
     void loadAllXmlData(bool = true);
@@ -81,8 +82,8 @@ private:
     QObject *m_rootObject = nullptr;
     QString xmlFilePath = "";
     const std::string TRANSACTION_TAGS_JSON_FILE = "../xml/categoriesTags.json";
-    Month selectedMonth = Month::January;
-    QString selectedMonthAsQString = "January";
+    Month selectedMonth = Month::June;
+    QString selectedMonthAsQString = "June";
     std::map<Month, std::vector<Operation>> allOperationsByMonth;
 
     std::vector<Operation> temporarySelfDefinedOperations;

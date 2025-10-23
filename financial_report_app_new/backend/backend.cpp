@@ -17,6 +17,15 @@ QStringList Backend::getComboBoxItems()
     return {"<choose category>", "groceries", "non-grocery shopping", "going-out expenses", "transportation", "regular payments", "others", "photography", "income"};
 }
 
+void Backend::initDefineCategoriesForUndefinedOperations_screen()
+{
+    cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
+    loadAllXmlData();
+
+    getAllSelfDefinedOperations();
+    addOperationButton(temporarySelfDefinedOperations, operationButtonList_operationsSelfDefined);
+}
+
 void Backend::initDescribeUndefinedTagsScreen()
 {
     cardTransactionCategories = loadMapFromJson(TRANSACTION_TAGS_JSON_FILE);
@@ -81,8 +90,6 @@ void Backend::initOperationsByTypeScreen()
     addOperationButton(operationsSelfDefined, operationButtonList_operationsSelfDefined);
     addOperationButton(operationsIncoming, operationButtonList_operationsIncoming);
     addOperationButton(operationsSummary, operationButtonList_operationsSummary);
-
-    std::cout << "operationsEatingOut.size() = " << operationsEatingOut.size() << std::endl;
 }
 
 void Backend::updateOperationsByTypeScreen()
@@ -127,7 +134,6 @@ void Backend::addOperationButton(std::vector<Operation> &operationCategoryToDisp
                                             spaceBetweenInformations +
                                             QString::number(operation.totalBalanceAfterOperation, 'f', 2).toStdString() +
                                             " PLN";
-
         operationButtonListToDisplay->addButton(QString::number(operation.amount, 'f', 2), QString::fromStdString(descriptionBannerText), 50);
     }
     operationButtonListToDisplay->emitOperationsChangedSignal();
