@@ -33,15 +33,7 @@ public:
           operationButtonList_operationsPhotography(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsSelfDefined(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsIncoming(new OperationsByTypeScreen::OperationButtonList(this)),
-          operationButtonList_operationsSummary(new OperationsByTypeScreen::OperationButtonList(this))
-    {
-        // w konstruktorze Backend(...)
-        operationButtonList_operationsSelfDefined->addButton("Test amount", "Test description", 50);
-        operationButtonList_operationsSelfDefined->addButton("Another", "Desc 2", 60);
-        operationButtonList_operationsSelfDefined->emitOperationsChangedSignal();
-
-        qDebug() << "Ctor: selfDefined list size (C++):" << operationButtonList_operationsSelfDefined->getSize();
-    }
+          operationButtonList_operationsSummary(new OperationsByTypeScreen::OperationButtonList(this)) {}
 
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut READ getOperationButtonList_operationsEatingOut CONSTANT)
     Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping READ getOperationButtonList_operationsNonGroceryShopping CONSTANT)

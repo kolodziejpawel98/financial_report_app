@@ -51,56 +51,54 @@ Rectangle {
 
                 Text {
                     text: buttonText
+                    font.pixelSize: 14
+                    font.bold: false
+                    color: "#222"
+                    Layout.preferredWidth: 200
+                }
+
+                Text {
+                    text: buttonDescriptionRectangleText
                     font.bold: isHeader
                     verticalAlignment: Text.AlignVCenter
-                    color: "#222"
+                    color: "#555"
                     font.pixelSize: 14
-                    Layout.preferredWidth: 200
+                    Layout.preferredWidth: 100
                     Layout.alignment: Qt.AlignVCenter
                 }
 
-                // Text {
-                //     text: description
-                //     font.bold: isHeader
-                //     verticalAlignment: Text.AlignVCenter
-                //     color: "#555"
-                //     font.pixelSize: 14
-                //     Layout.preferredWidth: 100
-                //     Layout.alignment: Qt.AlignVCenter
-                // }
+                RowLayout {
+                    spacing: 10
+                    Layout.preferredWidth: 200
+                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
 
-                // RowLayout {
-                //     spacing: 10
-                //     Layout.preferredWidth: 200
-                //     Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    Button {
+                        text: "B1"
+                        width: 40
+                        height: 28
+                        visible: !isHeader
+                        background: Rectangle { color: "#FCCF66"; radius: 4 }
+                        onClicked: console.log("Button 1 clicked:", date)
+                    }
 
-                //     Button {
-                //         text: "B1"
-                //         width: 40
-                //         height: 28
-                //         visible: !isHeader
-                //         background: Rectangle { color: "#FCCF66"; radius: 4 }
-                //         onClicked: console.log("Button 1 clicked:", date)
-                //     }
+                    Text {
+                        text: buttonWidth
+                        font.bold: isHeader
+                        verticalAlignment: Text.AlignVCenter
+                        color: "#555"
+                        font.pixelSize: 14
+                        horizontalAlignment: Text.AlignHCenter
+                    }
 
-                //     Text {
-                //         text: category
-                //         font.bold: isHeader
-                //         verticalAlignment: Text.AlignVCenter
-                //         color: "#555"
-                //         font.pixelSize: 14
-                //         horizontalAlignment: Text.AlignHCenter
-                //     }
-
-                //     Button {
-                //         text: "B2"
-                //         width: 40
-                //         height: 28
-                //         visible: !isHeader
-                //         background: Rectangle { color: "#FCCF66"; radius: 4 }
-                //         onClicked: console.log("Button 2 clicked:", date)
-                //     }
-                // }
+                    Button {
+                        text: "B2"
+                        width: 40
+                        height: 28
+                        visible: !isHeader
+                        background: Rectangle { color: "#FCCF66"; radius: 4 }
+                        onClicked: console.log("Button 2 clicked:", date)
+                    }
+                }
             }
         }
 
@@ -112,14 +110,6 @@ Rectangle {
             ListElement { date: "Juice"; description: "12.30"; category: "Groceries"; isHeader: false }
         }
     }
-
-    // Connections {
-    //     target: backend.operationButtonList_operationsSelfDefined
-    //     function onOperationButtonsChanged() {
-    //         undefinedOperations_table.model = backend.operationButtonList_operationsSelfDefined.operationButtons
-    //         console.log("Liczba przycisków:", backend.operationButtonList_operationsSelfDefined.getSize())
-    //     }
-    // }
 
 
     Rectangle {
