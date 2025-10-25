@@ -35,7 +35,25 @@ public:
           operationButtonList_operationsIncoming(new OperationsByTypeScreen::OperationButtonList(this)),
           operationButtonList_operationsSummary(new OperationsByTypeScreen::OperationButtonList(this))
     {
+        // w konstruktorze Backend(...)
+        operationButtonList_operationsSelfDefined->addButton("Test amount", "Test description", 50);
+        operationButtonList_operationsSelfDefined->addButton("Another", "Desc 2", 60);
+        operationButtonList_operationsSelfDefined->emitOperationsChangedSignal();
+
+        qDebug() << "Ctor: selfDefined list size (C++):" << operationButtonList_operationsSelfDefined->getSize();
     }
+
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut READ getOperationButtonList_operationsEatingOut CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping READ getOperationButtonList_operationsNonGroceryShopping CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsGroceryShopping READ getOperationButtonList_operationsGroceryShopping CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsTransportation READ getOperationButtonList_operationsTransportation CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsRegularExpenses READ getOperationButtonList_operationsRegularExpenses CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsOtherExpenses READ getOperationButtonList_operationsOtherExpenses CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsPhotography READ getOperationButtonList_operationsPhotography CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSelfDefined READ getOperationButtonList_operationsSelfDefined CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsIncoming READ getOperationButtonList_operationsIncoming CONSTANT)
+    Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSummary READ getOperationButtonList_operationsSummary CONSTANT)
+    Q_PROPERTY(QString selectedMonthAsQString READ getSelectedMonthAsQString WRITE setSelectedMonthAsQString NOTIFY selectedMonthAsQStringChanged)
 
     void setRootObject(QObject *root) { m_rootObject = root; }
     Q_INVOKABLE void printTestString();

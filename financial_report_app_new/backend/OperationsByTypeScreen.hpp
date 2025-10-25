@@ -79,7 +79,6 @@ namespace OperationsByTypeScreen
 
         void emitOperationsChangedSignal()
         {
-            std::cout << "xd" << this->getSize() << std::endl;
             emit operationButtonsChanged();
         }
 
@@ -104,15 +103,3 @@ namespace OperationsByTypeScreen
         QList<OperationsByTypeScreen::OperationButtonItem *> m_buttons;
     };
 }
-
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsEatingOut READ getOperationButtonList_operationsEatingOut CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsNonGroceryShopping READ getOperationButtonList_operationsNonGroceryShopping CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsGroceryShopping READ getOperationButtonList_operationsGroceryShopping CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsTransportation READ getOperationButtonList_operationsTransportation CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsRegularExpenses READ getOperationButtonList_operationsRegularExpenses CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsOtherExpenses READ getOperationButtonList_operationsOtherExpenses CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsPhotography READ getOperationButtonList_operationsPhotography CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSelfDefined READ getOperationButtonList_operationsSelfDefined CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsIncoming READ getOperationButtonList_operationsIncoming CONSTANT)
-Q_PROPERTY(OperationsByTypeScreen::OperationButtonList *operationButtonList_operationsSummary READ getOperationButtonList_operationsSummary CONSTANT)
-Q_PROPERTY(QString selectedMonthAsQString READ getSelectedMonthAsQString WRITE setSelectedMonthAsQString NOTIFY selectedMonthAsQStringChanged)

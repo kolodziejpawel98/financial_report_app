@@ -6,7 +6,11 @@ import Qt5Compat.GraphicalEffects
 Rectangle {
     width: 1266
     height: 668
-    
+
+    Component.onCompleted: {
+        backend.initDefineCategoriesForUndefinedOperations_screen()
+    }
+
     Rectangle {
         id: background_color
         anchors.fill: parent
@@ -32,7 +36,7 @@ Rectangle {
         anchors.leftMargin: 267
         anchors.topMargin: 93
         // model: tableModel
-        // model: backend.operationButtonList_operationsSelfDefined.operationButtons
+        model: backend.operationButtonList_operationsSelfDefined.operationButtons
         clip: true
 
         delegate: Rectangle {
@@ -109,13 +113,13 @@ Rectangle {
         }
     }
 
-// Connections {
-//     target: backend.operationButtonList_operationsSelfDefined
-//     function onOperationButtonsChanged() {
-//         undefinedOperations_table.model = backend.operationButtonList_operationsSelfDefined.operationButtons
-//         console.log("Liczba przycisków:", backend.operationButtonList_operationsSelfDefined.getSize())
-//     }
-// }
+    // Connections {
+    //     target: backend.operationButtonList_operationsSelfDefined
+    //     function onOperationButtonsChanged() {
+    //         undefinedOperations_table.model = backend.operationButtonList_operationsSelfDefined.operationButtons
+    //         console.log("Liczba przycisków:", backend.operationButtonList_operationsSelfDefined.getSize())
+    //     }
+    // }
 
 
     Rectangle {
