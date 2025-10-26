@@ -15,8 +15,6 @@ Rectangle {
         id: background_color
         anchors.fill: parent
         color: "#f8f9fc"
-        border.color: "#ca2424"
-        border.width: 3
 
         Text {
             id: text1
@@ -215,7 +213,7 @@ Rectangle {
                     Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
                     Text {
-                        text: "Button Text"
+                        text: "Date"
                         font.bold: true
                         color: "#adaeb5"
                         font.pixelSize: 16
@@ -232,17 +230,17 @@ Rectangle {
                         font.pixelSize: 16
                         font.styleName: "Bold"
                         font.family: "Lato"
-                        Layout.preferredWidth: 300
+                        Layout.preferredWidth: 500
                         // Layout.alignment: Qt.AlignVCenter
                     }
 
                     Text {
-                        text: "Width"
+                        text: "Category"
                         font.bold: true
                         color: "#adaeb5"
                         font.pixelSize: 16
                         font.styleName: "Bold"
-                        Layout.preferredWidth: 150
+                        Layout.preferredWidth: 175
                         // Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
                     }
                 }
@@ -315,34 +313,90 @@ Rectangle {
                                     Layout.preferredWidth: 100
 
                                     Button {
+                                        id: rightArrowButton
                                         text: "<"
-                                        width: 40
-                                        height: 28
-                                        background: Rectangle { color: "#FCCF66"; radius: 4 }
-                                        onClicked: console.log("Button 1 clicked:", buttonText)
+                                        Layout.preferredWidth: 25
+                                        width: 25
+                                        height: 25
+                                        hoverEnabled: true
+
+                                        background: Rectangle {
+                                            radius: 4
+                                            color: leftArrowButton.hovered ? '#000000' : "#222636"
+                                            Behavior on color { ColorAnimation { duration: 150 } }
+                                        }
+
+                                        contentItem: Text {
+                                            text: rightArrowButton.text
+                                            font.family: "Lato"
+                                            font.weight: Font.Black
+                                            color: "white"
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                            anchors.fill: parent
+                                        }
+
+                                        onClicked: console.log("Button clicked:", text)
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            acceptedButtons: Qt.NoButton
+                                        }
                                     }
 
                                     Text {
                                         text: category
                                         verticalAlignment: Text.AlignVCenter
-                                        color: "#555"
+                                        // color: "#555"
                                         font.pixelSize: 14
-                                        Layout.preferredWidth: 50
+                                        Layout.preferredWidth: 150
                                         elide: Text.ElideRight
                                         horizontalAlignment: Text.AlignHCenter
+                                        // Kolor w zależności od category:
+                                        color: category === "Eating" ? "#d63031"      // czerwony
+                                        : category === "Groceries" ? "#00b894"  // zielony
+                                        : "#555"                               // domyślny szary
+
                                     }
 
                                     Button {
+                                        id: leftArrowButton
                                         text: ">"
-                                        width: 40
-                                        height: 28
-                                        background: Rectangle { color: "#FCCF66"; radius: 4 }
-                                        onClicked: console.log("Button 2 clicked:", buttonText)
+                                        Layout.preferredWidth: 25
+                                        width: 25
+                                        height: 25
+                                        hoverEnabled: true
+
+                                        background: Rectangle {
+                                            radius: 4
+                                            color: leftArrowButton.hovered ? '#000000' : "#222636"
+                                            Behavior on color { ColorAnimation { duration: 150 } }
+                                        }
+
+                                        contentItem: Text {
+                                            text: leftArrowButton.text
+                                            font.family: "Lato"
+                                            font.weight: Font.Black
+                                            color: "white"
+                                            horizontalAlignment: Text.AlignHCenter
+                                            verticalAlignment: Text.AlignVCenter
+                                            anchors.fill: parent
+                                        }
+
+                                        onClicked: console.log("Button clicked:", text)
+
+                                        MouseArea {
+                                            anchors.fill: parent
+                                            hoverEnabled: true
+                                            cursorShape: Qt.PointingHandCursor
+                                            acceptedButtons: Qt.NoButton
+                                        }
                                     }
                                 }
                             }
                         }
-
                     }
 
                     ListModel {
@@ -370,33 +424,7 @@ Rectangle {
                     }
 
                 }
-            Rectangle {
-    id: bottomLine
-    x: 0
-    y: 441
-    width: 979
-    height: 43
-    color: "#00fccf66"
-    radius: 8
-    border.width: 0  // wyłącz cały border
-
-    // Dolny border jako osobny Rectangle
-    Rectangle {
-        anchors.left: parent.left
-        anchors.right: parent.right
-        anchors.bottom: parent.bottom
-        height: 2
-        color: "#eff0f2"
-        radius: 8
-        topLeftRadius: 0
-        topRightRadius: 0
-    }
-}
-
-
             }
-
-
 
             Rectangle {
                 id: menu_sidebar
