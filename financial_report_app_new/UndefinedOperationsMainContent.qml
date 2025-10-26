@@ -28,88 +28,140 @@ Rectangle {
             font.family: "Lato"
         }
     }
+    
+    Rectangle {
+    id: undefinedOperationsContainer
+    anchors.fill: parent
+    anchors.margins: 20
+    anchors.leftMargin: 267
+    anchors.topMargin: 93
+    color: "transparent"
 
-    ListView {
-        id: undefinedOperations_table
+    ColumnLayout {
         anchors.fill: parent
-        anchors.margins: 20
-        anchors.leftMargin: 267
-        anchors.topMargin: 93
-        // model: tableModel
-        model: backend.operationButtonList_operationsSelfDefined.operationButtons
-        clip: true
+        spacing: 0
 
-        delegate: Rectangle {
-            width: undefinedOperations_table.width
+        Rectangle {
+            id: headerBar
             height: 40
-            color: isHeader ? "#e0e0e0" : (index % 2 === 0 ? "#ffffff" : "#f1f2f6")
+            color: "#e0e0e0"
+            Layout.fillWidth: true
 
             RowLayout {
                 anchors.fill: parent
                 anchors.margins: 10
                 spacing: 20
+                Layout.alignment: Qt.AlignLeft | Qt.AlignVCenter
 
                 Text {
-                    text: buttonText
-                    font.pixelSize: 14
-                    font.bold: false
+                    text: "Button Text"
+                    font.bold: true
                     color: "#222"
-                    Layout.preferredWidth: 200
+                    font.pixelSize: 14
+                    Layout.preferredWidth: 50
+                    // Layout.alignment: Qt.AlignVCenter
                 }
 
                 Text {
-                    text: buttonDescriptionRectangleText
-                    font.bold: isHeader
-                    verticalAlignment: Text.AlignVCenter
-                    color: "#555"
+                    text: "Description"
+                    font.bold: true
+                    color: "#222"
                     font.pixelSize: 14
-                    Layout.preferredWidth: 100
-                    Layout.alignment: Qt.AlignVCenter
+                    Layout.preferredWidth: 300
+                    // Layout.alignment: Qt.AlignVCenter
                 }
+
+                Text {
+                    text: "Width"
+                    font.bold: true
+                    color: "#222"
+                    font.pixelSize: 14
+                    Layout.preferredWidth: 150
+                    // Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                }
+            }
+        }
+
+        ListView {
+            id: undefinedOperations_table
+            Layout.fillWidth: true
+            Layout.fillHeight: true
+            clip: true
+            // model: tableModel
+            model: backend.operationButtonList_operationsSelfDefined.operationButtons
+
+            delegate: Rectangle {
+                width: undefinedOperations_table.width
+                height: 40
+                color: index % 2 === 0 ? "#ffffff" : "#f8f9fc"
 
                 RowLayout {
-                    spacing: 10
-                    Layout.preferredWidth: 200
-                    Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+                    anchors.fill: parent
+                    anchors.margins: 10
+                    spacing: 20
 
-                    Button {
-                        text: "B1"
-                        width: 40
-                        height: 28
-                        visible: !isHeader
-                        background: Rectangle { color: "#FCCF66"; radius: 4 }
-                        onClicked: console.log("Button 1 clicked:", date)
+                    Text {
+                        text: buttonText
+                        font.pixelSize: 14
+                        color: "#222"
+                        Layout.preferredWidth: 50
                     }
 
                     Text {
-                        text: buttonWidth
-                        font.bold: isHeader
-                        verticalAlignment: Text.AlignVCenter
-                        color: "#555"
+                        text: buttonDescriptionRectangleText
                         font.pixelSize: 14
-                        horizontalAlignment: Text.AlignHCenter
+                        color: "#555"
+                        Layout.preferredWidth: 400
+                        elide: Text.ElideRight
                     }
 
-                    Button {
-                        text: "B2"
-                        width: 40
-                        height: 28
-                        visible: !isHeader
-                        background: Rectangle { color: "#FCCF66"; radius: 4 }
-                        onClicked: console.log("Button 2 clicked:", date)
+                    RowLayout {
+                        spacing: 10
+                        Layout.preferredWidth: 100
+                        // Layout.alignment: Qt.AlignHCenter | Qt.AlignVCenter
+
+                        Button {
+                            text: "<"
+                            width: 40
+                            height: 28
+                            background: Rectangle { color: "#FCCF66"; radius: 4 }
+                            onClicked: console.log("Button 1 clicked:", buttonText)
+                        }
+
+                        Text {
+                            text: buttonWidth
+                            verticalAlignment: Text.AlignVCenter
+                            color: "#555"
+                            font.pixelSize: 14
+                            Layout.preferredWidth: 50
+                            elide: Text.ElideRight
+                            horizontalAlignment: Text.AlignHCenter
+                        }
+
+                        Button {
+                            text: ">"
+                            width: 40
+                            height: 28
+                            background: Rectangle { color: "#FCCF66"; radius: 4 }
+                            onClicked: console.log("Button 2 clicked:", buttonText)
+                        }
                     }
                 }
             }
         }
 
-        ListModel {
-            id: tableModel
-            ListElement { date: "Date"; description: "Description"; category: "Category"; isHeader: true }
-            ListElement { date: "Coffee"; description: "10.99"; category: "Eating"; isHeader: false }
-            ListElement { date: "Tea"; description: "7.50"; category: "Eating"; isHeader: false }
-            ListElement { date: "Juice"; description: "12.30"; category: "Groceries"; isHeader: false }
-        }
+        //         ListModel {
+        //     id: tableModel
+        //     ListElement { date: "Date"; description: "Description"; category: "Category"; isHeader: true }
+        //     ListElement { date: "Coffee"; description: "10.99"; category: "Eating"; isHeader: false }
+        //     ListElement { date: "Tea"; description: "7.50"; category: "Eating"; isHeader: false }
+        //     ListElement { date: "Juice"; description: "12.30"; category: "Eating"; isHeader: false }
+        // }
+
     }
+}
+
+
 
 
     Rectangle {

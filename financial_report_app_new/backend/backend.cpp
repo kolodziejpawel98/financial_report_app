@@ -24,6 +24,7 @@ void Backend::initDefineCategoriesForUndefinedOperations_screen()
 
     getAllSelfDefinedOperations();
     addOperationButton(temporarySelfDefinedOperations, operationButtonList_operationsSelfDefined);
+    addOperationButton(temporarySelfDefinedOperations, operationButtonList_operationsSelfDefined);
 }
 
 void Backend::initDescribeUndefinedTagsScreen()
